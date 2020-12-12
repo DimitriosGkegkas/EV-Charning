@@ -1,15 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ProjectTreeState projectID="BZk.p66GAqACCQkJ" projectPath="C:\Users\Dimitris Gkegkas\Desktop\SE\diagrams\Team 39.vpp">
-	<TreeState name="ModelRepository" viewX="0" viewY="0">
+	<TreeState name="ModelRepository" viewX="0" viewY="108">
 		<ExpandedPath>ModelRepository</ExpandedPath>
-		<SelectedPath>ModelRepository,b.ryV66GAqCIdQlt</SelectedPath>
 	</TreeState>
-	<TreeState name="DiagramNavigator" viewX="0" viewY="108">
+	<TreeState name="DiagramNavigator" viewX="0" viewY="0">
 		<ExpandedPath>DiagramNavigator</ExpandedPath>
 		<ExpandedPath>DiagramNavigator,UML Diagrams</ExpandedPath>
+		<ExpandedPath>UseCaseDiagram</ExpandedPath>
+		<ExpandedPath>ClassDiagram</ExpandedPath>
+		<ExpandedPath>ComponentDiagram</ExpandedPath>
+		<ExpandedPath>DeploymentDiagram</ExpandedPath>
 		<ExpandedPath>DiagramNavigator,Requirements Capturing</ExpandedPath>
 		<ExpandedPath>RequirementDiagram</ExpandedPath>
 		<ExpandedPath>DiagramNavigator,Database Modeling</ExpandedPath>
+		<ExpandedPath>ERDiagram</ExpandedPath>
 		<ExpandedPath>DiagramNavigator,Business Modeling</ExpandedPath>
 		<ExpandedPath>DiagramNavigator,SysML</ExpandedPath>
 		<ExpandedPath>DiagramNavigator,Enterprise Architecture</ExpandedPath>
@@ -30,7 +34,7 @@
 		<ExpandedPath>DiagramNavigator,Network Design</ExpandedPath>
 		<ExpandedPath>DiagramNavigator,General</ExpandedPath>
 		<ExpandedPath>DiagramNavigator,Others</ExpandedPath>
-		<SelectedPath>RequirementDiagram,IfXBp66GAqACCSR3</SelectedPath>
+		<SelectedPath>ClassDiagram,pBA7zG6GAqACCGDO</SelectedPath>
 	</TreeState>
 	<TreeState name="ClassBrowser" viewX="0" viewY="0"/>
 	<TreeState name="LogicalView" viewX="0" viewY="0"/>
