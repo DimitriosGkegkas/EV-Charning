@@ -11,6 +11,7 @@
 ├── diagrams            # UML diagrams explaining the system
 ├── documents           # SRS and StRSs documents 
 ├── code                # The code for the system
+├── data                # Data
 └── README.md           # This file
 
 ```
