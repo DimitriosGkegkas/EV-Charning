@@ -14,11 +14,19 @@ public class UserController {
         this.repository = repository;
     }
 
-    @CrossOrigin(origins = "http://localhost:3000")
+    @CrossOrigin(origins = "https://localhost:8765/evcharge/api")
     @GetMapping("/users")
     List<User> all() {
       return repository.findAll();
     }
+
+    @CrossOrigin(origins = "https://localhost:8765/evcharge/api")
+    @PostMapping("/users")
+    User create(@RequestBody User newUser) {
+      return repository.save(newUser);
+    }
+
+
 
 
 
