@@ -1,22 +1,14 @@
 # Backup files etc.
 
-*~
-\#*\#
-*.bak
-*.backup
-.*.sw[a-z]
+diagrams/*.vpp.*
+*application.properties
+data
 
-# Mac OS specific
 
-.DS_Store
-
-# Windows specific
-
-Thumbs.db*
-
-# Add anything else that should not be added to your repository.
-# Examples are:
-# - Object files and executables
-# - Large data files
-# - Files containing passwords, credentials, etc.
-# - Code dependencies
+# NodeJS specific #
+.nyc_output/
+coverage/
+node_modules/
+npm-debug.log
+package-lock.json
+test/*.log
