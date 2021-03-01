@@ -8,3 +8,8 @@
 - Back-end functional tests.
 - Back-end unit tests.
 - RESTful API.
+
+for Windows:
+->Install at cmd (Run as Administrator): choco install redis-64
+for Linux:
+-> sudo install redis-64
