@@ -16,8 +16,15 @@ app.use(fileRoute);
 
 app.listen(8765);
 
-
 mongoose.connect(databaseURL.URL, { useNewUrlParser: true , useUnifiedTopology: true })
+<<<<<<< HEAD
+    .then(
+        result => {
+           
+        }
+    )
+=======
+>>>>>>> b673a2b88adbb952362d2271723fa08604a4ffe3
     .catch(
         err => {
             console.log(err);
