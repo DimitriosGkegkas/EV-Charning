@@ -14,12 +14,12 @@ app.use(fileRoute);
 app.use(userRoute );
 
 
-
+app.listen(8765);
 
 mongoose.connect(databaseURL.URL, { useNewUrlParser: true , useUnifiedTopology: true })
     .then(
         result => {
-            app.listen(8765);
+           
         }
     )
     .catch(
