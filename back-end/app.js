@@ -4,10 +4,13 @@ const express = require('express');
 const bodyParser= require('body-parser');
 const app = express();
 const userRoute = require("./routes/userRoutes");
+const fileRoute = require("./routes/fileUploadRoutes");
+
+
 
 app.use(bodyParser.urlencoded({ extended: true }));
 
-
+app.use(fileRoute);
 app.use(userRoute );
 
 
