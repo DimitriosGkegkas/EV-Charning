@@ -13,6 +13,7 @@ exports.signup = (req, res, next) => {
     const username = req.body.username;
     const email = req.body.email;
     const password = req.body.password;
+    console.log(password);
     bcrypt.hash(password, 12)
         .then(hashedPw => {
             userSchema.findOneAndUpdate({ 'username': username }, { 'email': email, 'password': hashedPw }, { new: true }, (err, result) => result)
@@ -52,6 +53,10 @@ exports.signup = (req, res, next) => {
                     }
                 )
         })
+        .catch(err =>{
+            res.status(400).json({message:"Bad Arguments"})
+        }
+            )
 }
 
 exports.getuser = (req, res, next) => {
