@@ -4,12 +4,13 @@ const express = require('express');
 const bodyParser= require('body-parser');
 const app = express();
 const userRoute = require("./routes/userRoutes");
-const multer = require('multer');
-const fileUpload = require("./controller/fileUploadController");
+const fileRoute = require("./routes/fileUploadRoutes");
+
+
 
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(multer({ storage: fileUpload.storage, fileFilter: fileUpload.csvFilter }).single("CSV"));
 
+app.use(fileRoute);
 app.use(userRoute );
 
 
