@@ -6,6 +6,7 @@ const app = express();
 const userRoute = require("./routes/userRoutes");
 const fileRoute = require("./routes/fileUploadRoutes");
 const helpRoute = require("./routes/helpRoutes");
+const sesssionRoute = require("./routes/sessionRoutes");
 const https = require('https')
 const fs = require('fs')
 
@@ -22,6 +23,7 @@ app.use((req,res,next)=>{
 app.use(userRoute );
 app.use(helpRoute );
 app.use(fileRoute);
+app.use(sesssionRoute);
 
 https.createServer({
     key: fs.readFileSync('database/server.key'),
