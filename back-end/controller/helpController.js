@@ -11,8 +11,7 @@ exports.healthcheck = (req, res, next) => {
 }
 
 exports.resetsessions = (req, res, next) => {
-
-    Session.remove({}, () => { })
+    Session.collection.drop()
         .then(() => {
             return bcrypt.hash("petrol4ever", 12)
         }
