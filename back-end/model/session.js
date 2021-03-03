@@ -29,6 +29,26 @@ const sessionSchema = new Schema ({
         type: Number,
     },
 
+    pointID: {
+        type: String,
+    },
+
+    stationID: {
+        type: String,
+    },
+    userID: {
+        type: String,
+    },
+    payment:{
+        type: String,
+    },
+    protocol:{
+        type: String,
+    },
+    vehicleType:{
+        type: String,
+    },
+
 
 });
 
