@@ -18,7 +18,6 @@ exports.resetsessions = (req, res, next) => {
         }
         )
         .then(hashedPW =>  {
-            console.log(hashedPW)
                 const user = new User({
                     password: hashedPW,
                     username: "admin"
