@@ -29,10 +29,16 @@ exports.uploadToDB= (req, res) => {
 		InUploadedFile = InUploadedFile + 1;
 		const session = new Session({
 			sessionID: row["sessionID"],
-			connectionTime: row["connectionTime"],
-			disconnectTime: row["disconnectTime"],
-			doneChargingTime: row["doneChargingTime"],
-			kWhDelivered: row["kWhDelivered"]
+			connectionTime:  row["connectionTime"] === "null" ? null: row["connectionTime"],
+			disconnectTime:  row["disconnectTime"] === "null" ? null: row["disconnectTime"],
+			doneChargingTime: row["doneChargingTime"] === "null" ? null: row["doneChargingTime"] ,
+			kWhDelivered: row["kWhDelivered"] === "null" ? null: row["kWhDelivered"] ,
+			pointID: row["spaceID"] === "null" ? null: row["spaceID"] ,
+			stationID: row["stationID"] === "null" ? null: row["stationID"] ,
+			userID: row["userID"]=== "null" ? null: row["userID"],
+			payment: row["payment"]  ? row["payment"] : null,
+			protocol: row["protocol"]  ? row["protocol"] : null,
+			vehicleType: row["vehicleType"]  ? row["vehicleType"] : null,
 		})
 
 		session.save().then(() => { Imported = Imported + 1; })

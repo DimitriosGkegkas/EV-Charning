@@ -8,6 +8,8 @@ const JWTR =  require('jwt-redis').default;
 const redisClient = redis.createClient();
 const jwtr = new JWTR(redisClient);
 
+
+
 exports.signup = (req, res, next) => {
 
     const username = req.body.username;
@@ -92,17 +94,15 @@ exports.login= (req, res, next) => {
             error.statusCode = 401;
             throw error;
         }
-        const token = jwtr.sign({
-            email: loadUser.email,
+        jwtr.sign({
             userId: loadUser._id.toString()
         },
         secretKey.key,
         {expiresIn:'1h'}
-        )
-        res.status(200).json({
+        ).then(token=>res.status(200).json({
             token: token
-        })
-        
+        }))
+
     })
     .catch(err =>
         {
@@ -115,9 +115,7 @@ exports.login= (req, res, next) => {
 }
 
 exports.logout= (req, res, next) => {
-    token = req.header("Authentication");
-    jwtr.destroy(token)
-    res.status(200).json({})
+    const token = req.header('Authorization').split(' ')[1];
+    jwtr.destroy(token).then(res.status(200).json({}))
 
 }
-
