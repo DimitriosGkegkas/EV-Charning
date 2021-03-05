@@ -4,7 +4,10 @@ const utils= require('./../src/utils');
 const access= require('./../src/access');
 const yargs = require('yargs');
 const bcrypt = require('bcrypt');
+
+const { string } = require('yargs');
 const dataAccess =require('../src/dataAccess');
+
 const args = process.argv.slice(3)
 const SCOPE = process.argv[2]
 
@@ -34,15 +37,20 @@ const argvLogin = yargs
     .argv;
 if (argvLogin._.includes('login')) {
 
+
+
     const password = argvLogin.password 
     const username = argvLogin.username
+
     if(!password){
         console.log("PLease GIVE ME MY PASSWORDs" )
-    }
-    
+    } 
     access.login(username,password)
 
 }
+
+
+
 
 
 
@@ -74,7 +82,31 @@ if (argvPerPoint._.includes('SessionsPerPoint')) {
     dataAccess.perPoint(point, datefrom, dateto);
 
 
+const argvSessionsPerStation = yargs
+    .command('SessionsPerPoint', '', {
+        point: {
+            description: '',
+            type: 'string',
+        },
+        from: {
+            description: '',
+            type: 'data',
+        },
+        to: {
+            description: '',
+            type: 'data',
+        }
+    })
+    .help()
+    .argv;
+
+if (argvSessionsPerStation._.includes('SessionsPerStation')) {
+    const stationID = argvSessionsPerStation.station
+    const periodFrom = argvSessionsPerStation.from
+    const periodTo = argvSessionsPerStation.to
+    dataAccess.SessionsPerStation(stationID, periodFrom, periodTo);
 }
+
 
 const argvPerEV = yargs
     .command('SessionsPerEV', '', {
@@ -134,3 +166,4 @@ if(SCOPE==="logout")
 
 
 }
+
