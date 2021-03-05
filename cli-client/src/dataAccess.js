@@ -19,6 +19,7 @@ exports.SessionsPerStation = (stationID, periodFrom, periodTo) => {
     }, function (err, resp, body) {
         console.log( JSON.parse(body))
     });
+}
 
 
 exports.perPoint = (point, datefrom, dateto) =>{
