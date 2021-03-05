@@ -4,7 +4,7 @@ const bcrypt = require('bcryptjs');
 const jwt = require("jsonwebtoken");
 const secretKey = require('../database/secretKey');
 const redis = require('redis');
-const JWTR =  require('jwt-redis').default;
+const JWTR = require('jwt-redis').default;
 const redisClient = redis.createClient();
 const jwtr = new JWTR(redisClient);
 
@@ -15,19 +15,35 @@ exports.signup = (req, res, next) => {
     const username = req.body.username;
     const email = req.body.email;
     const password = req.body.password;
-    console.log(password);
+    if(!username){
+        res.status(400).json(
+            { message: "Please provide username"}
+         )
+         return
+    }
+    if(!password){
+        res.status(400).json(
+            { message: "Please provide password"}
+         )
+         return
+    }
     bcrypt.hash(password, 12)
         .then(hashedPw => {
             userSchema.findOneAndUpdate({ 'username': username }, { 'email': email, 'password': hashedPw }, { new: true }, (err, result) => result)
                 .then(result => {
                     if (result === null) {
+                        try{
                         user = new userSchema({
                             'username': username,
                             'email': email,
                             'password': hashedPw
                         });
                         return user.save()
-                    }
+                         }
+                        catch{
+                            res.status(500).json({ message: "Could Not Save User to Database"})
+                         }
+                        }
                     else {
                         return result
                     }
@@ -45,36 +61,45 @@ exports.signup = (req, res, next) => {
 
                 .catch(
                     err => {
-                        err.statusCode = 400
-                        res.status(400).json(
-                            {
-                                message: "Bad Request: User NOT Created"
-                            }
-                        )
-                        next(err);
+                         throw err
                     }
                 )
         })
+
         .catch(err =>{
-            res.status(400).json({message:"Bad Arguments"})
-        }
-            )
-}
+            res.status(err.status).json({message:err.message})
 
-exports.getuser = (req, res, next) => {
-
-    const username = req.params.username;
-    userSchema.findOne({ 'username': username }, (err, result) => { return result })
-        .then(result => {
-            res.status(200).json(
-                result
-            )
         }
         )
 }
 
+exports.getuser = (req, res, next) => {
+    const username = req.params.username; 
+    userSchema.findOne({ 'username': username }, (err, result) => {   
+        return result
+    })
+        .then(result => {
+            if (result===null) {
+                res.status(400).json({
+                    message: "Please insert a correct username"
+                })
+            }
+            else {
+            res.status(200).json(
+                result
+            )
+            }
+        })
+        .catch(err => {
+            res.status(err.statusCode).json({
+                message: err.message
+            })
+            return
+        })
+}
 
-exports.login= (req, res, next) => {
+
+exports.login = (req, res, next) => {
     const username = req.body.username;
     const password = req.body.password;
     if(!username ){
@@ -130,9 +155,10 @@ exports.login= (req, res, next) => {
             return
             }
         )
+
 }
 
-exports.logout= (req, res, next) => {
+exports.logout = (req, res, next) => {
     const token = req.header('Authorization').split(' ')[1];
     jwtr.destroy(token).then(res.status(200).json({}))
 }

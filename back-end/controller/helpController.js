@@ -14,30 +14,84 @@ exports.resetsessions = (req, res, next) => {
     Session.collection.drop()
         .then(() => {
             return bcrypt.hash("petrol4ever", 12)
-        }
-        )
-        .then(hashedPW =>  {
-                const user = new User({
-                    password: hashedPW,
-                    username: "admin"
+        })
+        .then(hashedPW => {
+            const user = new User({
+                password: hashedPW,
+                username: "admin"
+            })
+            user.save()
+                .then(() => {
+                    Session.collection.countDocuments({})
+                        .then(SesCount => {
+                            if (SesCount === 0) {
+                                res.status(200).json({
+                                    status: "OK"
+                                })
+
+                            }
+                            else {
+                                res.status(402).json({
+                                    status: "failed"
+                                    // message: "No data"
+                                })
+                            }
+                        })
                 })
-                user.save()
-                    .catch((err) => { 
-                        if(err.code===11000){
-                            
-                            User.findOneAndUpdate({username: "admin"},{password:hashedPW})
-                            .then(res.status(200).json({ status: "OK" }))
+                .catch((err) => {
+                    if (err.code === 11000) {       // if there is a user admin in Db
+                        User.findOneAndUpdate({ username: "admin" }, { password: hashedPW })
+                            .then(() => {
+                                Session.collection.countDocuments({})
+                                    .then(SesCount => {
+                                        if (SesCount === 0) {
+                                            res.status(200).json({
+                                                status: "OK"
+                                            })
+                                        }
+                                        else {
+                                            res.status(402).json({
+                                                status: "failed"
+                                                // message: "No data"
+                                            })
+                                        }
+                                    })
+
+
+                            })
                             .catch(() => {
-                                error = new Error()
-                                error.status=400;
-                                throw error ;
-                                }
-                            )
-                        }
+                                res.status(400).json({
+                                    status: "failed"
+                                    //message: "admin is not correctly initialized"
+                                })
+                                return
+                            })
+                    }
+                })
+        })
+        .catch(err => {
+            console.log(err)
+            Session.collection.countDocuments({})
+                .then(SesCount => {
+                    if (SesCount === 0) {
+                        res.status(200).json({
+                            status: "OK"
+                        })
+                    }
+                    else {
+                        res.status(402).json({
+                            status: "failed"
+                            // message: "No data"
+                        })
+                    }
+                    return
+                })
+                .catch(() => {
+                    res.status(402).json({
+                        status: "failed"
+                        // message: "No data"
                     })
-                }
-        )
-        .catch(() => { 
-                res.status(400).json({ status: "failed" })
+                })
+
         })
 }

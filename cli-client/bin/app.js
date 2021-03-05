@@ -42,17 +42,19 @@ else if(SCOPE==="Admin"){
         admin.sessionsupd(process.argv[4])
     }
     else if (process.argv[3]==="--usermod"){
+        let username
+        let password
         if(process.argv[4]==="--username"){
-            const username = process.argv[5]
+            username = process.argv[5]
         }
         else {
-            const password = process.argv[5]
+             password = process.argv[5]
         }
         if(process.argv[6]==="--username"){
-            const username = process.argv[7]
+             username = process.argv[7]
         }
         else {
-            const username = process.argv[7]
+            password = process.argv[7]
         }
         admin.Admin(username,password);
     }
