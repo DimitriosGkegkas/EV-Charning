@@ -4,7 +4,7 @@ const utils= require('./../src/utils');
 const access= require('./../src/access');
 const yargs = require('yargs');
 const bcrypt = require('bcrypt');
-
+const dataAccess =require('../src/dataAccess');
 const args = process.argv.slice(3)
 const SCOPE = process.argv[2]
 
@@ -19,7 +19,7 @@ if(SCOPE==="resetsessions"){
 
 
 
-const argv = yargs
+const argvLogin = yargs
     .command('login', '', {
         password: {
             description: '',
@@ -32,23 +32,50 @@ const argv = yargs
     })
     .help()
     .argv;
+if (argvLogin._.includes('login')) {
 
-
-if (argv._.includes('login')) {
-
-    const password = argv.password 
-    const username = argv.username
+    const password = argvLogin.password 
+    const username = argvLogin.username
     if(!password){
         console.log("PLease GIVE ME MY PASSWORDs" )
     }
     
     access.login(username,password)
-    
-
 
 }
+
+
+
+
+
+const argvPerPoint = yargs
+    .command('SessionsPerPoint', '', {
+        point: {
+            description: '',
+            type: 'string',
+        },
+        datefrom: {
+            description: '',
+            type: 'data',
+        },
+        dateto: {
+            description: '',
+            type: 'data',
+        }
+    })
+    .help()
+    .argv;
+
+if (argvPerPoint._.includes('SessionsPerPoint')) {
+
+    const point = argvPerPoint.point
+    const datefrom = argvPerPoint.datefrom
+    const dateto = argvPerPoint.dateto
+    dataAccess.perPoint(point, datefrom, dateto);
+
 
 if(SCOPE==="logout")
 {
     access.logout()
+
 }
