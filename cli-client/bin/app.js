@@ -10,6 +10,7 @@ const dataAccess =require('../src/dataAccess');
 
 const args = process.argv.slice(3)
 const SCOPE = process.argv[2]
+const admin= require('./../src/admin');
 
 if(SCOPE==="healthcheck"){
     utils.healthcheck()
@@ -82,6 +83,7 @@ if (argvPerPoint._.includes('SessionsPerPoint')) {
     dataAccess.perPoint(point, datefrom, dateto);
 }
 
+
 const argvSessionsPerStation = yargs
     .command('SessionsPerPoint', '', {
         point: {
@@ -106,6 +108,7 @@ if (argvSessionsPerStation._.includes('SessionsPerStation')) {
     const periodTo = argvSessionsPerStation.dateto
     dataAccess.SessionsPerStation(stationID, periodFrom, periodTo);
 }
+
 
 
 const argvPerEV = yargs
@@ -164,6 +167,36 @@ if(SCOPE==="logout")
 {
     access.logout()
 
+
+}
+
+const argvAdmin= yargs
+    .command('Admin', '', {
+        
+            usermod:{
+                
+            },
+            password: {
+                description: '',
+                type: 'string',
+            },
+            username: {
+                description: '',
+                type: 'string',
+            }
+        
+            
+   
+    })
+    .help()
+    .argv;
+if (argvAdmin._.includes('Admin')) {
+    const usermod =argvAdmin.usermod
+    const password = argvAdmin.password 
+    const username = argvAdmin.username
+
+    
+    admin.Admin(username,password);
 
 }
 
