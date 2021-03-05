@@ -15,19 +15,35 @@ exports.signup = (req, res, next) => {
     const username = req.body.username;
     const email = req.body.email;
     const password = req.body.password;
-    console.log(password);
+    if(!username){
+        res.status(400).json(
+            { message: "Please provide username"}
+         )
+         return
+    }
+    if(!password){
+        res.status(400).json(
+            { message: "Please provide password"}
+         )
+         return
+    }
     bcrypt.hash(password, 12)
         .then(hashedPw => {
             userSchema.findOneAndUpdate({ 'username': username }, { 'email': email, 'password': hashedPw }, { new: true }, (err, result) => result)
                 .then(result => {
                     if (result === null) {
+                        try{
                         user = new userSchema({
                             'username': username,
                             'email': email,
                             'password': hashedPw
                         });
                         return user.save()
-                    }
+                         }
+                        catch{
+                            res.status(500).json({ message: "Could Not Save User to Database"})
+                         }
+                        }
                     else {
                         return result
                     }
@@ -45,18 +61,12 @@ exports.signup = (req, res, next) => {
 
                 .catch(
                     err => {
-                        err.statusCode = 400
-                        res.status(400).json(
-                            {
-                                message: "Bad Request: User NOT Created"
-                            }
-                        )
-                        next(err);
+                         throw err
                     }
                 )
         })
         .catch(err =>{
-            res.status(400).json({message:"Bad Arguments"})
+            res.status(err.status).json({message:err.message})
         }
             )
 }
