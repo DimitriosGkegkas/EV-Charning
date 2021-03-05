@@ -10,9 +10,10 @@ const sesssionRoute = require("./routes/sessionRoutes");
 const https = require('https')
 const fs = require('fs')
 
-
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({}));
+app.use(bodyParser.urlencoded({ extended: true }));
+
+
 
 app.use((req,res,next)=>{
     res.setHeader('Access-Control-Allow-Origin', '*');

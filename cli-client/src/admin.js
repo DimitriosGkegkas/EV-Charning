@@ -1,5 +1,6 @@
 const request = require('request');
 const https = require('https');
+
 const fs = require('fs');
 
 exports.Admin = (username, password) => {
@@ -16,6 +17,7 @@ exports.Admin = (username, password) => {
         , rejectUnauthorized: false
     };
     const agent = new https.Agent(agentOptions);
+
 
     let auth
     try {auth= "Bearer "+fs.readFileSync('softeng20bAPI.token');
@@ -36,12 +38,14 @@ exports.Admin = (username, password) => {
         , agent: agent
     }, function (err, resp, body) {
 
+
         if(err){
             console.log(err.message)
         }
         else{
         console.log(body.message)
         }
+
 
 
     });
@@ -56,6 +60,7 @@ exports.findUser = (username) => {
         , rejectUnauthorized: false
     };
     const agent = new https.Agent(agentOptions);
+
     let token
     try {
         token = fs.readFileSync('softeng20bAPI.token');
@@ -66,6 +71,7 @@ exports.findUser = (username) => {
     }
     const auth = "Bearer " + token;
 
+
     request({
         url: "https://localhost:8765/admin/users/" + username
         , method: 'GET'
@@ -74,6 +80,7 @@ exports.findUser = (username) => {
         }
         , agent: agent
     }, function (err, resp, body) {
+
 
         if (err) {
             console.log(err.message)
@@ -89,6 +96,7 @@ exports.findUser = (username) => {
             console.log("token: " + token.toString())
         }
 
+
     }
     )
 }
@@ -103,7 +111,13 @@ exports.sessionsupd = (source) => {
         , rejectUnauthorized: false
     };
     const agent = new https.Agent(agentOptions);
-    const auth = "Bearer " + fs.readFileSync('softeng20bAPI.token');
+    let auth;
+    try { auth = "Bearer " + fs.readFileSync('softeng20bAPI.token'); }
+    catch { console.log("Access Denied") }
+    if (!fs.existsSync(source)) {
+        console.log("Please Check Your File Path")
+        return
+    }
     request({
         url: "https://localhost:8765/admin/system/sessionsupd"
         , method: 'POST'
@@ -116,9 +130,11 @@ exports.sessionsupd = (source) => {
             "file": fs.createReadStream(source)
         }
     }, function (err, resp, body) {
-        console.log(JSON.parse(body))
 
 
+
+        console.log("The file had " + JSON.parse(body).SeassionsInUploadedFile + " sessions \nand " + JSON.parse(body).SessionsImported + " were uploaded in the database. \nThe database now containes " + JSON.parse(body).TotalSeassionsInDatabase + " sessions")
+        if (err) { console.log(err.message) }
 
     });
 }

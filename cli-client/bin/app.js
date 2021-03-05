@@ -38,6 +38,9 @@ else if(SCOPE==="Admin"){
     else if (process.argv[3]==="--users"){
         admin.findUser(process.argv[4])
     }
+    else if (process.argv[3]==="--sessionsupd"){
+        admin.sessionsupd(process.argv[4])
+    }
     else if (process.argv[3]==="--usermod"){
         let username
         let password
