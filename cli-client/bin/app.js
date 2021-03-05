@@ -25,7 +25,6 @@ else if(SCOPE==="logout")
 {
     access.logout()
 
-
 }
 
 
@@ -74,15 +73,9 @@ const argvLogin = yargs
     .help()
     .argv;
 if (argvLogin._.includes('login')) {
-
-
-
     const password = argvLogin.password 
     const username = argvLogin.username
 
-    if(!password){
-        console.log("PLease GIVE ME MY PASSWORDs" )
-    } 
     access.login(username,password)
 
 }

@@ -135,5 +135,4 @@ exports.login= (req, res, next) => {
 exports.logout= (req, res, next) => {
     const token = req.header('Authorization').split(' ')[1];
     jwtr.destroy(token).then(res.status(200).json({}))
-
 }
