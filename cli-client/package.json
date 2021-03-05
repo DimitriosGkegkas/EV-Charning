@@ -19,7 +19,9 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "bcrypt": "^5.0.1",
     "esm": "^3.2.25",
-    "request": "^2.88.2"
+    "request": "^2.88.2",
+    "yargs": "^16.2.0"
   }
 }
