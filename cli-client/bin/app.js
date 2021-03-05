@@ -48,3 +48,7 @@ if (argv._.includes('login')) {
 
 }
 
+if(SCOPE==="logout")
+{
+    access.logout()
+}
