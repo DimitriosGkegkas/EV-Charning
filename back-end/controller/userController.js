@@ -77,8 +77,6 @@ exports.getuser = (req, res, next) => {
 exports.login= (req, res, next) => {
     const username = req.body.username;
     const password = req.body.password;
-    console.log(username)
-    console.log(password)
     let loadUser;
     userSchema.findOne({ 'username': username }, (err, result) => { return result })
     .then(user => {
