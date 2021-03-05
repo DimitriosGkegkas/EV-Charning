@@ -3,6 +3,7 @@
 diagrams/*.vpp.*
 *application.properties
 data
+softeng20bAPI.token
 
 
 # NodeJS specific #

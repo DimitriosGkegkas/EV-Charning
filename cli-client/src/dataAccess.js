@@ -21,7 +21,6 @@ exports.SessionsPerStation = (stationID, periodFrom, periodTo) => {
     });
 }
 
-
 exports.perPoint = (point, datefrom, dateto) =>{
 
     const agentOptions = {
