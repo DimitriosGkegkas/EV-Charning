@@ -83,7 +83,6 @@ if (argvPerPoint._.includes('SessionsPerPoint')) {
     dataAccess.perPoint(point, datefrom, dateto);
 }
 
-
 const argvSessionsPerStation = yargs
     .command('SessionsPerPoint', '', {
         point: {
