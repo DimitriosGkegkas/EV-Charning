@@ -22,7 +22,13 @@ exports.storage = multer.diskStorage({
 
 
 exports.uploadToDB= (req, res) => {
+	if(!req.file){
+		res.status(400).json({message:"Please Check your File Path"})
+		return
+			
+	}
 	const filePath = req.file.path;
+
 	let InUploadedFile = 0;
 	let Imported = 0
 	fs.createReadStream(filePath).pipe(csv()).on('data', (row) => {
@@ -53,20 +59,24 @@ exports.uploadToDB= (req, res) => {
 
 	})
 		.on('end', () => {
-			Session.find().exec(function (err, results) {
-				var SeassionsInDatabase = results.length
+			Session.count({}, function( err, count){
+				if(err){
+					console.log(err)
+				}
+				else{
 				res.status(200).json({
 					SeassionsInUploadedFile: InUploadedFile,
 					SessionsImported: Imported,
-					TotalSeassionsInDatabase: SeassionsInDatabase
+					TotalSeassionsInDatabase: count
 				})
+			}
 			});
 			fs.unlink(filePath, (err) => {
-				if (err) {
-					console.error(err)
-					return
-				}
+				if(err){res.status(500).json({message:"Could not amound the uploaded file"})
 			}
+				
+			}
+			
 			)
 		})
 

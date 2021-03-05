@@ -1,10 +1,23 @@
 const express = require('express');
 const Session = require('../model/session');
-
+const moment = require("moment")
 exports.SessionPerPoint = (req, res, next) => {
     const PointID = req.params.PointID;
     const PeriodFrom = req.params.PeriodFrom;
     const PeriodTo = req.params.PeriodTo;
+
+
+
+    if(!moment(PeriodFrom, "YYYY-MM-DD h:mm:ss").isValid()){
+        res.status(400).json( {message: "Please check API endpoint \n SessionPerPoint/:pointID/:datefrom/:dateto \n with date at YYYY-MM-DD h:mm:ss format"})
+        return
+    }
+    if(!moment(PeriodTo, "YYYY-MM-DD h:mm:ss").isValid()){
+        res.status(400).json( {message: "Please check API endpoint \n SessionPerPoint/:pointID/:datefrom/:dateto \n with date at YYYY-MM-DD h:mm:ss format"})
+        return
+    }
+
+
     Session.find({ 'pointID': PointID })
         .where("connectionTime").gte(new Date(PeriodFrom)).lt(new Date(PeriodTo))
         .sort("connectionTime")
@@ -26,7 +39,7 @@ exports.SessionPerPoint = (req, res, next) => {
                 resultFormated.push(valueFormated )
             });
             return resultFormated})
-.then( result=>{
+        .then( result=>{
             res.status(200).json({
                 Point: PointID,
                 PointOperator: null,
@@ -36,12 +49,25 @@ exports.SessionPerPoint = (req, res, next) => {
                 NumberOfChargingSessions: result.length,
                 ChargingSessionsList: result,
             })
-        });
+            return
+        })
+        .catch( err =>{
+            res.status(err.status).json( {message: err.message})
+        return
+        })
 }
 exports.SessionPerStation = (req, res, next) => {
     const StationID = req.params.StationID;
     const PeriodFrom = req.params.PeriodFrom;
     const PeriodTo = req.params.PeriodTo;
+    if(!moment(PeriodFrom, "YYYY-MM-DD h:mm:ss").isValid()){
+        res.status(400).json( {message: "Please check API endpoint \n SessionPerStation/:StationID/:datefrom/:dateto \n with date at YYYY-MM-DD h:mm:ss format"})
+        return
+    }
+    if(!moment(PeriodTo, "YYYY-MM-DD h:mm:ss").isValid()){
+        res.status(400).json( {message: "Please check API endpoint \n SessionPerStation/:StationID/:datefrom/:dateto \n with date at YYYY-MM-DD h:mm:ss format"})
+        return
+    }
 
     Session.aggregate([
         {
@@ -89,6 +115,15 @@ exports.SessionPerEV = (req, res, next) => {
     const VehicleID = req.params.VehicleID;
     const PeriodFrom = req.params.PeriodFrom;
     const PeriodTo = req.params.PeriodTo;
+    if(!moment(PeriodFrom, "YYYY-MM-DD h:mm:ss").isValid()){
+        res.status(400).json( {message: "Please check API endpoint \n SessionPerEV/:evID/:datefrom/:dateto \n with date at YYYY-MM-DD h:mm:ss format"})
+        return
+    }
+    if(!moment(PeriodTo, "YYYY-MM-DD h:mm:ss").isValid()){
+        res.status(400).json( {message: "Please check API endpoint \n SessionPerEV/:evID/:datefrom/:dateto \n with date at YYYY-MM-DD h:mm:ss format"})
+        return
+    }
+
     Session.find({ 'userID': VehicleID })
         .where("connectionTime").gt(new Date(PeriodFrom)).lt(new Date(PeriodTo))
         .sort("connectionTime")
@@ -142,6 +177,14 @@ exports.SessionPerProvider = (req, res, next) => {
     const ProviderID = req.params.ProviderID;
     const PeriodFrom = req.params.PeriodFrom;
     const PeriodTo = req.params.PeriodTo;
+    if(!moment(PeriodFrom, "YYYY-MM-DD h:mm:ss").isValid()){
+        res.status(400).json( {message: "Please check API endpoint \n SessionPerProvider/:ProviderID/:datefrom/:dateto \n with date at YYYY-MM-DD h:mm:ss format"})
+        return
+    }
+    if(!moment(PeriodTo, "YYYY-MM-DD h:mm:ss").isValid()){
+        res.status(400).json( {message: "Please check API endpoint \n SessionPerProvider/:ProviderID/:datefrom/:dateto \n with date at YYYY-MM-DD h:mm:ss format"})
+        return
+    }
     Session.find({ 'providerID': ProviderID })
         .where("connectionTime").gt(new Date(PeriodFrom)).lt(new Date(PeriodTo))
         .sort("connectionTime")
