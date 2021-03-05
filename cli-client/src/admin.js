@@ -9,14 +9,14 @@ exports.Admin = (username, password) => {
     const agentOptions = {
         host: 'localhost'
         , port: '8765'
-        , path: '/Admin/usermod'
+        , path: '/admin/usermod'
  
         , rejectUnauthorized: false
     };
     const agent = new https.Agent(agentOptions);
     const auth= "Bearer "+fs.readFileSync('softeng20bAPI.token');
     request({
-        url: "https://localhost:8765/Admin/usermod"
+        url: "https://localhost:8765/admin/usermod"
         , method: 'POST'
         ,headers : {
             "Authorization" : auth
@@ -27,5 +27,28 @@ exports.Admin = (username, password) => {
         console.log( body)
         
 
+    });
+}
+
+exports.findUser = (username) => {
+    const agentOptions = {
+        host: 'localhost'
+        , port: '8765'
+        , path: '/admin/users/'+username
+ 
+        , rejectUnauthorized: false
+    };
+    const agent = new https.Agent(agentOptions);
+    const auth= "Bearer "+fs.readFileSync('softeng20bAPI.token');
+    request({
+        url: "https://localhost:8765/admin/users/"+username
+        , method: 'GET'
+        ,headers : {
+            "Authorization" : auth
+        }
+        , agent: agent
+    }, function (err, resp, body) {
+        console.log( body)
+        
     });
 }

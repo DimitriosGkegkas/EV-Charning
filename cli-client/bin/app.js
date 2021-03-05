@@ -16,16 +16,46 @@ if(SCOPE==="healthcheck"){
     utils.healthcheck()
 }
 
-if(SCOPE==="Admin"){
-    if(process.argv[2]==="--healthcheck"){utils.healthcheck()}
-    else if (process.argv[2]==="--resetsessions"){
+
+else if(SCOPE==="resetsessions"){ 
+    utils.resetSessions()
+}
+
+else if(SCOPE==="logout")
+{
+    access.logout()
+
+
+}
+
+
+else if(SCOPE==="Admin"){
+    if(process.argv[3]==="--healthcheck"){
+        utils.healthcheck()
+    }
+    else if (process.argv[3]==="--resetsessions"){
         utils.resetSessions()
+    }
+    else if (process.argv[3]==="--users"){
+        admin.findUser(process.argv[4])
+    }
+    else if (process.argv[3]==="--usermod"){
+        if(process.argv[4]==="--username"){
+            const username = process.argv[5]
+        }
+        else {
+            const password = process.argv[5]
+        }
+        if(process.argv[6]==="--username"){
+            const username = process.argv[7]
+        }
+        else {
+            const username = process.argv[7]
+        }
+        admin.Admin(username,password);
     }
 }
 
-if(SCOPE==="resetsessions"){ 
-    utils.resetSessions()
-}
 
 
 
@@ -56,8 +86,6 @@ if (argvLogin._.includes('login')) {
     access.login(username,password)
 
 }
-
-
 
 
 
@@ -169,40 +197,7 @@ if (argvPerEV._.includes('SessionsPerProvider')) {
     dataAccess.perProvider(provider, datefrom, dateto);
 }
 
-if(SCOPE==="logout")
-{
-    access.logout()
 
 
-}
 
-const argvAdmin= yargs
-    .command('Admin', '', {
-        
-            usermod:{
-                
-            },
-            password: {
-                description: '',
-                type: 'string',
-            },
-            username: {
-                description: '',
-                type: 'string',
-            }
-        
-            
-   
-    })
-    .help()
-    .argv;
-if (argvAdmin._.includes('Admin')) {
-    const usermod =argvAdmin.usermod
-    const password = argvAdmin.password 
-    const username = argvAdmin.username
-
-    
-    admin.Admin(username,password);
-
-}
 
