@@ -74,3 +74,29 @@ if (argvPerPoint._.includes('SessionsPerPoint')) {
     dataAccess.perPoint(point, datefrom, dateto);
 
 }
+
+const argvPerEV = yargs
+    .command('SessionsPerEV', '', {
+        ev: {
+            description: '',
+            type: 'string',
+        },
+        datefrom: {
+            description: '',
+            type: 'data',
+        },
+        dateto: {
+            description: '',
+            type: 'data',
+        }
+    })
+    .help()
+    .argv;
+
+if (argvPerEV._.includes('SessionsPerEV')) {
+
+    const ev = argvPerPoint.ev
+    const datefrom = argvPerPoint.datefrom
+    const dateto = argvPerPoint.dateto
+    dataAccess.perEV(ev, datefrom, dateto);
+}
