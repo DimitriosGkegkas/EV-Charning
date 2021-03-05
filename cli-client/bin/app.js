@@ -16,6 +16,13 @@ if(SCOPE==="healthcheck"){
     utils.healthcheck()
 }
 
+if(SCOPE==="Admin"){
+    if(process.argv[2]==="--healthcheck"){utils.healthcheck()}
+    else if (process.argv[2]==="--resetsessions"){
+        utils.resetSessions()
+    }
+}
+
 if(SCOPE==="resetsessions"){ 
     utils.resetSessions()
 }
