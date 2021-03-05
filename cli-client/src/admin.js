@@ -1,6 +1,5 @@
 const request = require('request');
 const https = require('https');
-
 const fs =require('fs');
 
 exports.Admin = (username, password) => {
@@ -15,7 +14,14 @@ exports.Admin = (username, password) => {
         , rejectUnauthorized: false
     };
     const agent = new https.Agent(agentOptions);
-    const auth= "Bearer "+fs.readFileSync('softeng20bAPI.token');
+    let auth
+    try {auth= "Bearer "+fs.readFileSync('softeng20bAPI.token');
+    }
+    catch{
+        console.log("Access denied")
+        return
+    }
+    
     request({
         url: "https://localhost:8765/admin/usermod"
         , method: 'POST'
@@ -25,11 +31,15 @@ exports.Admin = (username, password) => {
         , json: jsonObject 
         , agent: agent
     }, function (err, resp, body) {
-        console.log( body)
-        
+        if(err){
+            console.log(err.message)
+        }
+        else{
+        console.log(body.message)
+        }
 
     });
-}
+    }
 
 exports.findUser = (username) => {
     const agentOptions = {
@@ -54,7 +64,6 @@ exports.findUser = (username) => {
     )
 }
 
-const fs = require('fs');
 
 exports.sessionsupd = (source) => {
 
