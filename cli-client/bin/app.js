@@ -73,6 +73,7 @@ if (argvPerPoint._.includes('SessionsPerPoint')) {
     const dateto = argvPerPoint.dateto
     dataAccess.perPoint(point, datefrom, dateto);
 
+
 }
 
 const argvPerEV = yargs
@@ -125,4 +126,11 @@ if (argvPerEV._.includes('SessionsPerProvider')) {
     const datefrom = argvPerPoint.datefrom
     const dateto = argvPerPoint.dateto
     dataAccess.perProvider(provider, datefrom, dateto);
+}
+
+if(SCOPE==="logout")
+{
+    access.logout()
+
+
 }
