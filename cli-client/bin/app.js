@@ -41,10 +41,9 @@ if (argv._.includes('login')) {
     if(!password){
         console.log("PLease GIVE ME MY PASSWORDs" )
     }
-    bcrypt.hash(password,12)
-    .then(hashedPassword => {
-        console.log(access.login(username,hashedPassword))
-    })
+    
+    access.login(username,password)
+    
 
 
 }
