@@ -41,4 +41,20 @@ exports.perEV = (ev, datefrom, dateto) =>{
 
 
 
+exports.perProvider = (provider, datefrom, dateto) =>{
 
+    const agentOptions = {
+        host: 'localhost'
+        , port: '8765'
+        , path: '/SessionsPerProvider'
+        , rejectUnauthorized: false
+    };
+    const agent = new https.Agent(agentOptions);
+    request({
+        url: "https://localhost:8765/SessionPerProvider/"+provider+"/"+datefrom+"/"+dateto
+        , method: 'GET'
+        , agent: agent
+    }, function (err, resp, body) {
+        console.log( JSON.parse(body))
+    });
+}

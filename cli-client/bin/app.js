@@ -100,3 +100,29 @@ if (argvPerEV._.includes('SessionsPerEV')) {
     const dateto = argvPerPoint.dateto
     dataAccess.perEV(ev, datefrom, dateto);
 }
+
+const argvPerProvider = yargs
+    .command('SessionsPerProvider', '', {
+        provider: {
+            description: '',
+            type: 'string',
+        },
+        datefrom: {
+            description: '',
+            type: 'data',
+        },
+        dateto: {
+            description: '',
+            type: 'data',
+        }
+    })
+    .help()
+    .argv;
+
+if (argvPerEV._.includes('SessionsPerProvider')) {
+
+    const provider = argvPerPoint.provider
+    const datefrom = argvPerPoint.datefrom
+    const dateto = argvPerPoint.dateto
+    dataAccess.perProvider(provider, datefrom, dateto);
+}
