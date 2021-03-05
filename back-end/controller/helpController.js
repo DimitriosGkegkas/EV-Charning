@@ -11,14 +11,12 @@ exports.healthcheck = (req, res, next) => {
 }
 
 exports.resetsessions = (req, res, next) => {
-
-    Session.remove({}, () => { })
+    Session.collection.drop()
         .then(() => {
             return bcrypt.hash("petrol4ever", 12)
         }
         )
         .then(hashedPW =>  {
-            console.log(hashedPW)
                 const user = new User({
                     password: hashedPW,
                     username: "admin"
