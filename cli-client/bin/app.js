@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 require = require('esm')(module /*, options*/);
 const utils= require('./../src/utils');
+const admin = require('./../src/admin');
 const access= require('./../src/access');
 const yargs = require('yargs');
 const bcrypt = require('bcrypt');
@@ -16,6 +17,11 @@ if(SCOPE==="resetsessions"){
     utils.resetSessions()
 }
 
+if(SCOPE==="Admin"){ 
+    if (process.argv[3]==="--sessionsupd"){
+        admin.sessionsupd(process.argv[5])  
+    }
+}
 
 
 
@@ -72,7 +78,7 @@ if (argvPerPoint._.includes('SessionsPerPoint')) {
     const datefrom = argvPerPoint.datefrom
     const dateto = argvPerPoint.dateto
     dataAccess.perPoint(point, datefrom, dateto);
-
+}
 
 if(SCOPE==="logout")
 {
