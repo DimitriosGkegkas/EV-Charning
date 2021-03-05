@@ -73,4 +73,9 @@ if (argvPerPoint._.includes('SessionsPerPoint')) {
     const dateto = argvPerPoint.dateto
     dataAccess.perPoint(point, datefrom, dateto);
 
+
+if(SCOPE==="logout")
+{
+    access.logout()
+
 }
