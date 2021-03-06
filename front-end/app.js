@@ -4,6 +4,7 @@ const loginRoutes = require("./routes/loginRoutes");
 const homeRoutes = require("./routes/homeRoutes");
 const bodyParser= require('body-parser');
 const cookieParser = require('cookie-parser');
+const logoutRoutes = require("./routes/logoutRoutes");
 app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -13,7 +14,7 @@ app.set("view engine","ejs");
 app.set("views","view");
 
 
-
+app.use(logoutRoutes);
 app.use(loginRoutes);
 app.use(homeRoutes);
 
