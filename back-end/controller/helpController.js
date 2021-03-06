@@ -10,6 +10,8 @@ exports.healthcheck = (req, res, next) => {
         .catch(() => { res.status(200).json({ status: "failed" }) })
 }
 
+
+
 exports.resetsessions = (req, res, next) => {
     Session.collection.drop()
         .then(() => {
