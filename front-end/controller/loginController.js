@@ -31,7 +31,7 @@ exports.loginPost = (req, res, next) => {
             res.render("login",{message: err.message})
         }
         else{
-            res.cookie("token",body.token, { maxAge: 60*60})
+            res.cookie("token",body.token)
             res.redirect('homepage')
 
             

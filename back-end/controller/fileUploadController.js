@@ -65,9 +65,9 @@ exports.uploadToDB= (req, res) => {
 				}
 				else{
 				res.status(200).json({
-					SeassionsInUploadedFile: InUploadedFile,
+					SessionsInUploadedFile: InUploadedFile,
 					SessionsImported: Imported,
-					TotalSeassionsInDatabase: count
+					TotalSessionsInDatabase: count
 				})
 			}
 			});
