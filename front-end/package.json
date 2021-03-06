@@ -1,0 +1,30 @@
+{
+  "name": "front-end",
+  "version": "1.0.0",
+  "description": "This is the fornt-end for the ev charging project",
+  "main": "app.js",
+  "dependencies": {
+    "bootstrap": "^4.6.0",
+    "ejs": "^3.1.6",
+    "nodemon": "^2.0.7"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ntua/TL20-39.git"
+  },
+  "keywords": [
+    "front-end",
+    "ev-charging"
+  ],
+  "author": "ADAM",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ntua/TL20-39/issues"
+  },
+  "homepage": "https://github.com/ntua/TL20-39#readme"
+}
