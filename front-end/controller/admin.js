@@ -43,10 +43,11 @@ exports.Admin = (req, res, next) => {
     }, function (err, resp, body) {
         
         if(err){
-            res.render("errorPage",{message:err.message})
+            res.render("reportBack",{message:err.message})
         }
         else{
-            res.render("successPage",{body:body})
+            if(body.status===200){res.render("reportBack",{message:"User Created",body:body})}
+            else {res.render("reportBack",{message:body.message})}
         }
     });
     }
@@ -152,4 +153,8 @@ exports.sessionsupd =  (req, res, next) => {
         )
 
             });
+}
+
+exports.addUserPage= (req, res, next)=>{
+    res.render("add-user",{})
 }
