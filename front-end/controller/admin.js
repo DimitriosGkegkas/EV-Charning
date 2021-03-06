@@ -43,10 +43,11 @@ exports.Admin = (req, res, next) => {
     }, function (err, resp, body) {
         
         if(err){
-            res.render("errorPage",{message:err.message})
+            res.render("reportBack",{message:err.message})
         }
         else{
-            res.render("successPage",{body:body})
+            
+            res.render("reportBack",{message:body.message})
         }
     });
     }
@@ -143,7 +144,7 @@ exports.sessionsupd =  (req, res, next) => {
 
         if (err) { res.render("errorPage",{message:err.message})}
         else{
-            res.render("successPage",{body:body})
+            res.render("uploadFilesResults",JSON.parse(body))
         }
         fs.unlink(source, (err) => {
             if(err){res.status(500).json({message:"Could not amound the uploaded file"})
@@ -152,4 +153,12 @@ exports.sessionsupd =  (req, res, next) => {
         )
 
             });
+}
+
+exports.addUserPage= (req, res, next)=>{
+    res.render("add-user",{})
+}
+
+exports.uploadSessions= (req, res, next)=>{
+    res.render("upload-file",{})
 }

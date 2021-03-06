@@ -1,0 +1,32 @@
+
+	<%- include("navBar.ejs")%>
+    <div class="container   align-items-center justify-content-center jumbotron d-flex align-items-center">
+    <div style="background-color:rgb(129, 129, 170);width: 250px; height:250px;" class="card m-5  text-white  mb-3 float-left" style="max-width: 18rem;">
+        <div class="card-header">Sessions In Uploaded File</div>
+        <div class="card-body container   align-items-center justify-content-center d-flex align-items-center">
+          <h1><%=SessionsInUploadedFile %></h1>
+
+        </div>
+      </div>
+
+
+      <div style="background-color:rgb(127, 165, 175); width: 250px; height:250px;" class="card  m-5 text-white  mb-3 float-left" style="max-width: 18rem;">
+        <div class="card-header">Sessions Uploaded</div>
+        <div class="card-body container   align-items-center justify-content-center  d-flex align-items-center">
+            <h1><%=SessionsImported %></h1>
+        </div>
+      </div>
+
+      <div style="background-color:rgb(152, 108, 163);width: 250px; height:250px;"  class="card m-5  text-white  mb-3 float-left" style="max-width: 18rem;">
+        <div class="card-header">Sessions in Database</div>
+        <div class="card-body container   align-items-center justify-content-center d-flex align-items-center">
+            <h1><%=TotalSessionsInDatabase %></h1>
+        </div>
+      </div>
+    </div>
+
+    <div>
+        <a class="nav-link btn btn-info card-body container   align-items-center justify-content-center d-flex align-items-center" href="/uploadSessions">Upload New File</a>
+    </div>
+    
+	<%- include("footer.ejs")%>

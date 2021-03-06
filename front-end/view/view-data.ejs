@@ -1,0 +1,27 @@
+<%- include("navBar.ejs")%>
+    <div class="bg-primary">
+        <form method="get" action="retrieveData" class="bg-primary">
+            <input type="text" placeholder="ID" name="ID"class="float-left m-5"> 
+            <div class= "float-left  align-items-center justify-content-center d-flex align-items-center m-5">
+                <div class="float-left  mr-2">Date From:    </div>
+                <input type="datetime-local"  name="dateFrom" class="float-left "> 
+            </div>
+            <div class= "float-left  align-items-center justify-content-center d-flex align-items-center m-5">
+                <div class="float-left mr-2">Date To:    </div>
+                <input type="datetime-local"  name="dateTo" class="float-left "> 
+            </div>
+            <div class="dropdown float-left">
+                <div class="float-left  mr-2">Sessions per:    </div>
+                <select name="per" class="float-left  align-items-center justify-content-center d-flex align-items-center m-5" aria-labelledby="dropdownMenuButton">
+                  <option class="dropdown-item" value="point" >Point</a>
+                  <option class="dropdown-item" value="station" >Station</a>
+                  <option  class="dropdown-item" value="ev" >EV</a>
+                  <option class="dropdown-item" value="provider" >Provider</a>
+                </select>
+              </div>
+              <input type="submit" value="Submit" class="btn btn-info float-left  align-items-center justify-content-center d-flex align-items-center m-5">
+        </form>
+    </div>
+
+    
+	<%- include("footer.ejs")%>

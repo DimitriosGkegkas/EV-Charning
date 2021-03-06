@@ -4,9 +4,9 @@ const request =require('request')
 
 exports.perStation =(req, res, next) => {
 
-    const stationID = req.params.StationID
-    const periodFrom = req.params.PeriodFrom
-    const periodTo = req.params.PeriodTo
+    const stationID = req.query.ID
+    const periodFrom = req.query.dateFrom
+    const periodTo = req.query.dateTo
 
     const agentOptions = {
         host: 'localhost'
@@ -26,9 +26,9 @@ exports.perStation =(req, res, next) => {
 }
 
 exports.perPoint =(req, res, next) =>{
-    const pointID = req.params.PointID
-    const periodFrom = req.params.PeriodFrom
-    const periodTo = req.params.PeriodTo
+    const pointID = req.query.ID
+    const periodFrom = req.query.dateFrom
+    const periodTo = req.query.dateTo
 
     const agentOptions = {
         host: 'localhost'
@@ -48,9 +48,9 @@ exports.perPoint =(req, res, next) =>{
 
 
 exports.perEV =(req, res, next) =>{
-    const evID = req.params.VehicleID
-    const periodFrom = req.params.PeriodFrom
-    const periodTo = req.params.PeriodTo
+    const evID = req.query.ID
+    const periodFrom = req.query.dateFrom
+    const periodTo = req.query.dateTo
 
     const agentOptions = {
         host: 'localhost'
@@ -71,9 +71,9 @@ exports.perEV =(req, res, next) =>{
 
 
 exports.perProvider=(req, res, next) =>{
-    const providerID = req.params.ProviderID
-    const periodFrom = req.params.PeriodFrom
-    const periodTo = req.params.PeriodTo
+    const providerID = req.query.ID
+    const periodFrom = req.query.dateFrom
+    const periodTo = req.query.dateTo
 
     const agentOptions = {
         host: 'localhost'
@@ -93,3 +93,27 @@ exports.perProvider=(req, res, next) =>{
 
 }
 
+exports.viewData= (req, res, next)=>{
+    res.render("view-data",{body:{}})
+}
+
+
+
+exports.retrieveData= (req, res, next)=>{
+    
+    const per = req.query.per
+    switch(per){
+        case("point"):
+            this.perPoint(req, res, next)
+            break;
+        case("station"):
+            this.perStation(req, res, next)
+            break;   
+        case("ev"):
+            this.perEV(req, res, next)
+            break;
+        case("provider"):
+            this.perProvider(req, res, next)
+            break;
+    }
+}
