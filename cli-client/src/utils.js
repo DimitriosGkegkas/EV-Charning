@@ -14,7 +14,12 @@ exports.healthcheck = () => {
         , method: 'GET'
         , agent: agent
     }, function (err, resp, body) {
-        console.log(body)
+        if (err) {
+            console.log(err)
+        }
+        else {
+            console.log("status: " + JSON.parse(body).status)
+        }
     });
 }
 
@@ -32,6 +37,11 @@ exports.resetSessions = () => {
         , method: 'POST'
         , agent: agent
     }, function (err, resp, body) {
-        console.log(body)
+        if (err) {
+            console.log(err)
+        }
+        else {
+            console.log("status: " + JSON.parse(body).status)
+        }
     });
 }

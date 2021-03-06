@@ -9,17 +9,18 @@ module.exports = (req, res, next) => {
     try {
         token = req.header('Authorization').split(' ')[1];
     } catch (err) {
-        res.status(401).json({Message: "Not authenticated."})
+        res.status(401).json({message: "Not authenticated"})
     }
     let decodedToken;
     try {
         jwtr.verify(token, secretKey.key)
             .then(decodedToken => {next()})
-            .catch( () => { res.status(401).json({Message: "Not authenticated."})} )
+            .catch( () => { res.status(401).json({message: "Not authenticated"})} )
     }
     catch (err) {
-        res.status(401).json({Message: "Not authenticated."})
+        res.status(401).json({message: "Not authenticated"})
     }
 
     
 };
+
