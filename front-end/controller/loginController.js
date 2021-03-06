@@ -33,6 +33,7 @@ exports.loginPost = (req, res, next) => {
         else{
             res.cookie("token",body.token, { maxAge: 60*60})
             res.redirect('homepage')
+
             
         }
 
