@@ -42,7 +42,7 @@ exports.perPoint =(req, res, next) =>{
         , method: 'GET'
         , agent: agent
     }, function (err, resp, body) {
-        res.render( "sessions", { "per":"point" ,"body":body})
+        res.render( "sessions", { "per":"point" ,"body":JSON.parse(body)})
     });
 }
 

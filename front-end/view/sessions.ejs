@@ -1,1 +1,36 @@
-<%= body %>
+<%- include("navBar.ejs")%>
+    <%- include("searchSessionsForm.ejs")%>
+    <% const list = body.ChargingSessionsList %>
+
+        <h1>Sessions per <%= per %>
+        </h1>
+
+
+        <table class="table table-hover table-dark">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Session ID</th>
+                <th scope="col">Started On</th>
+                <th scope="col">Finished On</th>
+                <th scope="col">Energy Delivered</th>
+              </tr>
+            </thead>
+            <tbody>
+            <% for ( i of list ) { %>
+                <tr>
+                <th scope="row"><%= i.SessionIndex%></th>
+                <td><%= i.SessionID %></td>
+                <td><%= i.StartedOn %></td>
+                <td><%= i.FinishedOn %></td>
+                <td><%= i.EnergyDelivered %></td>
+              </tr>
+                
+            <% }%>
+
+            </tbody>
+          </table>
+
+
+     
+        <%- include("footer.ejs")%>
