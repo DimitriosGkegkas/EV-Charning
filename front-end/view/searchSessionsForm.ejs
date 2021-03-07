@@ -1,26 +1,48 @@
-<div class="bg-primary">
-    <form method="get" action="retrieveData " class="bg-primary">
-        <input type="text" placeholder="ID" name="ID"class="float-left m-5"> 
-        <div class= "float-left  align-items-center justify-content-center d-flex align-items-center m-5">
-            <div class="float-left  mr-2">Date From:    </div>
-            <input type="datetime-local"  name="dateFrom" class="float-left "> 
-        </div>
-        <div class= "float-left  align-items-center justify-content-center d-flex align-items-center m-5">
-            <div class="float-left mr-2">Date To:    </div>
-            <input type="datetime-local"  name="dateTo" class="float-left "> 
-        </div>
-        <div class="dropdown float-left">
-            <div class= "float-left  align-items-center justify-content-center d-flex align-items-center mt-5 mb-5">
-                 <div class="float-left ">Sessions per:    </div>
-            </div>
+<div style=" background-color:rgb(216, 229, 240); "class="rounded-5 m-5 form-group pt-5 pl-5 pr-5">
+    <form method="get" action="retrieveData " novalidate>
 
-            <select name="per" class="float-left  align-items-center justify-content-center d-flex align-items-center mt-5 mb-5 ml-1 " aria-labelledby="dropdownMenuButton">
-              <option class="dropdown-item" value="point" >Point</a>
-              <option class="dropdown-item" value="station" >Station</a>
-              <option  class="dropdown-item" value="ev" >EV</a>
-              <option class="dropdown-item" value="provider" >Provider</a>
-            </select>
+
+  
+
+
+        <div class="form-row">
+          <div class="col-md-3 mb-3">
+            <label for="validationCustom02">Please Provide an ID</label>
+            <input type="text" class="form-control" placeholder="ID" name="ID" required>
           </div>
-          <input type="submit" value="Submit" class="btn btn-info float-left  align-items-center justify-content-center d-flex align-items-center m-5">
-    </form>
+          <div class="col-md-3 mb-3">
+            <label for="validationCustom02">Date From</label>
+            <input  class="form-control"  type="datetime-local"  name="dateFrom" required>
+          </div>
+          <div class="col-md-3 mb-3">
+            <label for="validationCustomUsername">Date To</label>
+            <div class="input-group">
+              <input  type="datetime-local"  name="dateTo" class="form-control"  aria-describedby="inputGroupPrepend" required>
+            </div>
+          </div>
+          <div class="col-md-3 mb-3">
+            <label for="validationCustom03" >Sessions per:</label>
+            <div class="input-group">
+            <select name="per"  class="form-control form-control-mb mb-3">
+                <option class="dropdown-item" value="point" >Point</a>
+                <option class="dropdown-item" value="station" >Station</a>
+                <option  class="dropdown-item" value="ev" >EV</a>
+                <option class="dropdown-item" value="provider" >Provider</a>
+              </select>
+            </div>
+          </div>
+
+          <div class="col-md-3  float-left">
+
+            <input type="submit" value="Submit" class="btn btn-info float-left  align-items-center justify-content-center d-flex align-items-center m-1 mb-3">
+            
+          </div>
+        </div>
+
+
+      </form>
 </div>
+
+  
+
+

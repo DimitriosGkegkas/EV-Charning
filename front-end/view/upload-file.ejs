@@ -1,15 +1,18 @@
 <%- include("navBar.ejs")%>
-	<dev class="container align-items-center justify-content-center jumbotron d-flex align-items-center container-fluid center container-sm">
+	<dev style="width: 500px;" class="container float-left align-items-center justify-content-center jumbotron d-flex align-items-center container-fluid center container-sm">
     <h2 class="text-info" > Upload Sessions </h2>
 </dev>
-<dev class="container container-sm">
+<div style=" background-color:rgb(216, 229, 240);width: 400px; "class="float-left rounded-5 m-5 form-group pt-5 pl-5 pr-5">
+
 
         <div class="input-group container container-sm">
-            <form method="post" action="admin/sessionsupd"  enctype="multipart/form-data">
+            <form method="post" action="http://localhost:3000/admin/sessionsupd"  enctype="multipart/form-data">
                 <label for="files">Select files:</label>
                 <input type="file" accept=".csv, application/vnd.ms-excel" enctype='multipart/form-data' id="files" name="file" multiple><br><br>
                 <button type="sumbit" class="btn btn-info" >Upload</button>
               </form>
+
+              <div class="text-danger"><%= message %></div>
           </div>
 </dev>
 <p class="container  align-items-center"> Accepted file format: csv </p>

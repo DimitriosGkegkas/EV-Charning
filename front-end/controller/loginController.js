@@ -32,10 +32,17 @@ exports.loginPost = (req, res, next) => {
     }, function (err, resp, body) {
         if(err){
             res.render("login",{message: err.message})
+            console.log("ddd")
         }
         else{
-            res.cookie("token",body.token)
-            res.redirect('homepage')
+            if(body.message){
+             res.render('login',{message:body.message})
+            }
+            else{
+                res.cookie("token",body.token)
+                res.redirect('homepage')
+            }
+
 
             
         }

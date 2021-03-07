@@ -105,6 +105,13 @@ exports.findUser = (req, res, next) => {
 
 exports.sessionsupd =  (req, res, next) => {
 
+
+    
+    if(!req.file){
+        res.render("upload-file",{message:"Please Select a file"})
+        return
+    }
+
     const source = req.file.path;
     const agentOptions = {
         host: 'localhost'
@@ -142,12 +149,15 @@ exports.sessionsupd =  (req, res, next) => {
 
 
 
-        if (err) { res.render("errorPage",{message:err.message})}
+        if (err) { 
+            res.render("upload-file",{message:err.message})
+    }
         else{
+
             res.render("uploadFilesResults",JSON.parse(body))
         }
         fs.unlink(source, (err) => {
-            if(err){res.status(500).json({message:"Could not amound the uploaded file"})
+            if(err){
         }
     }
         )
@@ -160,5 +170,5 @@ exports.addUserPage= (req, res, next)=>{
 }
 
 exports.uploadSessions= (req, res, next)=>{
-    res.render("upload-file",{})
+    res.render("upload-file",{message:""})
 }
