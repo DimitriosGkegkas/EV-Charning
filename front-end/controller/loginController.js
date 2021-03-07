@@ -3,6 +3,9 @@ const request =require('request')
 exports.login = (req, res, next) => {
     res.render("login",{})
 }
+exports.basePage = (req, res, next) => {
+    res.render("basePage",{})
+}
 
 exports.loginPost = (req, res, next) => {
     const username = req.body.username
