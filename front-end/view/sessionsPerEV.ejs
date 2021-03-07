@@ -1,0 +1,59 @@
+<%- include("navBar.ejs")%>
+    <%- include("searchSessionsForm.ejs")%>
+    <% const list = body.VehicleChargingSessionList %>
+
+<div class= " container justify-content-center "> 
+        <h1 class= "border-bottom border-primary p-2 container justify-content-center mb-4 float-left">Sessions per   <%= per %>  <div class="text-info float-right"><%= body.VehicleID %></div> 
+        </h1>
+    </div>
+
+
+    <div class= " container justify-content-center "> 
+      <h3 class= " container justify-content-center mb-4 float-left">Total Energy Consumed  <div class="text-info float-right"><%= body.TotalEnergyConsumed %></div> 
+      </h3>
+  </div>
+
+  <div class= "container justify-content-center "> 
+    <h3 class= " container justify-content-center mb-4 float-left">Number of Visited Points   <div class="text-info float-right"><%= body.NumberOfVisitedPoints %></div> 
+    </h3>
+</div>
+
+<div class= "border-top-2 border-primary container justify-content-center "> 
+  <h3 class= " container justify-content-center mb-4 float-left">Number Of Charging Sessions  <div class="text-info float-right"><%= body.NumberOfVehicleChargingSessions %></div> 
+  </h3>
+</div>
+<div class="container justify-content-center md-5  border-line">
+        <table class="table table-striped table-hover table-dark">
+            <thead >
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Session ID</th>
+                <th scope="col">Started On</th>
+                <th scope="col">Finished On</th>
+                <th scope="col">Energy Delivered</th>
+                <th scope="col">Price Policy</th>
+                <th scope="col">Cost per kWh</th>
+                <th scope="col">Session Cost</th>
+              </tr>
+            </thead>
+            <tbody>
+            <% for ( i of list ) { %>
+                <tr>
+                <th scope="row"><%= i.SessionIndex %></th>
+                <td><%= i.SessionID %></td>
+                <td><%= i.StartedOn %></td>
+                <td><%= i.FinishedOn %></td>
+                <td><%= i.TotalEnergyConsumed %></td>
+                <td><%= i.PricePolicyRef %></td>
+                <td><%= i.CostPerKWh %></td>
+                <td><%= i.SessionCost %></td>
+              </tr>
+                
+            <% }%>
+
+            </tbody>
+          </table>
+
+        </div>
+     
+        <%- include("footer.ejs")%>

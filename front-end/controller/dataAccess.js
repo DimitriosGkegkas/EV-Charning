@@ -21,7 +21,7 @@ exports.perStation =(req, res, next) => {
         , method: 'GET'
         , agent: agent
     }, function (err, resp, body) {
-        res.render( "sessions", { "per":"station" ,"body":body})
+        res.render( "sessionsPerStation", { "per":"station" ,"body":JSON.parse(body)})
     });
 }
 
@@ -42,7 +42,7 @@ exports.perPoint =(req, res, next) =>{
         , method: 'GET'
         , agent: agent
     }, function (err, resp, body) {
-        res.render( "sessions", { "per":"point" ,"body":JSON.parse(body)})
+        res.render( "sessionsPerPoint", { "per":"point" ,"body":JSON.parse(body)})
     });
 }
 
@@ -64,7 +64,7 @@ exports.perEV =(req, res, next) =>{
         , method: 'GET'
         , agent: agent
     }, function (err, resp, body) {
-        res.render( "sessions", { "per":"ev" ,"body":body})
+        res.render( "sessionsPerEV", { "per":"ev" ,"body":JSON.parse(body)})
     });
 }
 
@@ -88,7 +88,7 @@ exports.perProvider=(req, res, next) =>{
         , method: 'GET'
         , agent: agent
     }, function (err, resp, body) {
-        res.render( "sessions", { "per":"provider" ,"body":body})
+        res.render( "sessionsPerProvider", { "per":"provider" ,"body":JSON.parse(body)})
     });
 
 }
