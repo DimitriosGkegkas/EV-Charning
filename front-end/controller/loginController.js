@@ -3,6 +3,9 @@ const request =require('request')
 exports.login = (req, res, next) => {
     res.render("login",{})
 }
+exports.basePage = (req, res, next) => {
+    res.render("basePage",{})
+}
 
 exports.loginPost = (req, res, next) => {
     const username = req.body.username
@@ -29,10 +32,17 @@ exports.loginPost = (req, res, next) => {
     }, function (err, resp, body) {
         if(err){
             res.render("login",{message: err.message})
+            console.log("ddd")
         }
         else{
-            res.cookie("token",body.token)
-            res.redirect('homepage')
+            if(body.message){
+             res.render('login',{message:body.message})
+            }
+            else{
+                res.cookie("token",body.token)
+                res.redirect('homepage')
+            }
+
 
             
         }

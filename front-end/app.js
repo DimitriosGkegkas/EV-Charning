@@ -31,4 +31,8 @@ app.use(homeRoutes);
 app.use(dataAccessRoutes);
 app.use(adminRoutes);
 
+app.get('/',(req, res, next) => {
+    res.redirect("basePage")
+});
+
 app.listen(3000);
