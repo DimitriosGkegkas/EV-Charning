@@ -9,7 +9,7 @@ const mongoose = require('mongoose');
 const isAuth = require('./../controller/is-auth')
 
 let token ="0"
-describe("UWLAAA", function () {
+describe("Session", function () {
 
     afterEach( function(done){
         isAuth.isAuth.restore()
