@@ -114,9 +114,6 @@ describe("Logout", function () {
                     expect(response).to.have.property("statusCode", 200)
  
                 })
-    
-
-
 
             done(); // callback the test runner to indicate the end...
         })
