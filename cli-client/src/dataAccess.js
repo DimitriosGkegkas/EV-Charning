@@ -12,10 +12,21 @@ exports.SessionsPerStation = (stationID, periodFrom, periodTo) => {
     };
     const agent = new https.Agent(agentOptions);
 
+    let auth
+    try {auth= "Bearer "+fs.readFileSync('softeng20bAPI.token');
+    }
+    catch{
+        console.log("Access denied")
+        return
+    }
+
     request({
         url: "https://localhost:8765/SessionPerStation/" + stationID +"/"+ periodFrom + "/" + periodTo
         , method: 'GET'
         , agent: agent
+        , headers: {
+            "Authorization": auth
+        }
     }, function (err, resp, body) {
         console.log( JSON.parse(body))
     });
@@ -30,10 +41,22 @@ exports.perPoint = (point, datefrom, dateto) =>{
         , rejectUnauthorized: false
     };
     const agent = new https.Agent(agentOptions);
+    
+    let auth
+    try {auth= "Bearer "+fs.readFileSync('softeng20bAPI.token');
+    }
+    catch{
+        console.log("Access denied")
+        return
+    }
+
     request({
         url: "https://localhost:8765/SessionPerPoint/"+point+"/"+datefrom+"/"+dateto
         , method: 'GET'
         , agent: agent
+        , headers: {
+            "Authorization": auth
+        }
     }, function (err, resp, body) {
         console.log( JSON.parse(body))
     });
@@ -49,10 +72,22 @@ exports.perEV = (ev, datefrom, dateto) =>{
         , rejectUnauthorized: false
     };
     const agent = new https.Agent(agentOptions);
+
+    let auth
+    try {auth= "Bearer "+fs.readFileSync('softeng20bAPI.token');
+    }
+    catch{
+        console.log("Access denied")
+        return
+    }
+
     request({
         url: "https://localhost:8765/SessionPerEV/"+ev+"/"+datefrom+"/"+dateto
         , method: 'GET'
         , agent: agent
+        , headers: {
+            "Authorization": auth
+        }
     }, function (err, resp, body) {
         console.log( JSON.parse(body))
     });
@@ -69,11 +104,23 @@ exports.perProvider = (provider, datefrom, dateto) =>{
         , rejectUnauthorized: false
     };
     const agent = new https.Agent(agentOptions);
+
+    let auth
+    try {auth= "Bearer "+fs.readFileSync('softeng20bAPI.token');
+    }
+    catch{
+        console.log("Access denied")
+        return
+    }
+    
     request({
         url: "https://localhost:8765/SessionPerProvider/"+provider+"/"+datefrom+"/"+dateto
 
         , method: 'GET'
         , agent: agent
+        , headers: {
+            "Authorization": auth
+        }
     }, function (err, resp, body) {
         console.log( JSON.parse(body))
     });

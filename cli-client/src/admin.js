@@ -113,7 +113,10 @@ exports.sessionsupd = (source) => {
     const agent = new https.Agent(agentOptions);
     let auth;
     try { auth = "Bearer " + fs.readFileSync('softeng20bAPI.token'); }
-    catch { console.log("Access Denied") }
+    catch { 
+        console.log("Access Denied")
+        return
+    }
     if (!fs.existsSync(source)) {
         console.log("Please Check Your File Path")
         return

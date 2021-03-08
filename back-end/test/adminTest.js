@@ -29,7 +29,7 @@ describe("sessionsupd", function () {
 
     it("upload failed: Not Auth: Invalid Token", function (done) {
         const source = "./../cli-client/database/12Months.csv"
-        invalidToken = "someWordsInvalidToken"
+        const invalidToken = "someWordsInvalidToken"
 
         request.post({
             url: urlBase + '/system/sessionsupd',
