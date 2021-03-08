@@ -1,8 +1,8 @@
-var should = require("should");
-var request = require("request");
-var chai = require("chai");
-var expect = chai.expect;
-var urlBase = "https://localhost:8765";
+const should = require("should");
+const request = require("request");
+const chai = require("chai");
+const expect = chai.expect;
+const urlBase = "https://localhost:8765";
 https = require("https")
 
 describe("Login", function () {
@@ -14,7 +14,7 @@ describe("Login", function () {
             "password": "petrol4ever"
         }
         request.post({
-            url: "https://localhost:8765/login",
+            url: urlBase +"/login",
             rejectUnauthorized: false,
             json: jsonObject,
 
@@ -33,7 +33,7 @@ describe("Login", function () {
             "password": "someRandomPassword"
         }
         request.post({
-            url: "https://localhost:8765/login",
+            url: urlBase +"/login",
             rejectUnauthorized: false,
             json: jsonObject,
 
@@ -52,7 +52,7 @@ describe("Login", function () {
             "password": "someRandomPassword"
         }
         request.post({
-            url: "https://localhost:8765/login",
+            url: urlBase +"/login",
             rejectUnauthorized: false,
             json: jsonObject,
 
@@ -70,7 +70,7 @@ describe("Login", function () {
             "username": "userDoesNotExistPjhfjksdhfjshdhdgfhksd",
         }
         request.post({
-            url: "https://localhost:8765/login",
+            url: urlBase +"/login",
             rejectUnauthorized: false,
             json: jsonObject,
 
@@ -88,7 +88,7 @@ describe("Login", function () {
             "password": "xistPjhfjksdhfjshdhdgfhksd",
         }
         request.post({
-            url: "https://localhost:8765/login",
+            url: urlBase +"/login",
             rejectUnauthorized: false,
             json: jsonObject,
 
@@ -103,7 +103,7 @@ describe("Login", function () {
     it("Login Failed: no username or password", function (done) {
         const jsonObject = {}
         request.post({
-            url: "https://localhost:8765/login",
+            url: urlBase +"/login",
             rejectUnauthorized: false,
             json: jsonObject,
 
@@ -121,7 +121,7 @@ describe("Logout", function () {
     it("Not Valid Token", function (done) {
 
         request.post({
-            url: "https://localhost:8765/logout",
+            url: urlBase +"/logout",
             rejectUnauthorized: false,
             headers: {
                 "Authorization": 'Bearer xksdbkfs '
@@ -138,7 +138,7 @@ describe("Logout", function () {
     it("Not Token at all", function (done) {
 
         request.post({
-            url: "https://localhost:8765/logout",
+            url: urlBase +"/logout",
             rejectUnauthorized: false,
             headers: {
                 "Authorization": 'Bearer'
@@ -155,7 +155,7 @@ describe("Logout", function () {
     it("Not Authorization", function (done) {
 
         request.post({
-            url: "https://localhost:8765/logout",
+            url: urlBase +"/logout",
             rejectUnauthorized: false,
 
 
@@ -170,7 +170,7 @@ describe("Logout", function () {
     it("Header Format Wrong (token with no bearer)", function (done) {
 
         request.post({
-            url: "https://localhost:8765/logout",
+            url: urlBase +"/logout",
             rejectUnauthorized: false,
             headers: {
                 "Authorization": 'Bfasfsafsafsswafr'
@@ -187,7 +187,7 @@ describe("Logout", function () {
     it("Header Format Wrong (Extra word)", function (done) {
 
         request.post({
-            url: "https://localhost:8765/logout",
+            url: urlBase +"/logout",
             rejectUnauthorized: false,
             headers: {
                 "Authorization": 'Bearer someotherWords token'
@@ -209,7 +209,7 @@ describe("Logout", function () {
         }
 
         request.post({
-            url: "https://localhost:8765/login",
+            url: urlBase +"/login",
             rejectUnauthorized: false
             , json: jsonObject
 
@@ -218,7 +218,7 @@ describe("Logout", function () {
 
             const token = body.token
             request.post({
-                url: "https://localhost:8765/logout",
+                url: urlBase +"/logout",
                 rejectUnauthorized: false,
                 headers: {
                     "Authorization": 'Bearer ' + token
