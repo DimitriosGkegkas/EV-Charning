@@ -11,13 +11,8 @@ exports.healthcheck = (req, res, next) => {
         .catch(() => { res.status(200).json({ status: "failed" }) })
 }
 
-
-
-exports.resetsessions = (req, res, next) => {
-    Session.collection.drop()
-        .then(() => {
-            return bcrypt.hash("petrol4ever", 12)
-        })
+exports.initAdmin = (req, res, next) => {
+    bcrypt.hash("petrol4ever", 12)
         .then(hashedPW => {
             const user = new User({
                 password: hashedPW,
@@ -31,14 +26,20 @@ exports.resetsessions = (req, res, next) => {
                                 res.status(200).json({
                                     status: "OK"
                                 })
-
                             }
                             else {
                                 res.status(402).json({
                                     status: "failed"
-                                    // message: "No data"
                                 })
                             }
+                            return
+                        })
+                        .catch(err => {
+                            console.log(err)
+                            res.status(400).json({
+                                status: "failed"
+                            })
+                            return
                         })
                 })
                 .catch((err) => {
@@ -55,12 +56,17 @@ exports.resetsessions = (req, res, next) => {
                                         else {
                                             res.status(402).json({
                                                 status: "failed"
-                                                // message: "No data"
                                             })
                                         }
+                                        return
                                     })
-
-
+                                    .catch(err => {
+                                        console.log(err)
+                                        res.status(400).json({
+                                            status: "failed"
+                                        })
+                                        return
+                                    })
                             })
                             .catch(() => {
                                 res.status(400).json({
@@ -70,31 +76,49 @@ exports.resetsessions = (req, res, next) => {
                                 return
                             })
                     }
+                    else {
+                        res.status(400).json({
+                            status: "failed"
+                        })
+                        return
+                    }
                 })
         })
         .catch(err => {
             console.log(err)
-            Session.collection.countDocuments({})
-                .then(SesCount => {
-                    if (SesCount === 0) {
-                        res.status(200).json({
-                            status: "OK"
-                        })
-                    }
-                    else {
+            res.status(402).json({
+                status: "failed"
+            })
+            return
+        })
+}
+
+exports.resetsessions = (req, res, next) => {
+    Session.collection.countDocuments({})
+        .then(SesCount => {
+            if (SesCount === 0) {
+                this.initAdmin(req, res, next)
+                return
+            }
+            else {
+                Session.collection.drop()
+                    .then(() => {
+                        this.initAdmin(req, res, next)
+                        return
+                    })
+                    .catch(() => {
                         res.status(402).json({
                             status: "failed"
-                            // message: "No data"
                         })
-                    }
-                    return
-                })
-                .catch(() => {
-                    res.status(402).json({
-                        status: "failed"
-                        // message: "No data"
+                        return
                     })
-                })
-
+            }
+        })
+        .catch(err => {
+            console.log(err)
+            res.status(402).json({
+                status: "failed"
+            })
+            return
         })
 }
