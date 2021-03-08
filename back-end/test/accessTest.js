@@ -221,14 +221,12 @@ describe("Logout", function () {
                 url: urlBase +"/logout",
                 rejectUnauthorized: false,
                 headers: {
-                    "Authorization": 'Bearer ' + token
-                }
-            }, function (error, response, body) {
-                expect(response).to.have.property("statusCode", 200)
 
-            })
-
-
+                    "Authorization": 'Bearer ' +token
+                }},function (error, response, body) {
+                    expect(response).to.have.property("statusCode", 200)
+ 
+                })
 
 
             done(); // callback the test runner to indicate the end...
