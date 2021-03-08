@@ -390,8 +390,7 @@ describe("sessionsupd", function () {
             }
 
         }, function (error, response, body) {
-            expect(response).to.have.property("statusCode", 400)
-            expect(JSON.parse(body).message).to.equal("Please upload only csv file.")
+            expect(response).to.have.property("statusCode", 500)
             done(); // callback the test runner to indicate the end...
         })
     })
