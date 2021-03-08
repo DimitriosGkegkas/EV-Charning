@@ -6,6 +6,9 @@ const urlBase = "https://localhost:8765/admin";
 https = require("https")
 const fs = require('fs');
 
+//file source
+let source = "./test/12Months.csv"
+
 let token
 describe("sessionsupd", function () {
 
@@ -28,7 +31,6 @@ describe("sessionsupd", function () {
     })
 
     it("upload failed: Not Auth: Invalid Token", function (done) {
-        const source = "./../cli-client/database/12Months.csv"
         const invalidToken = "someWordsInvalidToken"
 
         request.post({
@@ -50,8 +52,6 @@ describe("sessionsupd", function () {
     })
 
     it("upload failed: Not Auth: No Token", function (done) {
-        const source = "./../cli-client/database/12Months.csv"
-
         request.post({
             url: urlBase + '/system/sessionsupd',
             rejectUnauthorized: false,
@@ -71,7 +71,6 @@ describe("sessionsupd", function () {
     })
 
     it("upload failed: Not Auth: Extra Word", function (done) {
-        const source = "./../cli-client/database/12Months.csv"  
 
         request.post({
             url: urlBase + '/system/sessionsupd',
@@ -92,7 +91,6 @@ describe("sessionsupd", function () {
     })
 
     it("upload failed: Not Auth: No Bearer", function (done) {
-        const source = "./../cli-client/database/12Months.csv"  
 
         request.post({
             url: urlBase + '/system/sessionsupd',
@@ -113,7 +111,6 @@ describe("sessionsupd", function () {
     })
 
     it("upload failed: Not Auth: No authorization field", function (done) {
-        const source = "./../cli-client/database/12Months.csv"  
 
         request.post({
             url: urlBase + '/system/sessionsupd',
@@ -133,7 +130,6 @@ describe("sessionsupd", function () {
     })
 
     it("upload Successful", function (done) {
-        const source = "./../cli-client/database/12Months.csv"
 
         request.post({
             url: urlBase + '/system/sessionsupd',
@@ -154,7 +150,6 @@ describe("sessionsupd", function () {
     })
 
     it("upload Failed: no file", function (done) {
-        const source = "./../cli-client/database/12Months.csv"
 
         request.post({
             url: urlBase + '/system/sessionsupd',
@@ -175,7 +170,7 @@ describe("sessionsupd", function () {
     })
 
     it("upload Failed: wrong file", function (done) {
-        const source = "./../cli-client/database/Starry_Night_Over_the_Rhone.jpg"
+        source = "./test/Starry_Night_Over_the_Rhone.jpg"
 
         request.post({
             url: urlBase + '/system/sessionsupd',
@@ -189,7 +184,6 @@ describe("sessionsupd", function () {
             }
 
         }, function (error, response, body) {
-            //expect(error).to.exist
             expect(response).to.have.property("statusCode", 400)
             expect(JSON.parse(body).message).to.equal("Please upload only csv file.")
             done(); // callback the test runner to indicate the end...
