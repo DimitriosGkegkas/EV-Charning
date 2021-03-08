@@ -9,7 +9,7 @@ const auth = require('./../controller/is-auth')
 route.post('/login',userController.login);
 
 // POST: User Logout
-route.post('/logout',userController.logout);
+route.post('/logout',auth.isAuth,userController.logout);
 
 
 
