@@ -3,6 +3,10 @@ var request = require("request");
 var chai = require("chai");
 var expect = chai.expect;
 https = require("https")
+const sinon =require('sinon')
+const mongoose = require('mongoose');
+
+
 let token
 describe("Usermod", function () {
 
@@ -158,6 +162,51 @@ describe("Usermod", function () {
         })
     })
 })
+
+
+describe("healthcheck", function () {
+
+    afterEach(
+        function (done) {
+        mongoose.connect.restore()
+        done()
+        }
+    )
+    
+
+    it("No Database Connection",  function (done) {
+        sinon.stub(mongoose,"connect")
+        .callsFake(()=>{throw new Error("not connected")})
+        request({
+            url: "https://localhost:8765/admin/healthcheck"
+            , method: 'GET'
+            ,rejectUnauthorized: false
+
+        }, function (err, resp, body) {
+           JSON.parse(body).status.should.equal("Failed")
+            done()
+        });
+    });
+
+
+    it("Database Connection",  function (done) {
+        sinon.stub(mongoose,"connect")
+        .yields()
+        request({
+            url: "https://localhost:8765/admin/healthcheck"
+            , method: 'GET'
+            ,rejectUnauthorized: false
+
+        }, function (err, resp, body) {
+           JSON.parse(body).status.should.equal("OK")
+            done()
+        });
+    });
+       
+
+    })
+
+    
 
 
 

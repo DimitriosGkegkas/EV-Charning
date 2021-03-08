@@ -3,6 +3,7 @@ const databaseURL = require('./../database/auth');
 const Session = require('./../model/session');
 const User = require('./../model/user');
 const bcrypt = require('bcryptjs');
+const sinon =require('sinon');
 
 exports.healthcheck = (req, res, next) => {
     mongoose.connect(databaseURL.URL, { useNewUrlParser: true, useUnifiedTopology: true })
