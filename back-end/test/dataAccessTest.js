@@ -9,7 +9,7 @@ const mongoose = require('mongoose');
 const isAuth = require('./../controller/is-auth')
 
 let token ="0"
-describe("Session", function () {
+describe("SessionPerPoint", function () {
 
     afterEach( function(done){
         isAuth.isAuth.restore()
@@ -22,30 +22,25 @@ describe("Session", function () {
     })
 
 
-    it("Not Logined", function (done) {
-        sinon.stub(isAuth,"isAuth").callsFake(({},{},next)=>next())
-
+    it("Valid Input", function (done) {
         this.timeout(5000);
-        const jsonObject ={
-            "username": "Dimi",
-            "password": "DIMIFUN"}
+
+        const point = "CA-311"
+        const datefrom = "2019-01-01 00:00:00"
+        const dateto = "2019-10-01 00:00:00"
 
         const auth="Bearer XYZ"
 
-        request.post({
-            url: "https://localhost:8765/admin/usermod"
-            , method: 'POST'
-            ,rejectUnauthorized: false
-            , headers: { "Authorization": auth}
-            , json: jsonObject
-
-        }, function (error, response, body) {
+        request({
+            url: "https://localhost:8765/SessionPerPoint/"+point+"/"+datefrom+"/"+dateto
+            , method: 'GET'
+            , agent: agent
+        },  function (error, response, body) {
             expect(error).to.not.exist
-            expect(response).to.have.property("statusCode", 401)
-            expect(body.message).to.equal("Not authenticated")
+            expect(response).to.have.property("statusCode", 200)
+            expect(body).to.be.empty
             done(); // callback the test runner to indicate the end...
         })
     })
 
-   
 })
