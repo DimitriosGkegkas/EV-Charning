@@ -37,16 +37,19 @@ exports.genKey = (req, res, next) => {
 
 exports.signup = (req, res, next) => {
 
+
+
     const username = req.body.username;
     const email = req.body.email;
     const password = req.body.password;
     if (!username) {
         res.status(400).json(
-            { message: "Please provide username" }
-        )
-        return
-    }
-    if (!password) {
+
+            { message: "Please provide username"}
+         )
+         return
+    }else if(!password){
+
         res.status(400).json(
             { message: "Please provide password" }
         )
@@ -100,9 +103,11 @@ exports.signup = (req, res, next) => {
         )
 }
 
+
 exports.getuser = (req, res, next) => {
     const username = req.params.username;
     userSchema.findOne({ 'username': username }, (err, result) => {
+
         return result
     })
         .then(result => {
@@ -127,9 +132,11 @@ exports.getuser = (req, res, next) => {
 
 
 exports.login = (req, res, next) => {
+
     const username = req.body.username;
     const password = req.body.password;
     if (!username) {
+
         res.status(400).json({
             message: "Please Provide a Username"
         })

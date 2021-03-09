@@ -118,6 +118,77 @@ describe("SessionPerStation", function () {
         })
     })
 
+    it("no date provide 1", function (done) {
+        this.timeout(5000);
+
+        const point = "2-39-131-30"
+        const datefrom = ""
+        const dateto = "2019-10-01 00:00:00"
+
+        const auth="Bearer "+token
+
+        request({
+            url: "https://localhost:8765/SessionPerStation/"+point+"/"+datefrom+"/"+dateto
+            , method: 'GET',
+            headers: {
+                "Authorization": auth
+            }
+            ,rejectUnauthorized: false
+        },  function (error, response, body) {
+            expect(error).to.not.exist
+            expect(response).to.have.property("statusCode", 404)
+            expect(JSON.parse(body)).to.property("message","Page not found")
+            done(); 
+        })
+    })
+    it("no date provide 2", function (done) {
+        this.timeout(5000);
+
+        const point = "2-39-131-30"
+        const datefrom = ""
+        const dateto = ""
+
+        const auth="Bearer "+token
+
+        request({
+            url: "https://localhost:8765/SessionPerStation/"+point+"/"+datefrom+"/"+dateto
+            , method: 'GET',
+            headers: {
+                "Authorization": auth
+            }
+            ,rejectUnauthorized: false
+        },  function (error, response, body) {
+            expect(error).to.not.exist
+            expect(response).to.have.property("statusCode", 404)
+            expect(JSON.parse(body)).to.property("message","Page not found")
+            done(); 
+        })
+    })
+
+    it("no ID provide ", function (done) {
+        this.timeout(5000);
+
+        const point = ""
+        const datefrom = "2019-01-01 00:00:00"
+        const dateto = "2019-10-01 00:00:00"
+
+        const auth="Bearer "+token
+
+        request({
+            url: "https://localhost:8765/SessionPerStation/"+point+"/"+datefrom+"/"+dateto
+            , method: 'GET',
+            headers: {
+                "Authorization": auth
+            }
+            ,rejectUnauthorized: false
+        },  function (error, response, body) {
+            expect(error).to.not.exist
+            expect(response).to.have.property("statusCode", 404)
+            expect(JSON.parse(body)).to.property("message","Page not found")
+            done(); 
+        })
+    })
+
     it("DateFrom>DateTo", function (done) {
         this.timeout(5000);
 
