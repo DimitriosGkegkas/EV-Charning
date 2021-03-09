@@ -28,6 +28,11 @@ app.use(helpRoute );
 app.use(fileRoute);
 app.use(sesssionRoute);
 
+app.use((req,res,next)=>{
+    res.status(404).json({message:"Page not found"})
+})
+
+
 https.createServer({
     key: fs.readFileSync('database/server.key'),
     cert: fs.readFileSync('database/server.cert')

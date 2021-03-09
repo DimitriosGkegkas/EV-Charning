@@ -73,8 +73,8 @@ exports.signup = (req, res, next) => {
         )
 }
 
-exports.getuser = (req, res, next) => {
-    const username = req.params.username; 
+exports.getuser = async (req, res, next) => {
+     const username = req.params.username; 
     userSchema.findOne({ 'username': username }, (err, result) => {   
         return result
     })

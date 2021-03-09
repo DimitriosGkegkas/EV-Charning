@@ -96,9 +96,10 @@ exports.findUser = (username) => {
             console.log("token: " + token.toString())
         }
 
-
+;
     }
     )
+
 }
 
 

@@ -167,7 +167,9 @@ describe("Usermod", function () {
         })
         
         
-        describe("healthcheck", function () {
+const help = require("./../controller/helpController");
+
+describe("healthcheck", function () {
         
             afterEach(
                 function (done) {
@@ -176,20 +178,30 @@ describe("Usermod", function () {
                 }
             )
             
-        
+            
             it("No Database Connection",  function (done) {
                 sinon.stub(mongoose,"connect")
-                .callsFake(()=>{throw new Error("not connected")})
-                request({
-                    url: "https://localhost:8765/admin/healthcheck"
-                    , method: 'GET'
-                    ,rejectUnauthorized: false
-        
-                }, function (err, resp, body) {
-                   JSON.parse(body).status.should.equal("Failed")
-                    done()
-                });
-            });
+
+
+                const res = {
+                    statusCode: 500,
+                    userStatus: null,
+                    status: function(code) {
+                      this.statusCode = code;
+                      return this;
+                    },
+                    json: function(data) {
+                      this.userStatus = data.status;
+                    }
+                  };
+                help.healthcheck({},res,()=>{})
+                .then(result =>{result.to.have.property('statusCode', 200); done()})
+
+                    }
+                    )
+               
+                
+            
         
         
             it("Database Connection",  function (done) {
