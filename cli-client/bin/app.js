@@ -24,7 +24,9 @@ else if(SCOPE==="resetsessions"){
 else if(SCOPE==="logout")
 {
     access.logout()
-
+   
+    
+    
 }
 
 
