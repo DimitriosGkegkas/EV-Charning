@@ -8,7 +8,8 @@
             axisX: {
                 categoricalValues: $.map(posts, function (item) {
                     return item.x;
-                })
+                }),
+                labels:{rotation: 310}
 
             },
             axisY: {
@@ -29,14 +30,19 @@
             dataSeries: [{
                 seriesType: "bar",
                 collectionAlias: "Posts per Day",
+
                 data: $.map(posts, function (item) {
                     return {
                         y: item.y,
                         color: item.color
                     }
-                })
+                }),
+                labels: {
+                visible: false,
+                rotation: 90
+            }
             }]
-        });
+        })
 
         $("#chartCount").shieldChart({
             theme: "light",
