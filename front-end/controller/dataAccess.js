@@ -170,7 +170,12 @@ exports.perEV =(req, res, next) =>{
             res.render( "view-data", { message: "Not Valid Input", body:"",per:""})
             return
         }
-        res.render( "sessionsPerEV", { "per":"ev" ,"body":JSON.parse(body)})
+
+        let ret = getLists ( JSON.parse(body).VehicleChargingSessionList );
+        let returnListEnergy= ret.returnListEnergy
+        let returnListCount=ret.returnListCount
+  
+        res.render( "sessionsPerEV", { "per":"ev" ,"body":JSON.parse(body),"kwh":returnListEnergy,"count":returnListCount})
     });
 }
 

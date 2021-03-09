@@ -18,7 +18,7 @@ describe("Login", function () {
     it("Login Successful", function (done) {
         const username="admin"
         const password="petrol4ever"
-        const p=new Promise(()=>)
+        const p=new Promise(()=>{})
         login.bind(this,username,password)
         .then(()=>{
             expect( console.log ).to.be.called
