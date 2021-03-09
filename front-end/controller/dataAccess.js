@@ -32,11 +32,22 @@ function getLists (input) {
     return {returnListEnergy:returnListEnergy,  returnListCount:returnListCount}
 }
 
+function getListsStation (input) {
+    let returnListEnergy =[];
+    let returnListCount=[];
+    for (row of input){
+        returnListEnergy.push({ "x":row._id,"y":Number(row.EnergyDelivered.toFixed(2))})
+        returnListCount.push({ "x":row._id,"y":row.PointSessions})
+        }
+
+    return {returnListEnergy:returnListEnergy,  returnListCount:returnListCount}
+}
+
 exports.perStation =(req, res, next) => {
 
     const stationID = req.query.ID
-    const periodFrom = moment(Date(req.query.dateFrom)).format("YYYY-MM-DD hh:mm:ss")
-    const periodTo = moment(Date(req.query.dateTo)).format("YYYY-MM-DD hh:mm:ss")
+    const periodFrom = moment(new Date(req.query.dateFrom)).format("YYYY-MM-DD hh:mm:ss")
+    const periodTo = moment(new Date(req.query.dateTo)).format("YYYY-MM-DD hh:mm:ss")
 
     const agentOptions = {
         host: 'localhost'
@@ -45,18 +56,36 @@ exports.perStation =(req, res, next) => {
         , rejectUnauthorized: false
     };
     const agent = new https.Agent(agentOptions);
+    let token
+    try {
+        token = req.cookies.token
+    }
+    catch {
+        console.log("Access Denied")
+        return
+    }
+    const auth = "Bearer " + token;
 
     request({
         url: "https://localhost:8765/SessionPerStation/" + stationID +"/"+ periodFrom + "/" + periodTo
         , method: 'GET'
         , agent: agent
+        , headers: {
+            "Authorization": auth
+        }
     }, function (err, resp, body) {
         if(resp.statusCode!=200){
 
             res.render( "view-data", { message: "Not Valid Input", body:"",per:""})
             return
         }
-        res.render( "sessionsPerStation", { "per":"station" ,"body":JSON.parse(body)})
+        console.log(body)
+        let ret = getListsStation ( JSON.parse(body).SessionsSummaryList );
+        let returnListEnergy= ret.returnListEnergy
+        let returnListCount=ret.returnListCount
+
+ 
+        res.render( "sessionsPerStation", { "per":"station","body":JSON.parse(body),"kwh":returnListEnergy,"count":returnListCount})
     });
 }
 
@@ -98,7 +127,7 @@ exports.perPoint =(req, res, next) =>{
         let ret = getLists ( JSON.parse(body).ChargingSessionsList );
         let returnListEnergy= ret.returnListEnergy
         let returnListCount=ret.returnListCount
-        console.log( returnListEnergy)
+
  
 
  
@@ -110,8 +139,8 @@ exports.perPoint =(req, res, next) =>{
 
 exports.perEV =(req, res, next) =>{
     const evID = req.query.ID
-    const periodFrom = moment(Date(req.query.dateFrom)).format("YYYY-MM-DD hh:mm:ss")
-    const periodTo = moment(Date(req.query.dateTo)).format("YYYY-MM-DD hh:mm:ss")
+    const periodFrom = moment(new Date(req.query.dateFrom)).format("YYYY-MM-DD hh:mm:ss")
+    const periodTo = moment(new Date(req.query.dateTo)).format("YYYY-MM-DD hh:mm:ss")
 
     const agentOptions = {
         host: 'localhost'
@@ -120,10 +149,22 @@ exports.perEV =(req, res, next) =>{
         , rejectUnauthorized: false
     };
     const agent = new https.Agent(agentOptions);
+    let token
+    try {
+        token = req.cookies.token
+    }
+    catch {
+        console.log("Access Denied")
+        return
+    }
+    const auth = "Bearer " + token;
     request({
         url: "https://localhost:8765/SessionPerEV/"+evID+"/"+periodFrom +"/"+ periodTo
         , method: 'GET'
         , agent: agent
+        , headers: {
+            "Authorization": auth
+        }
     }, function (err, resp, body) {
         if(resp.statusCode!=200){
             res.render( "view-data", { message: "Not Valid Input", body:"",per:""})
@@ -137,8 +178,8 @@ exports.perEV =(req, res, next) =>{
 
 exports.perProvider=(req, res, next) =>{
     const providerID = req.query.ID
-    const periodFrom = moment(Date(req.query.dateFrom)).format("YYYY-MM-DD hh:mm:ss")
-    const periodTo = moment(Date(req.query.dateTo)).format("YYYY-MM-DD hh:mm:ss")
+    const periodFrom = moment(new Date(req.query.dateFrom)).format("YYYY-MM-DD hh:mm:ss")
+    const periodTo = moment(new Date(req.query.dateTo)).format("YYYY-MM-DD hh:mm:ss")
 
     const agentOptions = {
         host: 'localhost'
@@ -147,11 +188,23 @@ exports.perProvider=(req, res, next) =>{
         , rejectUnauthorized: false
     };
     const agent = new https.Agent(agentOptions);
+    let token
+    try {
+        token = req.cookies.token
+    }
+    catch {
+        console.log("Access Denied")
+        return
+    }
+    const auth = "Bearer " + token;
     request({
         url: "https://localhost:8765/SessionPerProvider/"+providerID+"/"+periodFrom +"/"+ periodTo
 
         , method: 'GET'
         , agent: agent
+        , headers: {
+            "Authorization": auth
+        }
     }, function (err, resp, body) {
         if(resp.statusCode!=200){
             res.render( "view-data", { message: "Not Valid Input", body:"",per:""})
