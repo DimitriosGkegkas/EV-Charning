@@ -5,11 +5,13 @@ const fs = require('fs');
 exports.Admin = (req, res, next) => {
     const username = req.body.username
     const password = req.body.password
+    const email = req.body.email
 
     const jsonObject =
     {
         "username": username,
-        "password": password
+        "password": password,
+        "email": email,
     }
     const agentOptions = {
         host: 'localhost'
