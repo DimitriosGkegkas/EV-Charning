@@ -25,11 +25,11 @@ else if(SCOPE==="logout")
 {
     access.logout()
    
-    
+    //if(process.argv[5]==="--apikey") {
+   //     apiKey = process.argv[4]
+  //  }
     
 }
-
-
 else if(SCOPE==="Admin"){
     if(process.argv[3]==="--healthcheck"){
         utils.healthcheck()
@@ -41,24 +41,41 @@ else if(SCOPE==="Admin"){
         admin.findUser(process.argv[4])
     }
     else if (process.argv[3]==="--sessionsupd"){
-        admin.sessionsupd(process.argv[4])
+        if (process.argv[4]==="--source") {
+            admin.sessionsupd(process.argv[5])
+        }
+        else {
+            console.log("Please check your parameters")
+            console.log("Correct Format: ev_group39 Admin --sessionsupd --source path")
+        }
     }
     else if (process.argv[3]==="--usermod"){
         let username
         let password
-        if(process.argv[4]==="--username"){
+        if(process.argv[4]==="--username" && process.argv[6]==="--passw"){
             username = process.argv[5]
-        }
-        else {
-             password = process.argv[5]
-        }
-        if(process.argv[6]==="--username"){
-             username = process.argv[7]
-        }
-        else {
             password = process.argv[7]
+            admin.Admin(username,password);
         }
-        admin.Admin(username,password);
+        else if(process.argv[4]==="--passw" && process.argv[6]==="--username"){
+             password = process.argv[5]
+             username = process.argv[7]
+             admin.Admin(username,password);
+        }
+        else {
+            console.log("Please check your parameters")
+            console.log("Correct Format: ev_group39 Admin --usermod --username dummy --passw dummy")
+            console.log("or: ev_group39 Admin --usermod  --passw dummy --username dummy")
+        }    
+    }
+    else {
+        console.log("Please check your parameters")
+        console.log("Options for SCOPE Admin:")
+        console.log("--healthcheck")
+        console.log("--resetsessions")
+        console.log("--users")
+        console.log("--sessionspd")
+        console.log("--usermod")
     }
 }
 
@@ -86,9 +103,6 @@ if (argvLogin._.includes('login')) {
     access.login(username,password)
 
 }
-
-
-
 
 
 

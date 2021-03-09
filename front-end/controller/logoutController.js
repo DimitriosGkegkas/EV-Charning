@@ -26,10 +26,8 @@ exports.logout = (req, res, next) => {
         }
         , agent: agent
     }, function (err, resp, body) {
-        console.log(body)
         res.cookie('token', {maxAge: 0});
         res.redirect('/login');
     });    
 
-    
 }
