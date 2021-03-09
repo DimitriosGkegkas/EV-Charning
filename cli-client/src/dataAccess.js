@@ -3,7 +3,19 @@ const https = require('https');
 
 const fs = require('fs');
 
-exports.SessionsPerStation = (stationID, periodFrom, periodTo) => {
+exports.SessionsPerStation = (stationID, datefrom, dateto) => {
+    if(!stationID){
+        console.log("Please Provide a station Id")
+        return
+    }
+    if(!datefrom){
+        console.log("Please Provide a Date From")
+        return
+    }
+    if(!dateto){
+        console.log("Please Provide a Date To")
+        return
+    }
     const agentOptions = {
         host: 'localhost'
         , port: '8765'
@@ -21,7 +33,7 @@ exports.SessionsPerStation = (stationID, periodFrom, periodTo) => {
     }
 
     request({
-        url: "https://localhost:8765/SessionPerStation/" + stationID +"/"+ periodFrom + "/" + periodTo
+        url: "https://localhost:8765/SessionPerStation/" + stationID +"/"+ datefrom + "/" + dateto
         , method: 'GET'
         , agent: agent
         , headers: {
@@ -33,6 +45,19 @@ exports.SessionsPerStation = (stationID, periodFrom, periodTo) => {
 }
 
 exports.perPoint = (point, datefrom, dateto) =>{
+    console.log( datefrom)
+    if(!point){
+        console.log("Please Provide a Point Id")
+        return
+    }
+    if(!datefrom){
+        console.log("Please Provide a Date From")
+        return
+    }
+    if(!dateto){
+        console.log("Please Provide a Date To")
+        return
+    }
 
     const agentOptions = {
         host: 'localhost'
@@ -58,12 +83,35 @@ exports.perPoint = (point, datefrom, dateto) =>{
             "Authorization": auth
         }
     }, function (err, resp, body) {
-        console.log( JSON.parse(body))
+        if(JSON.parse(body).message){
+            if(resp.statusCode===404){
+                console.log("Please Check the API")
+            }
+            else{console.log( JSON.parse(body).message)
+            }
+        }
+        else{
+            console.log( JSON.parse(body))
+        }
+        
     });
 }
 
 
 exports.perEV = (ev, datefrom, dateto) =>{
+    if(!ev){
+        console.log("Please Provide a EV Id")
+        return
+    }
+    if(!datefrom){
+        console.log("Please Provide a Date From")
+        return
+    }
+    if(!dateto){
+        console.log("Please Provide a Date To")
+        return
+    }
+
 
     const agentOptions = {
         host: 'localhost'
@@ -96,6 +144,19 @@ exports.perEV = (ev, datefrom, dateto) =>{
 
 
 exports.perProvider = (provider, datefrom, dateto) =>{
+    if(!provider){
+        console.log("Please Provide a provider Id")
+        return
+    }
+    if(!datefrom){
+        console.log("Please Provide a Date From")
+        return
+    }
+    if(!dateto){
+        console.log("Please Provide a Date To")
+        return
+    }
+
 
     const agentOptions = {
         host: 'localhost'

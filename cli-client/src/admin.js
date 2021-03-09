@@ -44,6 +44,7 @@ exports.Admin = (username, password) => {
         }
         else{
         console.log(body.message)
+        console.log("API key: " + body.apiKey)
         }
 
 
@@ -93,12 +94,13 @@ exports.findUser = (username) => {
         }
         else {
             console.log("username: " + JSON.parse(body).username)
-            console.log("token: " + token.toString())
+            console.log("API key: " + JSON.parse(body).apiKey)
         }
 
-
+;
     }
     )
+
 }
 
 
@@ -136,7 +138,7 @@ exports.sessionsupd = (source) => {
 
 
 
-        console.log("The file had " + JSON.parse(body).SeassionsInUploadedFile + " sessions \nand " + JSON.parse(body).SessionsImported + " were uploaded in the database. \nThe database now containes " + JSON.parse(body).TotalSeassionsInDatabase + " sessions")
+        console.log("The file had " + JSON.parse(body).SessionsInUploadedFile + " sessions \nand " + JSON.parse(body).SessionsImported + " were uploaded in the database. \nThe database now containes " + JSON.parse(body).TotalSessionsInDatabase + " sessions")
         if (err) { console.log(err.message) }
 
     });
