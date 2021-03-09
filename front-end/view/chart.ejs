@@ -1,33 +1,89 @@
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
-    <title>JavaScript Shield UI Demos</title>
+    <title>EV Charging</title>
     <link id="themecss" rel="stylesheet" type="text/css" href="//www.shieldui.com/shared/components/latest/css/light/all.min.css" />
     <script type="text/javascript" src="//www.shieldui.com/shared/components/latest/js/jquery-1.11.1.min.js"></script>
     <script type="text/javascript" src="//www.shieldui.com/shared/components/latest/js/shieldui-all.min.js"></script>
 </head>
 <body class="theme-light">
-    <div id="chart"></div>
-
-
-
+<div id="chart"></div>
+<div id="chartCount"></div>
 <script type="text/javascript">
-
-    $(document).ready(function () {
-
-        const kwh = <%- JSON.stringify(kwh) %>
-
+    $(function () {
+        const posts = <%- JSON.stringify(kwh) %>
+        const postsCount = <%- JSON.stringify(count) %>
         $("#chart").shieldChart({
             theme: "light",
+            axisX: {
+                categoricalValues: $.map(posts, function (item) {
+                    return item.x;
+                })
+
+            },
             axisY: {
                 title: {
-                    text: "kwh"
+                    text: "Energy per day"
                 }
             },
+            seriesSettings: {
+                bar: {
+                    dataPointText: {
+                        enabled: true
+                    }
+                }
+            },
+            primaryHeader: {
+                text: "Energy Consumption per day "
+            },
             dataSeries: [{
-                seriesType: "area",
-                data:kwh
+                seriesType: "bar",
+                collectionAlias: "Posts per Day",
+                data: $.map(posts, function (item) {
+                    return {
+                        y: item.y,
+                        color: item.color
+                    }
+                })
+            }]
+        });
+
+        $("#chartCount").shieldChart({
+            theme: "light",
+            axisX: {
+                categoricalValues: $.map(postsCount, function (item) {
+                    return item.x;
+                })
+
+            },
+            axisY: {
+                title: {
+                    text: "Sessions per day"
+                }
+            },
+            seriesSettings: {
+                bar: {
+                    dataPointText: {
+                        enabled: true
+                    }
+                }
+            },
+            primaryHeader: {
+                text: "Sessions per day "
+            },
+            dataSeries: [{
+                seriesType: "bar",
+                collectionAlias: "Posts per Day",
+                data: $.map(postsCount, function (item) {
+                    return {
+                        y: item.y,
+                        color: item.color
+                    }
+                })
             }]
         });
     });

@@ -1,6 +1,83 @@
 <%- include("navBar.ejs")%>
     <%- include("searchSessionsForm.ejs")%>
     <% const list = body.ChargingSessionsList %>
+    <div id="chart"></div>
+<div id="chartCount"></div>
+<script type="text/javascript">
+    $(function () {
+        const posts = <%- JSON.stringify(kwh) %>
+        const postsCount = <%- JSON.stringify(count) %>
+        $("#chart").shieldChart({
+            theme: "light",
+            axisX: {
+                categoricalValues: $.map(posts, function (item) {
+                    return item.x;
+                })
+
+            },
+            axisY: {
+                title: {
+                    text: "Energy per day"
+                }
+            },
+            seriesSettings: {
+                bar: {
+                    dataPointText: {
+                        enabled: true
+                    }
+                }
+            },
+            primaryHeader: {
+                text: "Energy Consumption per day "
+            },
+            dataSeries: [{
+                seriesType: "bar",
+                collectionAlias: "Posts per Day",
+                data: $.map(posts, function (item) {
+                    return {
+                        y: item.y,
+                        color: item.color
+                    }
+                })
+            }]
+        });
+
+        $("#chartCount").shieldChart({
+            theme: "light",
+            axisX: {
+                categoricalValues: $.map(postsCount, function (item) {
+                    return item.x;
+                })
+
+            },
+            axisY: {
+                title: {
+                    text: "Sessions per day"
+                }
+            },
+            seriesSettings: {
+                bar: {
+                    dataPointText: {
+                        enabled: true
+                    }
+                }
+            },
+            primaryHeader: {
+                text: "Sessions per day "
+            },
+            dataSeries: [{
+                seriesType: "bar",
+                collectionAlias: "Posts per Day",
+                data: $.map(postsCount, function (item) {
+                    return {
+                        y: item.y,
+                        color: item.color
+                    }
+                })
+            }]
+        });
+    });
+</script>
 <div class= " container justify-content-center "> 
         <h1 class= " container justify-content-center mb-4 float-left">Sessions per   <%= per %>  <div class="text-info float-right"><%= body.Point %></div> 
         </h1>
@@ -32,5 +109,7 @@
           </table>
 
         </div>
+
+        
 
           <%- include("footer.ejs")%>

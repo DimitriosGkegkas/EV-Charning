@@ -2,6 +2,36 @@ const https = require('https')
 const request =require('request')
 const moment =require('moment')
 
+function getLists (input) {
+    let returnListEnergy =[];
+    let returnListCount=[];
+    let current_day="0";
+    let energy_sum=0;
+    let session_count=0;
+    for (row of input){
+        let dt= row.StartedOn.slice(0,10);
+        if(current_day === "0") {
+            current_day=dt
+            session_count=1;
+        }
+        if(current_day===dt){
+            energy_sum = energy_sum +row.EnergyDelivered;
+            session_count=session_count+1;
+        }
+        else{
+            
+            returnListEnergy.push({ "x":current_day,"y":Number(energy_sum.toFixed(2))})
+            returnListCount.push({ "x":current_day,"y":session_count})
+            energy_sum=row.EnergyDelivered;  
+            session_count=1;
+            current_day=dt
+        }
+
+
+    }
+    return {returnListEnergy:returnListEnergy,  returnListCount:returnListCount}
+}
+
 exports.perStation =(req, res, next) => {
 
     const stationID = req.query.ID
@@ -65,7 +95,15 @@ exports.perPoint =(req, res, next) =>{
             res.render( "view-data", { message: "Not Valid Input", body:"",per:""})
             return
         }
-        res.render( "sessionsPerPoint", { "per":"point" ,"body":JSON.parse(body)})
+        let ret = getLists ( JSON.parse(body).ChargingSessionsList );
+        let returnListEnergy= ret.returnListEnergy
+        let returnListCount=ret.returnListCount
+        console.log( returnListEnergy)
+ 
+
+ 
+
+        res.render( "sessionsPerPoint", { "per":"point" ,"body":JSON.parse(body),"kwh":returnListEnergy,"count":returnListCount})
     });
 }
 
