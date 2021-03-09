@@ -55,7 +55,13 @@ exports.logout = () => {
         , rejectUnauthorized: false
     };
     const agent = new https.Agent(agentOptions);
-    const auth = "Bearer" + fs.readFileSync('softeng20bAPI.token');
+    let auth
+    try {auth= "Bearer "+fs.readFileSync('softeng20bAPI.token');
+    }
+    catch{
+        console.log("Access denied")
+        return
+    }
     request({
         url: "https://localhost:8765/logout"
         , method: 'POST'
