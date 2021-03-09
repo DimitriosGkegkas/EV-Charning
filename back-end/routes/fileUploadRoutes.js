@@ -7,8 +7,7 @@ const auth = require('./../controller/is-auth')
 
 // POST: Create Session
 route.post('/admin/system/sessionsupd',auth.isAuth, multer({ storage: fileUpload.storage, fileFilter: fileUpload.csvFilter }).single("file"),
-fileUpload.uploadToDB
-);
+fileUpload.uploadToDB);
 
 module.exports = route;
 
