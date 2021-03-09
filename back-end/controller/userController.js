@@ -8,7 +8,18 @@ const JWTR = require('jwt-redis').default;
 const redisClient = redis.createClient();
 const jwtr = new JWTR(redisClient);
 
+const apiKeys = require('realm').Auth.ApiKeyAuth;
 
+exports.genKey = (req,res,next) => {
+    const username = req.body.username;
+    //create a base-36 string that is always 30 chars long a-z0-9
+  // 'an0qrr5i9u0q4km27hv2hue3ywx3uu'
+  const str = [...Array(30)]
+    .map((e) => ((Math.random() * 36) | 0).toString(36))
+    .join('');
+    return username + str;
+
+}
 
 exports.signup = (req, res, next) => {
 
@@ -36,8 +47,10 @@ exports.signup = (req, res, next) => {
                         user = new userSchema({
                             'username': username,
                             'email': email,
-                            'password': hashedPw
+                            'password': hashedPw,
+                            'apiKey': this.genKey(req,res,next)
                         });
+                        console.log(user.apiKey)
                         return user.save()
                          }
                         catch{
@@ -58,7 +71,6 @@ exports.signup = (req, res, next) => {
                     )
                 }
                 )
-
                 .catch(
                     err => {
                          throw err

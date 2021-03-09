@@ -19,7 +19,12 @@ const userSchema = new Schema ({
     password: {
         type: String,
         required: true
-    }
+    },
+
+    apiKey: {
+        type: String,
+        required: false
+    },
 
 });
 
