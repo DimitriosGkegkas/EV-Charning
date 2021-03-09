@@ -10,13 +10,13 @@
 <body class="theme-light">
     <div id="chart"></div>
 
-<%=JSON.stringify(kwh) %>
-<script type="text/javascript">
-    $(document).ready(function () {
-        for (let i in kwh) {
-            console.log(i)
-        }
 
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+        const kwh = <%- JSON.stringify(kwh) %>
 
         $("#chart").shieldChart({
             theme: "light",
@@ -27,7 +27,7 @@
             },
             dataSeries: [{
                 seriesType: "area",
-                data: JSON.stringify(kwh)
+                data:kwh
             }]
         });
     });

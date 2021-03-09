@@ -2,24 +2,34 @@ const https = require('https')
 const request =require('request')
 
 exports.chart = (req, res, next) => {
-    res.render("chart",{kwh:[
-        { x: "1994", y: 4.9 },
-        { x: "1995", y: 9.2 },
-        { x: "1996", y: 16.4 },
-        { x: "1997", y: 21.6 },
-        { x: "1998", y: 30.1 },
-        { x: "1999", y: 35.9 },
-        { x: "2000", y: 43.1 },
-        { x: "2001", y: 49.2 },
-        { x: "2002", y: 59.0 },
-        { x: "2003", y: 61.9 },
-        { x: "2004", y: 65 },
-        { x: "2005", y: 68.3 },
-        { x: "2006", y: 69.2 },
-        { x: "2007", y: 75.3 },
-        { x: "2008", y: 74.2 },
-        { x: "2009", y: 71.2 },
-        { x: "2010", y: 74.2 },
-        { x: "2011", y: 78.2 }
-    ]})
+    
+    const pointID = "CA-311"
+    const periodFrom = "2019-06-01 00:00:00"
+    const periodTo = "2019-12-01 00:00:00"
+
+    const agentOptions = {
+        host: 'localhost'
+        , port: '8765'
+        , path: '/SessionsPerPoint'
+        , rejectUnauthorized: false
+    };
+    const agent = new https.Agent(agentOptions);
+    request({
+        url: "https://localhost:8765/SessionPerPoint/"+pointID+"/"+periodFrom+"/"+periodTo
+        , method: 'GET'
+        , agent: agent
+    }, function (err, resp, body) {
+        res.render( "sessionsPerPoint", { "per":"point" ,"body":JSON.parse(body)})
+
+        const returnList =[];
+        for (row in JSON.parse(body).ChargingSessionsList){
+            returnList.push({ "x":row.SessionIndex,"y":row.EnergyDelivered})
+
+        }
+
+
+    res.render("chart",{kwh:returnList})
+
+
+});
 }
