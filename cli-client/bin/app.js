@@ -24,7 +24,9 @@ else if(SCOPE==="resetsessions"){
 else if(SCOPE==="logout")
 {
     access.logout()
-
+   
+    
+    
 }
 
 
@@ -98,11 +100,11 @@ const argvPerPoint = yargs
         },
         datefrom: {
             description: '',
-            type: 'data',
+            type: 'date',
         },
         dateto: {
             description: '',
-            type: 'data',
+            type: 'date',
         }
     })
     .help()
@@ -117,7 +119,7 @@ if (argvPerPoint._.includes('SessionsPerPoint')) {
 }
 
 const argvSessionsPerStation = yargs
-    .command('SessionsPerPoint', '', {
+    .command('SessionsPerStation', '', {
         point: {
             description: '',
             type: 'string',
@@ -136,9 +138,9 @@ const argvSessionsPerStation = yargs
 
 if (argvSessionsPerStation._.includes('SessionsPerStation')) {
     const stationID = argvSessionsPerStation.station
-    const periodFrom = argvSessionsPerStation.datefrom
-    const periodTo = argvSessionsPerStation.dateto
-    dataAccess.SessionsPerStation(stationID, periodFrom, periodTo);
+    const datefrom = argvPerPoint.datefrom
+    const dateto = argvPerPoint.dateto
+    dataAccess.SessionsPerStation(stationID, datefrom , dateto );
 }
 
 

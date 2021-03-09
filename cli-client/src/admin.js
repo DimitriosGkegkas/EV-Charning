@@ -44,6 +44,7 @@ exports.Admin = (username, password) => {
         }
         else{
         console.log(body.message)
+        console.log("API key: " + body.apiKey)
         }
 
 
@@ -93,12 +94,13 @@ exports.findUser = (username) => {
         }
         else {
             console.log("username: " + JSON.parse(body).username)
-            console.log("token: " + token.toString())
+            console.log("API key: " + JSON.parse(body).apiKey)
         }
 
-
+;
     }
     )
+
 }
 
 
