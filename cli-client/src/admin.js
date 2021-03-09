@@ -138,7 +138,7 @@ exports.sessionsupd = (source) => {
 
 
 
-        console.log("The file had " + JSON.parse(body).SeassionsInUploadedFile + " sessions \nand " + JSON.parse(body).SessionsImported + " were uploaded in the database. \nThe database now containes " + JSON.parse(body).TotalSeassionsInDatabase + " sessions")
+        console.log("The file had " + JSON.parse(body).SessionsInUploadedFile + " sessions \nand " + JSON.parse(body).SessionsImported + " were uploaded in the database. \nThe database now containes " + JSON.parse(body).TotalSessionsInDatabase + " sessions")
         if (err) { console.log(err.message) }
 
     });
