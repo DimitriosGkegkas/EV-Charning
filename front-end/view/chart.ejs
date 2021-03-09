@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>JavaScript Shield UI Demos</title>
+    <link id="themecss" rel="stylesheet" type="text/css" href="//www.shieldui.com/shared/components/latest/css/light/all.min.css" />
+    <script type="text/javascript" src="//www.shieldui.com/shared/components/latest/js/jquery-1.11.1.min.js"></script>
+    <script type="text/javascript" src="//www.shieldui.com/shared/components/latest/js/shieldui-all.min.js"></script>
+</head>
+<body class="theme-light">
+    <div id="chart"></div>
+
+<%=JSON.stringify(kwh) %>
+<script type="text/javascript">
+    $(document).ready(function () {
+        for (let i in kwh) {
+            console.log(i)
+        }
+
+
+        $("#chart").shieldChart({
+            theme: "light",
+            axisY: {
+                title: {
+                    text: "kwh"
+                }
+            },
+            dataSeries: [{
+                seriesType: "area",
+                data: JSON.stringify(kwh)
+            }]
+        });
+    });
+</script>
+</body>
+</html>
+
