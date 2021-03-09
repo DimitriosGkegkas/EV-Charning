@@ -8,8 +8,6 @@ exports.SessionPerPoint = (req, res, next) => {
     const PeriodFrom = req.params.PeriodFrom;
     const PeriodTo = req.params.PeriodTo;
 
-    console.log(PeriodFrom )
-
     try{
         
     if(!moment(PeriodFrom, "YYYY-MM-DD HH:mm:ss",true).isValid()){

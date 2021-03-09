@@ -10,7 +10,8 @@ const cookieParser = require('cookie-parser');
 app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-
+const https = require('https')
+const fs = require('fs')
 
 
 app.use((req,res,next)=>{
@@ -31,8 +32,17 @@ app.use(homeRoutes);
 app.use(dataAccessRoutes);
 app.use(adminRoutes);
 
+
+
+
 app.get('/',(req, res, next) => {
     res.redirect("basePage")
 });
 
-app.listen(3000);
+app.use((req,res,next)=>{
+    res.status(404).json({message:"Page not found"})
+})
+https.createServer({
+    key: fs.readFileSync('./../back-end/database/server.key'),
+    cert: fs.readFileSync('./../back-end/database/server.cert')
+  }, app).listen(3000);

@@ -12,6 +12,8 @@ const jwtr = new JWTR(redisClient);
 
 exports.signup = (req, res, next) => {
 
+
+
     const username = req.body.username;
     const email = req.body.email;
     const password = req.body.password;
@@ -20,8 +22,7 @@ exports.signup = (req, res, next) => {
             { message: "Please provide username"}
          )
          return
-    }
-    if(!password){
+    }else if(!password){
         res.status(400).json(
             { message: "Please provide password"}
          )
@@ -100,8 +101,10 @@ exports.getuser = async (req, res, next) => {
 
 
 exports.login = (req, res, next) => {
-    const username = req.body.username;
-    const password = req.body.password;
+
+        const username = req.body.username;
+        const password = req.body.password;
+
     if(!username ){
         res.status(400).json({
             message: "Please Provide a Username"

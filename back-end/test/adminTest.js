@@ -144,26 +144,7 @@ describe("Usermod", function () {
                     done(); // callback the test runner to indicate the end...
                 })
             })
-            it("Logined with no jsonObje", function (done) {
-                this.timeout(5000);
-        
-        
-                const auth="Bearer "+token
-        
-                request.post({
-                    url: "https://localhost:8765/admin/usermod"
-                    , method: 'POST'
-                    ,rejectUnauthorized: false
-                    , headers: { "Authorization": auth}
-        
-        
-                }, function (error, response, body) {
-                    expect(error).to.not.exist
-                    expect(response).to.have.property("statusCode", 400)
-                    body.message.should.be.equal("Please provide username")
-                    done(); // callback the test runner to indicate the end...
-                })
-            })
+
         })
         
         

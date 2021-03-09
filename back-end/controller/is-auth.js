@@ -10,6 +10,7 @@ exports.isAuth= (req, res, next) => {
         token = req.header('Authorization').split(' ')[1];
     } catch (err) {
         res.status(401).json({message: "Not authenticated"})
+        return
     }
     let decodedToken;
     try {
