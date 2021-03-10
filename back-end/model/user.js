@@ -23,8 +23,19 @@ const userSchema = new Schema ({
 
     apiKey: {
         type: String,
-        required: false
+        required: true,
+        unique: true 
     },
+
+    host: {
+        type: String,
+        required: true
+ 
+ 
+    },
+    usage: [ {date:{type:Date } ,count:{type :Number} }]
+            
+
 
 });
 
