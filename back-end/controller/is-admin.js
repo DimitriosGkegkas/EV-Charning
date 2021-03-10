@@ -3,13 +3,111 @@ const JWTR = require('jwt-redis').default;
 const redisClient = redis.createClient();
 const jwtr = new JWTR(redisClient);
 const secretKey = require('./../database/secretKey');
-const adminRights = require('./../Model/adminRights')
 const bcrypt = require('bcryptjs');
+const userSchema = require('../model/user');
 
-exports.isAdmin= (req, res, next) => {
-    let host = req.headers.origin;
+const MAX =30
+
+exports.isAdmin = (req, res, next) => {
+    let host = "https://localhost:8765/admin"
     let api_key = req.header('x-api-key');
-    console.log(host)
-    console.log(api_key)
+    if(!api_key){
+        res.status(401).json({message: "Please Provide API key"})
+        return
+    }
+    userSchema.findOne({ "host": host, apiKey: api_key })
+        .then(account => {
+            if (account) {
+                let today = new Date().toISOString().split('T')[0]
+                console.log(today)
+
+                console.log(account.usage)
+                let usageIndex = account.usage.findIndex((day) => day.date.toISOString().split('T')[0] === today);
+                console.log(usageIndex)
+                if (usageIndex >= 0) {
+                    //already used today
+                    if (account.usage[usageIndex].count >= MAX) {
+                      //stop and respond
+                      res.status(429).send({
+                        error: {
+                          code: 429,
+                          message: 'Max API calls exceeded.',
+                        },
+                      });
+                    } else {
+                        account.usage[usageIndex].count=account.usage[usageIndex].count+1
+                        userSchema.findOneAndUpdate({host: host, apiKey: api_key  },{usage:account.usage})
+                        .then(() => next()) 
+                        .catch(err=> { res.status(401).json({message: "Not Allowed"})})
+ 
+                    }
+                  } else {
+                    //not today yet
+                    account.usage.push({ date: today, count: 1 });
+                    //ok to use again
+                    next();
+                  }
+    
+            }
+            else {
+                res.status(401).json({message: "Not Allowed"})
+           
+                return
+            }
+        }
+        )
+
 };
-s
+
+exports.isAdmin = (req, res, next) => {
+    let host = "https://localhost:8765/admin"
+    let api_key = req.header('x-api-key');
+    if(!api_key){
+        res.status(401).json({message: "Please Provide API key"})
+        return
+    }
+    userSchema.findOne({ "host": host, apiKey: api_key })
+        .then(account => {
+            if (account) {
+                let today = new Date().toISOString().split('T')[0]
+                console.log(today)
+
+                console.log(account.usage)
+                let usageIndex = account.usage.findIndex((day) => day.date.toISOString().split('T')[0] === today);
+                console.log(usageIndex)
+                if (usageIndex >= 0) {
+                    //already used today
+                    if (account.usage[usageIndex].count >= MAX) {
+                      //stop and respond
+                      res.status(429).send({
+                        error: {
+                          code: 429,
+                          message: 'Max API calls exceeded.',
+                        },
+                      });
+                    } else {
+                        account.usage[usageIndex].count=account.usage[usageIndex].count+1
+                        userSchema.findOneAndUpdate({host: host, apiKey: api_key  },{usage:account.usage})
+                        .then(() => next()) 
+                        .catch(err=> { res.status(401).json({message: "Not Allowed"})})
+ 
+                    }
+                  } else {
+                    //not today yet
+                    account.usage.push({ date: today, count: 1 });
+                    //ok to use again
+                    next();
+                  }
+    
+            }
+            else {
+                res.status(401).json({message: "Not Allowed"})
+           
+                return
+            }
+        }
+        )
+
+};
+
+

@@ -36,11 +36,16 @@ exports.genKey = (username) => {
 
 exports.signup = (req, res, next) => {
 
-
-
     const username = req.body.username;
     const email = req.body.email;
     const password = req.body.password;
+    const apiKey = this.genKey(username);
+    let host;
+    if(username === "admin" || req.body.access==="1"){host = "https://localhost:8765/admin";}
+    else{host = "https://localhost:8765";}
+
+    let today = new Date().toISOString().split('T')[0];
+
     if (!username) {
         res.status(400).json(
 
@@ -64,7 +69,9 @@ exports.signup = (req, res, next) => {
                                 'username': username,
                                 'email': email,
                                 'password': hashedPw,
-                                'apiKey': this.genKey(username)
+                                'apiKey': apiKey,
+                                'host': host ,
+                                'usage':[{ date: today, count: 0 }]
                             });
                             console.log(user.apiKey)
                             return user.save()

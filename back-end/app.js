@@ -7,6 +7,7 @@ const userRoute = require("./routes/userRoutes");
 const fileRoute = require("./routes/fileUploadRoutes");
 const helpRoute = require("./routes/helpRoutes");
 const sesssionRoute = require("./routes/sessionRoutes");
+const accessRoute = require("./routes/accessRoutes");
 const https = require('https')
 const fs = require('fs')
 
@@ -22,6 +23,7 @@ app.use((req,res,next)=>{
     next();
 }
 )
+app.use(accessRoute);
 
 app.use(userRoute );
 app.use(helpRoute );
