@@ -14,20 +14,39 @@ const admin= require('./../src/admin');
 
 if(SCOPE==="healthcheck"){
     utils.healthcheck()
+    return
 }
 
 
 else if(SCOPE==="resetsessions"){ 
     utils.resetSessions()
+    return
 }
+
+let apikey
+let foundIt= false
+for (let arg of args) {
+    if(foundIt){
+        apikey =  arg
+    }
+    if(arg==="--apikey"){
+        foundIt = true
+    }
+}
+
+
+if(!apikey){
+    console.log("Please Provide --apikey")
+    return
+}
+
+
 
 else if(SCOPE==="logout")
 {
-    access.logout()
-   
-    //if(process.argv[5]==="--apikey") {
-   //     apiKey = process.argv[4]
-  //  }
+
+    access.logout( apikey)
+    return
     
 }
 else if(SCOPE==="Admin"){
@@ -38,11 +57,11 @@ else if(SCOPE==="Admin"){
         utils.resetSessions()
     }
     else if (process.argv[3]==="--users"){
-        admin.findUser(process.argv[4])
+        admin.findUser(process.argv[4], apikey)
     }
     else if (process.argv[3]==="--sessionsupd"){
         if (process.argv[4]==="--source") {
-            admin.sessionsupd(process.argv[5])
+            admin.sessionsupd(process.argv[5], apikey)
         }
         else {
             console.log("Please check your parameters")
@@ -55,12 +74,12 @@ else if(SCOPE==="Admin"){
         if(process.argv[4]==="--username" && process.argv[6]==="--passw"){
             username = process.argv[5]
             password = process.argv[7]
-            admin.Admin(username,password);
+            admin.Admin(username,password, apikey);
         }
         else if(process.argv[4]==="--passw" && process.argv[6]==="--username"){
              password = process.argv[5]
              username = process.argv[7]
-             admin.Admin(username,password);
+             admin.Admin(username,password, apikey);
         }
         else {
             console.log("Please check your parameters")
@@ -77,6 +96,7 @@ else if(SCOPE==="Admin"){
         console.log("--sessionspd")
         console.log("--usermod")
     }
+    return
 }
 
 
@@ -85,7 +105,7 @@ else if(SCOPE==="Admin"){
 
 const argvLogin = yargs
     .command('login', '', {
-        password: {
+        passw: {
             description: '',
             type: 'string',
         },
@@ -97,10 +117,17 @@ const argvLogin = yargs
     .help()
     .argv;
 if (argvLogin._.includes('login')) {
-    const password = argvLogin.password 
+    const password = argvLogin.passw
     const username = argvLogin.username
 
-    access.login(username,password)
+    if (!password || !username) {
+        console.log("Please check your parameters")
+        console.log("Correct Format: ev_group39 login --username dummy --passw dummy")
+        return
+    }
+
+    access.login(username,password, apikey)
+    return
 
 }
 
@@ -129,7 +156,15 @@ if (argvPerPoint._.includes('SessionsPerPoint')) {
     const point = argvPerPoint.point
     const datefrom = argvPerPoint.datefrom
     const dateto = argvPerPoint.dateto
-    dataAccess.perPoint(point, datefrom, dateto);
+
+    if (!point || !datefrom || !dateto) {
+        console.log("Please check your parameters")
+        console.log("Correct Format: ev_group39 SessionsPerPoint --point dummy --datefrom dummy --dateto dummy")
+        return
+    }
+
+    dataAccess.perPoint(point, datefrom, dateto, apikey);
+    return
 }
 
 const argvSessionsPerStation = yargs
@@ -154,7 +189,14 @@ if (argvSessionsPerStation._.includes('SessionsPerStation')) {
     const stationID = argvSessionsPerStation.station
     const datefrom = argvPerPoint.datefrom
     const dateto = argvPerPoint.dateto
-    dataAccess.SessionsPerStation(stationID, datefrom , dateto );
+
+    if (!stationID || !datefrom || !dateto) {
+        console.log("Please check your parameters")
+        console.log("Correct Format: ev_group39 SessionsPerStation --station dummy --datefrom dummy --dateto dummy")
+        return
+    }
+    dataAccess.SessionsPerStation(stationID, datefrom , dateto , apikey);
+    return
 }
 
 
@@ -182,7 +224,14 @@ if (argvPerEV._.includes('SessionsPerEV')) {
     const ev = argvPerPoint.ev
     const datefrom = argvPerPoint.datefrom
     const dateto = argvPerPoint.dateto
-    dataAccess.perEV(ev, datefrom, dateto);
+
+    if (!ev || !datefrom || !dateto) {
+        console.log("Please check your parameters")
+        console.log("Correct Format: ev_group39 SessionsPerEV --ev dummy --datefrom dummy --dateto dummy")
+        return
+    }
+    dataAccess.perEV(ev, datefrom, dateto, apikey);
+    return
 }
 
 const argvPerProvider = yargs
@@ -208,10 +257,27 @@ if (argvPerEV._.includes('SessionsPerProvider')) {
     const provider = argvPerPoint.provider
     const datefrom = argvPerPoint.datefrom
     const dateto = argvPerPoint.dateto
-    dataAccess.perProvider(provider, datefrom, dateto);
+    if (!provider || !datefrom || !dateto) {
+        console.log("Please check your parameters")
+        console.log("Correct Format: ev_group39 SessionsPerProvider --provider dummy --datefrom dummy --dateto dummy")
+        return
+    }
+    dataAccess.perProvider(provider, datefrom, dateto, apikey);
+    return
 }
 
 
 
 
 
+console.log("Please check your parameters")
+console.log("Options for SCOPE:")
+console.log("healthcheck")
+console.log("resetsessions")
+console.log("login")
+console.log("logout")
+console.log("Admin")      
+console.log("SessionsPerPoint")
+console.log("SessionsPerStation")
+console.log("SessionsPerEV")
+console.log("SessionsPerProvider")

@@ -42,6 +42,7 @@ exports.resetSessions = () => {
         }
         else {
             console.log("status: " + JSON.parse(body).status)
+            if(JSON.parse(body).apiKey){console.log("API key: " + JSON.parse(body).apiKey)}
         }
     });
 }
