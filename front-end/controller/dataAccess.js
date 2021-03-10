@@ -56,6 +56,11 @@ exports.perStation =(req, res, next) => {
         , rejectUnauthorized: false
     };
     const agent = new https.Agent(agentOptions);
+
+    let apiKey
+    try {apiKey = req.cookies.apiKey}
+    catch {console.log("Access Denied");return;}
+    
     let token
     try {
         token = req.cookies.token
@@ -71,7 +76,8 @@ exports.perStation =(req, res, next) => {
         , method: 'GET'
         , agent: agent
         , headers: {
-            "Authorization": auth
+            "Authorization": auth,
+            "x-api-key":apiKey
         }
     }, function (err, resp, body) {
         if(resp.statusCode!=200){
@@ -94,6 +100,10 @@ exports.perPoint =(req, res, next) =>{
     const periodFrom = moment(new Date(req.query.dateFrom)).format("YYYY-MM-DD HH:mm:ss")
     const periodTo = moment(new Date(req.query.dateTo)).format("YYYY-MM-DD HH:mm:ss")
 
+    let apiKey
+    try {apiKey = req.cookies.apiKey}
+    catch {console.log("Access Denied");return;}
+
     let token
     try {
         token = req.cookies.token
@@ -115,7 +125,8 @@ exports.perPoint =(req, res, next) =>{
         url: "https://localhost:8765/SessionPerPoint/"+pointID+"/"+periodFrom+"/"+periodTo
         , method: 'GET'
         , headers: {
-            "Authorization": auth
+            "Authorization": auth,
+            "x-api-key":apiKey
         }
         , agent: agent
     }, function (err, resp, body) {
@@ -149,6 +160,11 @@ exports.perEV =(req, res, next) =>{
         , rejectUnauthorized: false
     };
     const agent = new https.Agent(agentOptions);
+
+    let apiKey
+    try {apiKey = req.cookies.apiKey}
+    catch {console.log("Access Denied");return;}
+
     let token
     try {
         token = req.cookies.token
@@ -163,7 +179,8 @@ exports.perEV =(req, res, next) =>{
         , method: 'GET'
         , agent: agent
         , headers: {
-            "Authorization": auth
+            "Authorization": auth,
+            "x-api-key":apiKey
         }
     }, function (err, resp, body) {
         if(resp.statusCode!=200){
@@ -193,6 +210,11 @@ exports.perProvider=(req, res, next) =>{
         , rejectUnauthorized: false
     };
     const agent = new https.Agent(agentOptions);
+
+    let apiKey
+    try {apiKey = req.cookies.apiKey}
+    catch {console.log("Access Denied");return;}
+    
     let token
     try {
         token = req.cookies.token
@@ -208,7 +230,8 @@ exports.perProvider=(req, res, next) =>{
         , method: 'GET'
         , agent: agent
         , headers: {
-            "Authorization": auth
+            "Authorization": auth,
+            "x-api-key":apiKey
         }
     }, function (err, resp, body) {
         if(resp.statusCode!=200){

@@ -23,6 +23,34 @@ else if(SCOPE==="resetsessions"){
     return
 }
 
+const argvLogin = yargs
+    .command('login', '', {
+        passw: {
+            description: '',
+            type: 'string',
+        },
+        username: {
+            description: '',
+            type: 'string',
+        }
+    })
+    .help()
+    .argv;
+if (argvLogin._.includes('login')) {
+    const password = argvLogin.passw
+    const username = argvLogin.username
+
+    if (!password || !username) {
+        console.log("Please check your parameters")
+        console.log("Correct Format: ev_group39 login --username dummy --passw dummy")
+        return
+    }
+
+    access.login(username,password)
+    return
+
+}
+
 let apikey
 let foundIt= false
 for (let arg of args) {
@@ -103,33 +131,7 @@ else if(SCOPE==="Admin"){
 
 
 
-const argvLogin = yargs
-    .command('login', '', {
-        passw: {
-            description: '',
-            type: 'string',
-        },
-        username: {
-            description: '',
-            type: 'string',
-        }
-    })
-    .help()
-    .argv;
-if (argvLogin._.includes('login')) {
-    const password = argvLogin.passw
-    const username = argvLogin.username
 
-    if (!password || !username) {
-        console.log("Please check your parameters")
-        console.log("Correct Format: ev_group39 login --username dummy --passw dummy")
-        return
-    }
-
-    access.login(username,password, apikey)
-    return
-
-}
 
 
 
