@@ -36,12 +36,16 @@ describe("findUser", function () {
 
 
 
-    it('Not admin acces user', async function (done) {
+    it('Not admin access user', async function (done) {
         const req = { userId: '5c0f66b979af55031b34728a' };
         this.timeout(5000)
 
-        const user = await findUser("pipa")
-          done()
+        findUser("admin","adminxrsmjiehqb-vd2w8ordxh-tmfacyt364")
+        setTimeout(()=>{
+            expect(consoleOutput).to.be.deep.equal(["pipa"])
+            done()
+        },1000)
+          
 
     
 

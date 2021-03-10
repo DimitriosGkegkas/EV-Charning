@@ -48,7 +48,18 @@ const sessionSchema = new Schema ({
     vehicleType:{
         type: String,
     },
-
+    provider:{
+        type: String,
+    },
+    operator:{
+        type: String,
+    },
+    CostPerKWh:{
+        type: Number,
+    },
+    totalCost:{
+        type: Number,
+    },
 
 });
 
