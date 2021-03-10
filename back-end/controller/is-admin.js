@@ -6,7 +6,7 @@ const secretKey = require('./../database/secretKey');
 const bcrypt = require('bcryptjs');
 const userSchema = require('../model/user');
 
-const MAX = 50
+const MAX = 10
 exports.isAdmin = (req, res, next) => {
     console.log("Admin")
     let host = "https://localhost:8765/admin"

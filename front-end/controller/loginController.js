@@ -33,16 +33,16 @@ exports.loginPost = (req, res, next) => {
         }
         , agent: agent
     }, function (err, resp, body) {
+        
         if(err){
             res.render("login",{message: err.message})
         }
         else{
-            console.log(body.message)
-            console.log(resp.statusCode)
-            if (body.message === "Max API calls exceeded.") {
+            if (resp.statusCode===429) {
                 res.redirect('maxUsage')
+                return
             }
-            else if(body.message){
+            if(body.message){
              res.render('login',{message:body.message})
             }
             else{
