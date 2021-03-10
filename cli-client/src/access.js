@@ -28,13 +28,14 @@ exports.login = (username, password, apikey) => {
         , json: jsonObject
         , agent: agent
         , headers: {
-            "x-api-key": apikey
+            "x-api-key": ""
         }
     }, function (err, resp, body) {
-        if (body.message) { console.log(body.message) }
-        if (err) { console.log(err.message) }
+        if (body.message) { console.log(body.message); return }
+        if (err) { console.log(err.message); return }
         if(body.token){
             console.log("token: "+body.token)
+            console.log("API key: "+body.apiKey)
             try {
                 fs.writeFile("softeng20bAPI.token", body.token, (err, result) => { })
                 console.log("Token Saved in File")
@@ -43,9 +44,11 @@ exports.login = (username, password, apikey) => {
             catch {
                 { console.log("Could not Save Token") }
             }
+            return 
         }
         else {
             console.log("Not Auth")
+            return 
         }   
         }
     );
@@ -76,7 +79,8 @@ exports.logout = (apikey) => {
         }
         , agent: agent
     }, function (err, resp, body) {
-        console.log(body)
         fs.unlinkSync("softeng20bAPI.token", body.token, (err, result) => { })
+        console.log("You logged out successfully")
+        return
     });
 }

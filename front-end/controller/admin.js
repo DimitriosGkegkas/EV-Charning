@@ -21,7 +21,10 @@ exports.Admin = (req, res, next) => {
         , rejectUnauthorized: false
     };
     const agent = new https.Agent(agentOptions);
-
+    
+    let apiKey
+    try {apiKey = req.cookies.apiKey}
+    catch {console.log("Access Denied");return;}
 
     let token
     try {
@@ -38,7 +41,8 @@ exports.Admin = (req, res, next) => {
         url: "https://localhost:8765/admin/usermod"
         , method: 'POST'
         , headers: {
-            "Authorization": auth
+            "Authorization": auth,
+            "x-api-key":apiKey
         }
         , json: jsonObject
         , agent: agent
@@ -65,6 +69,10 @@ exports.findUser = (req, res, next) => {
     };
     const agent = new https.Agent(agentOptions);
 
+    let apiKey
+    try {apiKey = req.cookies.apiKey}
+    catch {console.log("Access Denied");return;}
+    
     let token
     try {
         token = req.cookies.token
@@ -80,7 +88,8 @@ exports.findUser = (req, res, next) => {
         url: "https://localhost:8765/admin/users/" + username
         , method: 'GET'
         , headers: {
-            "Authorization": auth
+            "Authorization": auth,
+            "x-api-key":apiKey
         }
         , agent: agent
     }, function (err, resp, body) {
@@ -122,6 +131,11 @@ exports.sessionsupd =  (req, res, next) => {
         , rejectUnauthorized: false
     };
     const agent = new https.Agent(agentOptions);
+
+    let apiKey
+    try {apiKey = req.cookies.apiKey}
+    catch {console.log("Access Denied");return;}
+    
     let token
     try {
         token = req.cookies.token
@@ -141,7 +155,8 @@ exports.sessionsupd =  (req, res, next) => {
         , agent: agent
         , headers: {
             "Authorization": auth
-            , "Content-Type": "multipart/form-data"
+            , "Content-Type": "multipart/form-data",
+            "x-api-key":apiKey
         }
         , formData: {
             "file": fs.createReadStream(source)

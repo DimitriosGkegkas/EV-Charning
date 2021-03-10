@@ -184,7 +184,8 @@ exports.login = (req, res, next) => {
                 secretKey.key,
                 { expiresIn: '1h' }
             ).then(token => res.status(200).json({
-                token: token
+                token: token,
+                apiKey: loadUser.apiKey
             })).catch(err => { throw err })
 
         })
