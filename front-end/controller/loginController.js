@@ -38,10 +38,7 @@ exports.loginPost = (req, res, next) => {
             res.render("login",{message: err.message})
         }
         else{
-            if (resp.statusCode===429) {
-                res.redirect('maxUsage')
-                return
-            }
+            
             if(body.message){
              res.render('login',{message:body.message})
             }
