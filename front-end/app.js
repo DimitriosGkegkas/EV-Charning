@@ -6,6 +6,7 @@ const dataAccessRoutes = require("./routes/dataAccessRoutes");
 const adminRoutes = require("./routes/adminRoutes");
 const logoutRoutes = require("./routes/logoutRoutes");
 const chartRoutes = require("./routes/chartRoutes");
+const maxUsageRoutes = require("./routes/maxUsageRoutes");
 const bodyParser= require('body-parser');
 const cookieParser = require('cookie-parser');
 app.use(cookieParser());
@@ -33,6 +34,7 @@ app.use(homeRoutes);
 app.use(dataAccessRoutes);
 app.use(adminRoutes);
 app.use(chartRoutes);
+app.use(maxUsageRoutes);
 
 
 
