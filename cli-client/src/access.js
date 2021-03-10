@@ -7,7 +7,7 @@ const fs = require('fs');
 
 
 
-exports.login = (username, password, apikey) => {
+exports.login = (username, password) => {
     const jsonObject =
     {
         "username": username,
@@ -39,6 +39,7 @@ exports.login = (username, password, apikey) => {
             try {
                 fs.writeFile("softeng20bAPI.token", body.token, (err, result) => { })
                 console.log("Token Saved in File")
+                return 
             }
 
             catch {

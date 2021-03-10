@@ -37,12 +37,18 @@ exports.loginPost = (req, res, next) => {
             res.render("login",{message: err.message})
         }
         else{
-            if(body.message){
+            console.log(body.message)
+            console.log(resp.statusCode)
+            if (body.message === "Max API calls exceeded.") {
+                res.redirect('maxUsage')
+            }
+            else if(body.message){
              res.render('login',{message:body.message})
             }
             else{
                 res.cookie("token",body.token)
-                res.cookie("apiKey",body.apiKey)
+                res.cookie(
+                        "apiKey",body.apiKey)
                 res.redirect('homepage')
             }
 

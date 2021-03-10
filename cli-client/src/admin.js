@@ -102,11 +102,8 @@ exports.findUser = (username,apikey) => {
             console.log("username: " + JSON.parse(body).username)
             console.log("API key: " + JSON.parse(body).apiKey)
         }
-
-;
-    }
-    )
-
+        return
+    })
 }
 
 

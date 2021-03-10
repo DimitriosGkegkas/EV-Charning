@@ -6,13 +6,12 @@ const secretKey = require('./../database/secretKey');
 const bcrypt = require('bcryptjs');
 const userSchema = require('../model/user');
 
-const MAX =30
-
+const MAX = 50
 exports.isAdmin = (req, res, next) => {
     let host = "https://localhost:8765/admin"
     let api_key = req.header('x-api-key');
-    if(!api_key){
-        res.status(401).json({message: "Please Provide API key"})
+    if (!api_key) {
+        res.status(401).json({ message: "Please Provide API key" })
         return
     }
     userSchema.findOne({ "host": host, apiKey: api_key })
@@ -21,7 +20,7 @@ exports.isAdmin = (req, res, next) => {
                 next()
             }
             else {
-                res.status(401).json({message: "Not Allowed"})
+                res.status(401).json({ message: "Not Allowed" })
                 return
             }
         }
@@ -32,8 +31,8 @@ exports.isAdmin = (req, res, next) => {
 exports.hasUsage = (req, res, next) => {
 
     let api_key = req.header('x-api-key');
-    if(!api_key){
-        res.status(401).json({message: "Please Provide API key"})
+    if (!api_key) {
+        res.status(401).json({ message: "Please Provide API key" })
         return
     }
     userSchema.findOne({ apiKey: api_key })
@@ -41,35 +40,32 @@ exports.hasUsage = (req, res, next) => {
             if (account) {
                 let today = new Date().toISOString().split('T')[0]
                 let usageIndex = account.usage.findIndex((day) => day.date.toISOString().split('T')[0] === today);
-                
+
                 if (usageIndex >= 0) {
                     //already used today
                     if (account.usage[usageIndex].count >= MAX) {
-                      //stop and respond
-                      res.status(429).send({
-                        error: {
-                          code: 429,
-                          message: 'Max API calls exceeded.',
-                        },
-                      });
-                    } else {
-                        account.usage[usageIndex].count=account.usage[usageIndex].count+1
-                        userSchema.findOneAndUpdate({apiKey: api_key  },{usage:account.usage})
-                        .then(() => next()) 
-                        .catch(err=> { res.status(401).json({message: "Not Allowed"})})
- 
+                        //stop and respond
+                        res.status(429).json({
+                            message: 'Max API calls exceeded.',
+                        });
+                         
+                        account.usage[usageIndex].count = account.usage[usageIndex].count + 1
+                        userSchema.findOneAndUpdate({ apiKey: api_key }, { usage: account.usage })
+                            .then(() => next())
+                            .catch(err => { res.status(401).json({ message: "Not Allowed" }) })
+
                     }
-                  } else {
+                } else {
                     //not today yet
                     account.usage.push({ date: today, count: 1 });
                     //ok to use again
                     next();
-                  }
-    
+                }
+
             }
             else {
-                res.status(401).json({message: "Not Allowed"})
-           
+                res.status(401).json({ message: "Not Allowed" })
+
                 return
             }
         }

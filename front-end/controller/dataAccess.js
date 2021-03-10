@@ -214,7 +214,7 @@ exports.perProvider=(req, res, next) =>{
     let apiKey
     try {apiKey = req.cookies.apiKey}
     catch {console.log("Access Denied");return;}
-    
+
     let token
     try {
         token = req.cookies.token
