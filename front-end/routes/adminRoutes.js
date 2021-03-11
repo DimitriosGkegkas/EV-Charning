@@ -9,7 +9,8 @@ const fileUpload = require("./../controller/fileUploadController");
 route.get('/addUser',auth.check,admin.addUserPage);
 route.post('/admin/usermod',auth.check,admin.Admin);
 
-route.get('/admin/users/:username',auth.check,admin.findUser);
+route.get('/findUser',auth.check,admin.findUserPage);
+route.get('/admin/users/?',auth.check,admin.findUser);
 
 
 route.post('/admin/sessionsupd',auth.check, multer({ storage: fileUpload.storage, fileFilter: fileUpload.csvFilter }).single("file"),admin.sessionsupd);
