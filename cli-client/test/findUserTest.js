@@ -39,24 +39,12 @@ describe("findUser", function () {
 
 
 
-
-    it('findUser: Not Auth',function (done) {
-        this.timeout(5000)
-
-        findUser("admin",apikey)
-        setTimeout(()=>{
-            expect(consoleOutput).to.be.deep.equal(["Not Authenticated"])
-            done()
-        },1000)       
-    });
-    
-
     it('findUser: No username',function (done) {
         this.timeout(5000)
 
         findUser(undefined,apikey)
         setTimeout(()=>{
-            expect(consoleOutput).to.be.deep.equal(["Please provide a username"])
+            expect(consoleOutput).to.be.deep.equal(["Please insert a correct username"])
             done()
         },1000)     
     });
@@ -76,7 +64,7 @@ describe("findUser", function () {
 
         findUser("admin","wrongAPIkey")
         setTimeout(()=>{
-            expect(consoleOutput).to.be.deep.equal(["Please check your API key"])
+            expect(consoleOutput).to.be.deep.equal(["Not Allowed"])
             done()
         },1000)       
     });
@@ -87,10 +75,10 @@ describe("findUser", function () {
         findUser("admin",apikey)
         setTimeout(()=>{
             expect(consoleOutput[0].split(' ')[0]).to.be.deep.equal("username:")
-            expect(consoleOutput[1].split(' ')[0]).to.be.deep.equal("admin")
-            expect(consoleOutput[1].split(' ')[1]).to.be.deep.equal("API")
-            expect(consoleOutput[1].split(' ')[2]).to.be.deep.equal("key:")
-            expect(consoleOutput[2].split(' ')[2]).to.be.deep.equal(apikey)
+            expect(consoleOutput[1].split(' ')[0]).to.be.deep.equal("API")
+            expect(consoleOutput[1].split(' ')[1]).to.be.deep.equal("key:")
+
+            expect(consoleOutput[1].split(' ')[2]).to.be.deep.equal(apikey)
             done()
         },1000)       
     });

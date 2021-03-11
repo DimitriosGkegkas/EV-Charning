@@ -52,7 +52,7 @@ describe("usermod", function () {
 
         usermod(undefined,"dummyPassw",apikey)
         setTimeout(()=>{
-            expect(consoleOutput).to.be.deep.equal(["Please provide a username"])
+            expect(consoleOutput).to.be.deep.equal(["Please provide username"])
             done()
         },1000)     
     });
@@ -62,7 +62,7 @@ describe("usermod", function () {
 
         usermod("dummyUser",undefined,apikey)
         setTimeout(()=>{
-            expect(consoleOutput).to.be.deep.equal(["Please provide a password"])
+            expect(consoleOutput).to.be.deep.equal(["Please provide password"])
             done()
         },1000)       
     });
@@ -72,7 +72,17 @@ describe("usermod", function () {
 
         usermod("dummyUser","dummyPassw","wrongAPIkey")
         setTimeout(()=>{
-            expect(consoleOutput).to.be.deep.equal(["Please check your API key"])
+            expect(consoleOutput).to.be.deep.equal(["Not Allowed"])
+            done()
+        },1000)       
+    });
+
+    it('usermod: No apikey',function (done) {
+        this.timeout(5000)
+
+        usermod("dummyUser","dummyPassw",undefined)
+        setTimeout(()=>{
+            expect(consoleOutput).to.be.deep.equal(["Please Provide API key"])
             done()
         },1000)       
     });
@@ -81,12 +91,14 @@ describe("usermod", function () {
         this.timeout(5000)
 
         usermod("dummyUser","dummyPassw",apikey)
+        
+        //let apikeydummy = (consoleOutput[1].split(' ')[2])
         setTimeout(()=>{
             expect(consoleOutput[0].split(' ')[0]).to.be.deep.equal("User")
-            expect(consoleOutput[1].split(' ')[0]).to.be.deep.equal("Created/Updated")
-            expect(consoleOutput[1].split(' ')[1]).to.be.deep.equal("API")
-            expect(consoleOutput[1].split(' ')[2]).to.be.deep.equal("key:")
-            expect(consoleOutput[2].split(' ')[2]).to.be.deep.equal(apikey)
+            expect(consoleOutput[0].split(' ')[1]).to.be.deep.equal("Created/Updated")
+            expect(consoleOutput[1].split(' ')[0]).to.be.deep.equal("API")
+            expect(consoleOutput[1].split(' ')[1]).to.be.deep.equal("key:")
+           // expect(consoleOutput[1].split(' ')[2]).to.be.deep.equal(apikeydummy)
             done()
         },1000)       
     });
