@@ -20,7 +20,7 @@ exports.loginPost = (req, res, next) => {
         host: 'localhost'
         , port: '8765'
         , path: '/login'
-
+        
         , rejectUnauthorized: false
     };
     const agent = new https.Agent(agentOptions);
@@ -28,18 +28,24 @@ exports.loginPost = (req, res, next) => {
         url: "https://localhost:8765/login"
         , method: 'POST'
         , json: jsonObject
+        , headers:{
+            "x-api-key":""
+        }
         , agent: agent
     }, function (err, resp, body) {
+        
         if(err){
             res.render("login",{message: err.message})
-            console.log("ddd")
         }
         else{
+            
             if(body.message){
              res.render('login',{message:body.message})
             }
             else{
                 res.cookie("token",body.token)
+                res.cookie(
+                        "apiKey",body.apiKey)
                 res.redirect('homepage')
             }
 

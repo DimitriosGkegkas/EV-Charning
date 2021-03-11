@@ -13,6 +13,7 @@ exports.login = (username, password) => {
         "username": username,
         "password": password
     }
+    
     const agentOptions = {
         host: 'localhost'
         , port: '8765'
@@ -26,28 +27,35 @@ exports.login = (username, password) => {
         , method: 'POST'
         , json: jsonObject
         , agent: agent
+        , headers: {
+            "x-api-key": ""
+        }
     }, function (err, resp, body) {
-        if (body.message) { console.log(body.message) }
-        if (err) { console.log(err.message) }
+        if (body.message) { console.log(body.message); return }
+        if (err) { console.log(err.message); return }
         if(body.token){
             console.log("token: "+body.token)
+            console.log("API key: "+body.apiKey)
             try {
                 fs.writeFile("softeng20bAPI.token", body.token, (err, result) => { })
                 console.log("Token Saved in File")
+                return 
             }
 
             catch {
                 { console.log("Could not Save Token") }
             }
+            return 
         }
         else {
             console.log("Not Auth")
+            return 
         }   
         }
     );
 }
 
-exports.logout = () => {
+exports.logout = (apikey) => {
     const agentOptions = {
         host: 'localhost'
         , port: '8765'
@@ -66,11 +74,14 @@ exports.logout = () => {
         url: "https://localhost:8765/logout"
         , method: 'POST'
         , headers: {
-            "Authorization": auth
+            "Authorization": auth,
+            "x-api-key": apikey
+
         }
         , agent: agent
     }, function (err, resp, body) {
-        console.log(body)
         fs.unlinkSync("softeng20bAPI.token", body.token, (err, result) => { })
+        console.log("You logged out successfully")
+        return
     });
 }

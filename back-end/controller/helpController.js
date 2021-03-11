@@ -4,6 +4,7 @@ const Session = require('./../model/session');
 const User = require('./../model/user');
 const bcrypt = require('bcryptjs');
 const sinon =require('sinon');
+const genKey = require('./userController').genKey
 
 exports.healthcheck = (req, res, next) => {
     mongoose.connect(databaseURL.URL, { useNewUrlParser: true, useUnifiedTopology: true })
@@ -12,11 +13,16 @@ exports.healthcheck = (req, res, next) => {
 }
 
 exports.initAdmin = (req, res, next) => {
+    let today = new Date().toISOString().split('T')[0];
+    const apiKey =genKey("admin")
     bcrypt.hash("petrol4ever", 12)
         .then(hashedPW => {
             const user = new User({
                 password: hashedPW,
-                username: "admin"
+                username: "admin",
+                apiKey: apiKey,
+                host: "https://localhost:8765/admin" ,
+                usage:[{ date: today, count: 0 }] ,
             })
             user.save()
                 .then(() => {
@@ -24,7 +30,8 @@ exports.initAdmin = (req, res, next) => {
                         .then(SesCount => {
                             if (SesCount === 0) {
                                 res.status(200).json({
-                                    status: "OK"
+                                    status: "OK",
+                                    apiKey:apiKey
                                 })
                             }
                             else {
@@ -35,7 +42,7 @@ exports.initAdmin = (req, res, next) => {
                             return
                         })
                         .catch(err => {
-                            console.log(err)
+
                             res.status(400).json({
                                 status: "failed"
                             })
@@ -44,13 +51,19 @@ exports.initAdmin = (req, res, next) => {
                 })
                 .catch((err) => {
                     if (err.code === 11000) {       // if there is a user admin in Db
-                        User.findOneAndUpdate({ username: "admin" }, { password: hashedPW })
+                        User.findOneAndUpdate({ username: "admin" }, { 
+                                                                        password: hashedPW , 
+                                                                        username: "admin",
+                                                                        apiKey: apiKey,
+                                                                        host: "https://localhost:8765/admin" ,
+                                                                        usage:[{ date: today, count: 0 }] })
                             .then(() => {
                                 Session.collection.countDocuments({})
                                     .then(SesCount => {
                                         if (SesCount === 0) {
                                             res.status(200).json({
-                                                status: "OK"
+                                                status: "OK",
+                                                apiKey:apiKey
                                             })
                                         }
                                         else {
@@ -61,7 +74,6 @@ exports.initAdmin = (req, res, next) => {
                                         return
                                     })
                                     .catch(err => {
-                                        console.log(err)
                                         res.status(400).json({
                                             status: "failed"
                                         })
@@ -85,7 +97,6 @@ exports.initAdmin = (req, res, next) => {
                 })
         })
         .catch(err => {
-            console.log(err)
             res.status(402).json({
                 status: "failed"
             })
@@ -115,7 +126,7 @@ exports.resetsessions = (req, res, next) => {
             }
         })
         .catch(err => {
-            console.log(err)
+
             res.status(402).json({
                 status: "failed"
             })

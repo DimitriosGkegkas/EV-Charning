@@ -3,7 +3,7 @@ const https = require('https');
 
 const fs = require('fs');
 
-exports.Admin = (username, password) => {
+exports.Admin = (username, password,apikey) => {
     const jsonObject =
     {
         "username": username,
@@ -15,6 +15,7 @@ exports.Admin = (username, password) => {
         , path: '/admin/usermod'
 
         , rejectUnauthorized: false
+       
     };
     const agent = new https.Agent(agentOptions);
 
@@ -32,10 +33,12 @@ exports.Admin = (username, password) => {
         url: "https://localhost:8765/admin/usermod"
         , method: 'POST'
         , headers: {
-            "Authorization": auth
+            "Authorization": auth,
+            "x-api-key": apikey
         }
         , json: jsonObject
         , agent: agent
+      
     }, function (err, resp, body) {
 
 
@@ -52,13 +55,14 @@ exports.Admin = (username, password) => {
     });
     }
 
-exports.findUser = (username) => {
+exports.findUser = (username,apikey) => {
     const agentOptions = {
         host: 'localhost'
         , port: '8765'
         , path: '/admin/users/' + username
 
         , rejectUnauthorized: false
+       
     };
     const agent = new https.Agent(agentOptions);
 
@@ -77,9 +81,11 @@ exports.findUser = (username) => {
         url: "https://localhost:8765/admin/users/" + username
         , method: 'GET'
         , headers: {
-            "Authorization": auth
+            "Authorization": auth,
+            "x-api-key": apikey
         }
         , agent: agent
+      
     }, function (err, resp, body) {
 
 
@@ -96,21 +102,19 @@ exports.findUser = (username) => {
             console.log("username: " + JSON.parse(body).username)
             console.log("API key: " + JSON.parse(body).apiKey)
         }
-
-;
-    }
-    )
-
+        return
+    })
 }
 
 
-exports.sessionsupd = (source) => {
+exports.sessionsupd = (source,apikey) => {
 
     const agentOptions = {
         host: 'localhost'
         , port: '8765'
         , path: '/admin/system/sessionsupd'
         , rejectUnauthorized: false
+      
     };
     const agent = new https.Agent(agentOptions);
     let auth;
@@ -130,11 +134,14 @@ exports.sessionsupd = (source) => {
         , headers: {
             "Authorization": auth
             , "Content-Type": "multipart/form-data"
+              ,  "x-api-key": apikey
+            
         }
         , formData: {
             "file": fs.createReadStream(source)
         }
     }, function (err, resp, body) {
+        console.log(body)
 
 
 

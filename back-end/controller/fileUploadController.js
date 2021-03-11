@@ -28,16 +28,17 @@ exports.uploadToDB= (req, res) => {
 			
 	}
 	const filePath = req.file.path;
-
+	
 	let InUploadedFile = 0;
 	let Imported = 0
 	fs.createReadStream(filePath).pipe(csv()).on('data', (row) => {
 		InUploadedFile = InUploadedFile + 1;
+
 		const session = new Session({
 			sessionID: row["sessionID"],
-			connectionTime:  row["connectionTime"] === "null" ? null: row["connectionTime"],
-			disconnectTime:  row["disconnectTime"] === "null" ? null: row["disconnectTime"],
-			doneChargingTime: row["doneChargingTime"] === "null" ? null: row["doneChargingTime"] ,
+			connectionTime: new Date(row["connectionTime"]),
+			disconnectTime: new Date(row["disconnectTime"]),
+			doneChargingTime: new Date(row["doneChargingTime"]) ,
 			kWhDelivered: row["kWhDelivered"] === "null" ? null: row["kWhDelivered"] ,
 			pointID: row["spaceID"] === "null" ? null: row["spaceID"] ,
 			stationID: row["stationID"] === "null" ? null: row["stationID"] ,
@@ -45,23 +46,26 @@ exports.uploadToDB= (req, res) => {
 			payment: row["payment"]  ? row["payment"] : null,
 			protocol: row["protocol"]  ? row["protocol"] : null,
 			vehicleType: row["vehicleType"]  ? row["vehicleType"] : null,
+			provider: row["provider"]  ? row["provider"] : null,
+			operator: row["operator"]  ? row["operator"] : null,
+			vehicleType: row["vehicleType"]  ? row["vehicleType"] : null,
+			CostPerKWh: row["costPerKWh"]  ? row["costPerKWh"] : null,
+			totalCost: row["totalCost"]  ? row["totalCost"] : null,
 		})
+		
+
 
 		session.save().then(() => { Imported = Imported + 1; })
 			.catch(err => {
-				if (err.code === 11000) {
 
-				}
-				else {
-					console.log(err)
-				}
 			})
 
 	})
 		.on('end', () => {
+
 			Session.count({}, function( err, count){
 				if(err){
-					console.log(err)
+
 				}
 				else{
 				res.status(200).json({

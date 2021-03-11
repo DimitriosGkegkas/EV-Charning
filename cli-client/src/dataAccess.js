@@ -3,7 +3,7 @@ const https = require('https');
 
 const fs = require('fs');
 
-exports.SessionsPerStation = (stationID, datefrom, dateto) => {
+exports.SessionsPerStation = (stationID, datefrom, dateto, apikey) => {
     if(!stationID){
         console.log("Please Provide a station Id")
         return
@@ -37,14 +37,15 @@ exports.SessionsPerStation = (stationID, datefrom, dateto) => {
         , method: 'GET'
         , agent: agent
         , headers: {
-            "Authorization": auth
+            "Authorization": auth,
+            "x-api-key": apikey
         }
     }, function (err, resp, body) {
         console.log( JSON.parse(body))
     });
 }
 
-exports.perPoint = (point, datefrom, dateto) =>{
+exports.perPoint = (point, datefrom, dateto, apikey) =>{
     console.log( datefrom)
     if(!point){
         console.log("Please Provide a Point Id")
@@ -80,7 +81,8 @@ exports.perPoint = (point, datefrom, dateto) =>{
         , method: 'GET'
         , agent: agent
         , headers: {
-            "Authorization": auth
+            "Authorization": auth,
+            "x-api-key": apikey
         }
     }, function (err, resp, body) {
         if(JSON.parse(body).message){
@@ -98,7 +100,7 @@ exports.perPoint = (point, datefrom, dateto) =>{
 }
 
 
-exports.perEV = (ev, datefrom, dateto) =>{
+exports.perEV = (ev, datefrom, dateto, apikey) =>{
     if(!ev){
         console.log("Please Provide a EV Id")
         return
@@ -134,7 +136,8 @@ exports.perEV = (ev, datefrom, dateto) =>{
         , method: 'GET'
         , agent: agent
         , headers: {
-            "Authorization": auth
+            "Authorization": auth,
+            "x-api-key": apikey
         }
     }, function (err, resp, body) {
         console.log( JSON.parse(body))
@@ -143,7 +146,7 @@ exports.perEV = (ev, datefrom, dateto) =>{
 
 
 
-exports.perProvider = (provider, datefrom, dateto) =>{
+exports.perProvider = (provider, datefrom, dateto, apikey) =>{
     if(!provider){
         console.log("Please Provide a provider Id")
         return
@@ -180,7 +183,8 @@ exports.perProvider = (provider, datefrom, dateto) =>{
         , method: 'GET'
         , agent: agent
         , headers: {
-            "Authorization": auth
+            "Authorization": auth,
+            "x-api-key": apikey
         }
     }, function (err, resp, body) {
         console.log( JSON.parse(body))

@@ -15,9 +15,6 @@ exports.generateKey = (req, res, next) => {
     bcrypt.hash(username, 12)
         .then(hashedUsr => {
             hashedUsr = hashedUsr.slice(0, 12)
-            console.log("hi")
-            console.log(hashedUsr)
-            console.log(hashedUsr.slice(0, 4) + "-" + hashedUsr.slice(4, 8) + "-" + hashedUsr.slice(8, 12))
             return hashedUsr.slice(0, 4) + "-" + hashedUsr.slice(4, 8) + "-" + hashedUsr.slice(8, 12);
         })
         .catch((err) => {
@@ -25,8 +22,7 @@ exports.generateKey = (req, res, next) => {
         })
 }
 
-exports.genKey = (req, res, next) => {
-    const username = req.body.username;
+exports.genKey = (username) => {
     //create a base-36 string that is always 30 chars long a-z0-9
     // 'an0qrr5i9u0q4km27hv2hue3ywx3uu'
     const str = [...Array(30)]
@@ -37,11 +33,16 @@ exports.genKey = (req, res, next) => {
 
 exports.signup = (req, res, next) => {
 
-
-
     const username = req.body.username;
     const email = req.body.email;
     const password = req.body.password;
+    const apiKey = this.genKey(username);
+    let host;
+    if(username === "admin" || req.body.access==="1"){host = "https://localhost:8765/admin";}
+    else{host = "https://localhost:8765";}
+
+    let today = new Date().toISOString().split('T')[0];
+
     if (!username) {
         res.status(400).json(
 
@@ -65,7 +66,9 @@ exports.signup = (req, res, next) => {
                                 'username': username,
                                 'email': email,
                                 'password': hashedPw,
-                                'apiKey': this.genKey(req, res, next)
+                                'apiKey': apiKey,
+                                'host': host ,
+                                'usage':[{ date: today, count: 0 }]
                             });
                             console.log(user.apiKey)
                             return user.save()
@@ -178,7 +181,8 @@ exports.login = (req, res, next) => {
                 secretKey.key,
                 { expiresIn: '1h' }
             ).then(token => res.status(200).json({
-                token: token
+                token: token,
+                apiKey: loadUser.apiKey
             })).catch(err => { throw err })
 
         })
