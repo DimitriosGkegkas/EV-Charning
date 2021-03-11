@@ -47,17 +47,27 @@ exports.Admin = (req, res, next) => {
         , json: jsonObject
         , agent: agent
     }, function (err, resp, body) {
-        if (resp.statusCode===429) {
-            res.redirect('maxUsage')
+        
+        if (resp.statusCode === 429) {
+            res.redirect('https://localhost:3000/maxUsage')
             return
         }
-
+        else if (resp.statusCode === 401) {
+            res.render("errorPage", { message: body.message })
+            return
+        }
         if (err) {
             res.render("reportBack", { message: err.message })
         }
         else {
+            if(resp.statusCode !== 200){
+                res.render('add-user',{message:body.message})
+               }
+            else {
+                res.render("reportBack", { message: body.message })
+            }
 
-            res.render("reportBack", { message: body.message })
+            
         }
     });
 }
@@ -100,7 +110,7 @@ exports.findUser = (req, res, next) => {
 
 
         if (resp.statusCode === 429) {
-            res.redirect('maxUsage')
+            res.redirect('https://localhost:3000/maxUsage')
             return
         }
 
@@ -173,23 +183,29 @@ exports.sessionsupd = (req, res, next) => {
         }
     }, function (err, resp, body) {
 
-        if(resp){if (resp.statusCode === 429) {
-            res.redirect('https://localhost:3000/maxUsage')
-            
+        if (resp) {
+            if (resp.statusCode === 429) {
+                res.redirect('https://localhost:3000/maxUsage')
 
+
+            } else if (resp.statusCode === 401) {
+                res.render("errorPage", { message: JSON.parse(body).message })
+
+
+            }
+            else if (resp.statusCode === 200) {
+                res.render("uploadFilesResults", JSON.parse(body))
+            }
         }
-        if(resp.statusCode ===200){
-            res.render("uploadFilesResults", JSON.parse(body))
-        }}
-        
-        else{
+
+        else {
             if (err) {
                 res.render("upload-file", { message: err.message })
-                
-            }
-            else{res.render("upload-file", { message: "Access Denied" })}
 
-      
+            }
+            else { res.render("upload-file", { message: "Access Denied" }) }
+
+
         }
 
 
@@ -205,7 +221,7 @@ exports.sessionsupd = (req, res, next) => {
 }
 
 exports.addUserPage = (req, res, next) => {
-    res.render("add-user", {})
+    res.render("add-user",  { message: "" })
 }
 
 exports.uploadSessions = (req, res, next) => {
