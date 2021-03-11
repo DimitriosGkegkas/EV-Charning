@@ -50,15 +50,6 @@ describe("findUser", function () {
         },1000)       
     });
     
-    it('findUser: No apikey',function (done) {
-        this.timeout(5000)
-
-        findUser("admin",undefined)
-        setTimeout(()=>{
-            expect(consoleOutput).to.be.deep.equal(["Please provide an API key"])
-            done()
-        },1000)   
-    });
 
     it('findUser: No username',function (done) {
         this.timeout(5000)
