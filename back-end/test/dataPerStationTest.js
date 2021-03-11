@@ -10,30 +10,34 @@ fs = require('fs')
 const isAuth = require('../controller/is-auth')
 
 let token 
+let apikey
 describe("SessionPerStation", function () {
 
 
     before(function (done) {
         this.timeout(5000);
-        const jsonObject ={
-        "username": "admin",
-        "password": "petrol4ever"}
+        
         request.post({
-            url: "https://localhost:8765/login",
+            url: "https://localhost:8765/admin/resetsessions",
             rejectUnauthorized: false
-            , json: jsonObject
+            
          
         }, function (error, response, body) {
-            expect(body.token).to.exist
-
-            token= body.token
+            const jsonObject ={
+                "username": "admin",
+                "password": "petrol4ever"}
             request({
-                url: "https://localhost:8765/admin/resetsessions"
+                url: "https://localhost:8765/login"
                 , method: 'POST'
                 , rejectUnauthorized: false
+                , json: jsonObject
             }, function (err, resp, body) {
 
+                expect(body.token).to.exist
+                expect(body.apiKey).to.exist
 
+                token= body.token
+                apikey= body.apiKey
     
                 const source = "./test/12Months.csv"
                 
@@ -57,8 +61,57 @@ describe("SessionPerStation", function () {
             })
         })
     })
+    it("no api key", function (done) {
+        this.timeout(5000);
 
+        const point = "2-39-125-21"
+        const datefrom = "2019-01-01 00:00:00"
+        const dateto = "2019-10-01 00:00:00"
 
+        const auth="Bearer "+token
+
+        request({
+            url: "https://localhost:8765/SessionPerStation/"+point+"/"+datefrom+"/"+dateto
+            , method: 'GET',
+            headers: {
+                "Authorization": auth
+                
+            }
+            ,rejectUnauthorized: false
+        },  function (error, response, body) {
+            expect(error).to.not.exist
+            expect(response).to.have.property("statusCode", 401)
+            expect(JSON.parse(body)).to.property("message","Please Provide API key")
+         
+            done(); 
+        })
+    })
+    it("not valid api key", function (done) {
+        this.timeout(5000);
+
+        const point = "2-39-125-21"
+        const datefrom = "2019-01-01 00:00:00"
+        const dateto = "2019-10-01 00:00:00"
+
+        const auth="Bearer "+token
+
+        request({
+            url: "https://localhost:8765/SessionPerStation/"+point+"/"+datefrom+"/"+dateto
+            , method: 'GET',
+            headers: {
+                "Authorization": auth
+                ,"x-api-key":"jshsgajangbxghsz"
+                
+            }
+            ,rejectUnauthorized: false
+        },  function (error, response, body) {
+            expect(error).to.not.exist
+            expect(response).to.have.property("statusCode", 401)
+            expect(JSON.parse(body)).to.property("message","Not Allowed")
+         
+            done(); 
+        })
+    })
     it("Valid Input for 2-39-125-21", function (done) {
         this.timeout(5000);
 
@@ -73,6 +126,7 @@ describe("SessionPerStation", function () {
             , method: 'GET',
             headers: {
                 "Authorization": auth
+                , 'x-api-key': apikey
             }
             ,rejectUnauthorized: false
         },  function (error, response, body) {
@@ -102,6 +156,7 @@ describe("SessionPerStation", function () {
             , method: 'GET',
             headers: {
                 "Authorization": auth
+                , 'x-api-key': apikey
             }
             ,rejectUnauthorized: false
         },  function (error, response, body) {
@@ -118,7 +173,7 @@ describe("SessionPerStation", function () {
         })
     })
 
-    it("no date provide 1", function (done) {
+    it("no date provided 1", function (done) {
         this.timeout(5000);
 
         const point = "2-39-131-30"
@@ -132,6 +187,7 @@ describe("SessionPerStation", function () {
             , method: 'GET',
             headers: {
                 "Authorization": auth
+                , 'x-api-key': apikey
             }
             ,rejectUnauthorized: false
         },  function (error, response, body) {
@@ -141,7 +197,7 @@ describe("SessionPerStation", function () {
             done(); 
         })
     })
-    it("no date provide 2", function (done) {
+    it("no date provided 2", function (done) {
         this.timeout(5000);
 
         const point = "2-39-131-30"
@@ -155,6 +211,7 @@ describe("SessionPerStation", function () {
             , method: 'GET',
             headers: {
                 "Authorization": auth
+                , 'x-api-key': apikey
             }
             ,rejectUnauthorized: false
         },  function (error, response, body) {
@@ -165,7 +222,7 @@ describe("SessionPerStation", function () {
         })
     })
 
-    it("no ID provide ", function (done) {
+    it("no ID provided ", function (done) {
         this.timeout(5000);
 
         const point = ""
@@ -179,6 +236,7 @@ describe("SessionPerStation", function () {
             , method: 'GET',
             headers: {
                 "Authorization": auth
+                , 'x-api-key': apikey
             }
             ,rejectUnauthorized: false
         },  function (error, response, body) {
@@ -203,6 +261,7 @@ describe("SessionPerStation", function () {
             , method: 'GET',
             headers: {
                 "Authorization": auth
+                , 'x-api-key': apikey
             }
             ,rejectUnauthorized: false
         },  function (error, response, body) {
@@ -232,6 +291,7 @@ describe("SessionPerStation", function () {
             , method: 'GET',
             headers: {
                 "Authorization": auth
+                , 'x-api-key': apikey
             }
             ,rejectUnauthorized: false
         },  function (error, response, body) {
@@ -256,6 +316,7 @@ describe("SessionPerStation", function () {
             , method: 'GET',
             headers: {
                 "Authorization": auth
+                , 'x-api-key': apikey
             }
             ,rejectUnauthorized: false
         },  function (error, response, body) {
@@ -281,6 +342,7 @@ describe("SessionPerStation", function () {
             , method: 'GET',
             headers: {
                 "Authorization": auth
+                , 'x-api-key': apikey
             }
             ,rejectUnauthorized: false
         },  function (error, response, body) {

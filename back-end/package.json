@@ -4,7 +4,7 @@
   "description": "This is the backend code for the EV charging Application ",
   "main": "app.js",
   "scripts": {
-    "test": "mocha ",
+    "test": "mocha  ",
     "start": "nodemon app.js --no-warnings"
   },
   "repository": {
