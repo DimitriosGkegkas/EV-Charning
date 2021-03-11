@@ -86,6 +86,8 @@ exports.perStation =(req, res, next) => {
                         res.redirect('maxUsage')
                         return
                     }
+                    console.log(resp)
+                    console.log(body)
             res.render( "view-data", { message: "Not Valid Input", body:"",per:""})
             return
         }
@@ -251,10 +253,12 @@ exports.perProvider=(req, res, next) =>{
                 res.redirect('maxUsage')
                 return
             }
+            console.log(body)
             res.render( "view-data", { message: "Not Valid Input", body:"",per:""})
             return
         }
-        res.render( "sessionsPerProvider", { "per":"provider" ,"body":JSON.parse(body)})
+        console.log(body)
+        res.render( "sessionsPerProvider", { "per":"provider" ,"body":JSON.parse(body).result})
     });
 
 }
