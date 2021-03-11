@@ -174,7 +174,8 @@ exports.sessionsupd = (req, res, next) => {
     }, function (err, resp, body) {
 
         if(resp){if (resp.statusCode === 429) {
-            res.redirect('maxUsage')
+            res.redirect('https://localhost:3000/maxUsage')
+            
 
         }
         if(resp.statusCode ===200){
@@ -184,7 +185,7 @@ exports.sessionsupd = (req, res, next) => {
         else{
             if (err) {
                 res.render("upload-file", { message: err.message })
-                return
+                
             }
             else{res.render("upload-file", { message: "Access Denied" })}
 
