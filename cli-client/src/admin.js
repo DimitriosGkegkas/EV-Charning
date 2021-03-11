@@ -46,8 +46,13 @@ exports.Admin = (username, password,apikey) => {
             console.log(err.message)
         }
         else{
-        console.log(body.message)
-        console.log("API key: " + body.apiKey)
+            if (resp.statusCode==200){
+                console.log(body.message)
+                console.log("API key: " + body.apiKey)
+            }
+            else {
+                console.log(body.message)
+            }   
         }
 
 

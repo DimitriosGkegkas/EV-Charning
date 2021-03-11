@@ -55,10 +55,11 @@ describe("sessionsupd", function () {
 
     it('sessionsupd: No source',function (done) {
         this.timeout(5000)
+        let source = "undefinedSource.csv"
 
-        sessionsupd(undefined,apikey)
+        sessionsupd(source,apikey)
         setTimeout(()=>{
-            expect(consoleOutput).to.be.deep.equal(["Please Check Your File Path"])
+            expect(consoleOutput).to.be.deep.equal(["Please Check your File Path"])
             done()
         },1000)     
     });
