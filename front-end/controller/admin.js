@@ -47,23 +47,33 @@ exports.Admin = (req, res, next) => {
         , json: jsonObject
         , agent: agent
     }, function (err, resp, body) {
-        if (resp.statusCode===429) {
-            res.redirect('maxUsage')
+
+        if (resp.statusCode === 429) {
+            res.redirect('https://localhost:3000/maxUsage')
             return
         }
-
+        else if (resp.statusCode === 401) {
+            res.render("errorPage", { message: body.message })
+            return
+        }
         if (err) {
             res.render("reportBack", { message: err.message })
         }
         else {
+            if (resp.statusCode !== 200) {
+                res.render('add-user', { message: body.message })
+            }
+            else {
+                res.render("reportBack", { message: body.message })
+            }
 
-            res.render("reportBack", { message: body.message })
+
         }
     });
 }
 
 exports.findUser = (req, res, next) => {
-    const username = req.params.username
+    const username = req.query.username
     const agentOptions = {
         host: 'localhost'
         , port: '8765'
@@ -98,37 +108,31 @@ exports.findUser = (req, res, next) => {
         , agent: agent
     }, function (err, resp, body) {
 
-
-        if (resp.statusCode === 429) {
-            res.redirect('maxUsage')
-            return
-        }
-
-
-
         if (err) {
             res.render("errorPage", { message: err.message })
+            return
         }
-        else if (JSON.parse(body).message === "Not authenticated") {
-            console.log(JSON.parse(body).message)
+        if (resp.statusCode === 429) {
+            res.redirect('https://localhost:3000/maxUsage')
+            return
         }
-        else if (!JSON.parse(body).username) {
-            console.log("Please insert a correct username")
+        if (resp.statusCode === 401) {
+            res.render("errorPage", { message: JSON.parse(body).message })
+            return
         }
-        else {
-            res.render("successPage", { body: body })
+        if (resp.statusCode === 400) {
+            res.render("findUser", { message: JSON.parse(body).message })
+            return
         }
+        res.render("findUserResults", { body: JSON.parse(body)})
+        return
 
 
-    }
-    )
+    })
 }
 
 
 exports.sessionsupd = (req, res, next) => {
-
-
-
     if (!req.file) {
         res.render("upload-file", { message: "Please Select a file" })
         return
@@ -172,40 +176,35 @@ exports.sessionsupd = (req, res, next) => {
             "file": fs.createReadStream(source)
         }
     }, function (err, resp, body) {
-
-        if(resp){if (resp.statusCode === 429) {
-            res.redirect('https://localhost:3000/maxUsage')
-            
-
+        if (resp) {
+            if (resp.statusCode === 429) {
+                res.redirect('https://localhost:3000/maxUsage')
+            } else if (resp.statusCode === 401) {
+                res.render("errorPage", { message: JSON.parse(body).message })
+            }
+            else if (resp.statusCode === 200) {
+                res.render("uploadFilesResults", JSON.parse(body))
+            }
         }
-        if(resp.statusCode ===200){
-            res.render("uploadFilesResults", JSON.parse(body))
-        }}
-        
-        else{
+        else {
             if (err) {
                 res.render("upload-file", { message: err.message })
-                
             }
-            else{res.render("upload-file", { message: "Access Denied" })}
-
-      
+            else { res.render("upload-file", { message: "Access Denied" }) }
         }
-
-
-
-
         fs.unlink(source, (err) => {
             if (err) {
             }
-        }
-        )
-
+        })
     });
 }
 
 exports.addUserPage = (req, res, next) => {
-    res.render("add-user", {})
+    res.render("add-user", { message: "" })
+}
+
+exports.findUserPage = (req, res, next) => {
+    res.render("findUser", { message: "" })
 }
 
 exports.uploadSessions = (req, res, next) => {

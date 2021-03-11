@@ -45,32 +45,10 @@ describe("logout", function () {
     })
 
 
-
-
-    it('No api key ',function (done) {
-        this.timeout(5000)
-        logout(undefined)
-        setTimeout(()=>{
-            expect(consoleOutput).to.be.deep.equal(["Not authenticated"])
-            done()
-        },1000)
-          
-    });
-
-    
-    it('Wrong API KEY ',function (done) {
-        this.timeout(5000)
-        logout("dflkjsdjkundefined")
-        setTimeout(()=>{
-            expect(consoleOutput).to.be.deep.equal(["Not authenticated"])
-            done()
-        },1000)
-          
-    });
-
-
     it('Successful logout',function (done) {
+
         this.timeout(5000)
+
         logout(apikey)
         setTimeout(()=>{
             expect(consoleOutput).to.be.deep.equal(["You logged out successfully"])
@@ -79,6 +57,15 @@ describe("logout", function () {
           
     });
 
+    it('Wrong API KEY ',function (done) {
+        this.timeout(5000)
+        logout("dflkjsdjkundefined")
+        setTimeout(()=>{
+            expect(consoleOutput).to.be.deep.equal(["Access denied"])
+            done()
+        },1000)
+          
+    });
 
 
 })

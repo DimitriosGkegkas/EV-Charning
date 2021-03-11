@@ -11,10 +11,8 @@ const findUser = require('../src/admin').findUser
 const { loginPost } = require("../../front-end/controller/loginController");
 
 const login = require('../src/access').login;
-
-
-const SessionsPerStation = require('../src/dataAccess').SessionsPerStation;
-
+const reset = require('../src/utils').resetSessions;
+const sessionsPerEV = require('../src/dataAccess').SessionsPerStation;
 
 
 let apikey 
@@ -35,84 +33,80 @@ describe("SessionsPerStation", function () {
         done()
     })
     before((done) => {
-        sinon.stub(console, "log").callsFake(mockedLog)
-        login("admin","petrol4ever")
-        setTimeout(()=>{
-            apikey = consoleOutput[1].split(' ')[2]
-            console.log.restore()
-            consoleOutput = []
-            done() },1000)
+
+        this.timeout(5000)
+
+
+        reset()
+
+        setTimeout(() => {
+            sinon.stub(console, "log").callsFake(mockedLog)
+            login("admin","petrol4ever")
+                setTimeout(() => {
+
+                apikey = consoleOutput[1].split(' ')[2]
+                console.log.restore()
+                consoleOutput = []
+                done()
+            },2000)
+        }, 1000);
+
 
     })
 
+    it('Valid',function (done) {
+        this.timeout(2500)
+        sessionsPerEV("2-39-139-28","2019-08-01 20:14:17","2019-08-01 22:01:04",apikey)
 
+        setTimeout(()=>{
+            expect(Object.keys(consoleOutput[0])).to.be.deep.equal(["StationID"
+            ,"Operator"
+             ,"RequestTimestamp"
+              ,"PeriodFrom"
+             ,"PeriodTo"
+            , "TotalEnergyDelivered"
+            ,"NumberOfChargingSessions", "NumberOfActivePoints",  "SessionsSummaryList"])
+            done()
+        },1000)   
+    })
+
+
+    it("No ID",function (done) {
+        this.timeout(2500)
+        sessionsPerEV(undefined,"2019-08-01 20:14:17","2019-08-01 22:01:04",apikey)
+
+
+        setTimeout(()=>{
+            expect(consoleOutput[0]).to.be.deep.equal("Please Provide a station Id")
+            done()
+        },1000)   
+    })
+
+
+    it("No Date From",function (done) {
+        this.timeout(2500)
+        sessionsPerEV("2-39-139-28",undefined,"2019-08-01 22:01:04",apikey)
+
+        setTimeout(()=>{
+            expect(consoleOutput[0]).to.be.deep.equal("Please Provide a Date From")
+            done()
+        },1000)   
+    })
+
+
+    it("No Date To",function (done) {
+        this.timeout(2500)
+        sessionsPerEV("2-39-139-28","2019-08-01 22:01:04",undefined,apikey)
+
+        setTimeout(()=>{
+            expect(consoleOutput[0]).to.be.deep.equal("Please Provide a Date To")
+            done()
+        },1000)   
+    })
+
+
+
+      
+})
 
   
-    it('wrong station id ',function (done) {
-        this.timeout(5000)
-
-        SessionsPerStation = ("nokaidhjhdbjhfhf","2019-08-01 20:14:17","2019-08-01 22:01:04",apikey)
-        setTimeout(()=>{
-            expect(consoleOutput).to.be.deep.equal(["Please Provide valid station id"])
-            done()
-        },1000)
-          
-    });
-    
-
- 
-
-    it('wrong date from  ',function (done) {
-       
-        this.timeout(5000)
-
-        SessionsPerStation = ("CA-311","5558758ddhbchdcbhgsgdc","2019-08-01 22:01:04",apikey)
-        setTimeout(()=>{
-            expect(consoleOutput).to.be.deep.equal(["Please provid right date from"])
-            done()
-        },1000)
-          
-    })
-
-
-it('wrong date to ',function (done) {
-       
-    this.timeout(5000)
-
-    SessionsPerStation = ("CA-311","2019-08-01 20:14:17","hdhdsbhgvdshgvdshgcvshgcvh",apikey)
-    setTimeout(()=>{
-        expect(consoleOutput).to.be.deep.equal(["Please Provide right Date To"])
-        done()
-    },1000)
-      
-})
-
-it('wrong apikey ',function (done) {
-       
-    this.timeout(5000)
-
-    SessionsPerStation = ("CA-311","2019-08-01 20:14:17","2019-08-01 22:01:04","bcjehsbjhbfhd")
-    setTimeout(()=>{
-        expect(consoleOutput).to.be.deep.equal(["please provide valid apikey"])
-        done()
-    },1000)
-      
-})
-it('right format ',function (done) {
-       
-    this.timeout(5000)
-
-    SessionsPerStation = ("CA-311","2019-08-01 20:14:17","2019-08-01 22:01:04",apikey)
-    setTimeout(()=>{
-        expect(consoleOutput[0].split(' ')[0]).to.be.deep.equal("token:")
-        expect(consoleOutput[1].split(' ')[0]).to.be.deep.equal("API")
-        expect(consoleOutput[1].split(' ')[1]).to.be.deep.equal("key:")
-        expect(consoleOutput[1].split(' ')[2]).to.be.deep.equal(apikey)
-        done()
-        
-        done()
-    },1000)
-      
-})
-    
-})

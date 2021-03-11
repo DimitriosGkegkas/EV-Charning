@@ -1,0 +1,33 @@
+<%- include("navBar.ejs")%>
+<h2 class="text-info float-left mt-1 mb-3 ml-5">Find a User</h2>
+<div style=" background-color:rgb(216, 229, 240); "class="rounded-5 m-5 form-group pb-1 pt-5 pl-5 pr-5 ">
+
+  
+
+    <form method="get" action="/admin/users" novalidate>
+
+        <div class="form-row align-items-center justify-content-center d-flex align-items-center">
+          <div class="col-md-3 mt-1 mb-5">
+            <label for="validationCustom02">Please Provide a Valid Username</label>
+            <input type="text" class="form-control" placeholder="username" name="username" required>
+          </div>
+         
+        
+
+          <div class="col-md-3 float-right align-items-center justify-content-center d-flex align-items-center">
+            <input type="submit" value="Submit" class="btn btn-info float-left  align-items-center justify-content-center d-flex align-items-center m-1 mt-1 mb-3">
+            
+          </div>
+        </div>
+
+        <p class="text-danger align-items-center justify-content-center d-flex align-items-center mb-5">
+          <% try { %>
+            <%= message %>
+              <% }catch (err){} %>
+        </p>
+
+
+      </form>
+</div>
+
+<%- include("footer.ejs")%>
