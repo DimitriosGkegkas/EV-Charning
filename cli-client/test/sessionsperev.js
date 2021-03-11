@@ -45,42 +45,36 @@ describe("SessionsPerEV", function () {
 
     })
 
-
-
-
-    it('no EV id ',function (done) {
+    it('right format ',function (done) {
+       
         this.timeout(5000)
-
-        SessionsPerEV = (undefined,"2019-08-01 20:14:17","2019-08-01 22:01:04",apikey)
+    
+        SessionsPerEV = ("","2019-08-01 20:14:17","2019-08-01 22:01:04",apikey)
         setTimeout(()=>{
-            expect(consoleOutput).to.be.deep.equal([])
+            expect(consoleOutput).to.be.deep.equal(["hghgfg"])
+            
             done()
+            
+            
         },1000)
           
-    });
+    })
+
     it('wrong EV id ',function (done) {
         this.timeout(5000)
 
         SessionsPerEV = ("nokaidhjhdbjhfhf","2019-08-01 20:14:17","2019-08-01 22:01:04",apikey)
         setTimeout(()=>{
-            expect(consoleOutput).to.be.deep.equal([])
+            expect(consoleOutput).to.be.deep.equal(["dhshsjjs"])
             done()
         },1000)
           
     });
+  
+   
     
 
-    it('no date from  ',function (done) {
-       
-        this.timeout(5000)
 
-        SessionsPerEV = ("",undefined,"2019-08-01 22:01:04",apikey)
-        setTimeout(()=>{
-            expect(consoleOutput).to.be.deep.equal([" bgf"])
-            done()
-        },1000)
-          
-    })
 
     it('wrong date from  ',function (done) {
        
@@ -88,23 +82,15 @@ describe("SessionsPerEV", function () {
 
         SessionsPerEV = ("","5558758ddhbchdcbhgsgdc","2019-08-01 22:01:04",apikey)
         setTimeout(()=>{
-            expect(consoleOutput).to.be.deep.equal([])
+            expect(consoleOutput[0].split(' ')[0]).to.be.deep.equal("Please")
             done()
         },1000)
           
     })
 
-it('no date to ',function (done) {
-       
-    this.timeout(5000)
 
-    SessionsPerEV = ("","2019-08-01 20:14:17",undefined,apikey)
-    setTimeout(()=>{
-        expect(consoleOutput).to.be.deep.equal([])
-        done()
-    },1000)
       
-}) 
+
 it('wrong date to ',function (done) {
        
     this.timeout(5000)
@@ -128,19 +114,5 @@ it('wrong apikey ',function (done) {
     },1000)
       
 })
-it('right format ',function (done) {
-       
-    this.timeout(5000)
 
-    SessionsPerEV = ("","2019-08-01 20:14:17","2019-08-01 22:01:04",apikey)
-    setTimeout(()=>{
-        expect(consoleOutput).to.be.deep.equal([])
-        
-        done()
-        
-        
-    },1000)
-      
-})
-    
-})
+})   

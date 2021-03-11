@@ -41,7 +41,7 @@ exports.SessionsPerStation = (stationID, datefrom, dateto, apikey) => {
             "x-api-key": apikey
         }
     }, function (err, resp, body) {
-        console.log( JSON.parse(body))
+        console.log( JSON.parse(body).message)
     });
 }
 
@@ -140,7 +140,7 @@ exports.perEV = (ev, datefrom, dateto, apikey) =>{
             "x-api-key": apikey
         }
     }, function (err, resp, body) {
-        console.log( JSON.parse(body))
+        console.log( JSON.parse(body).message)
     });
 }
 
@@ -187,7 +187,7 @@ exports.perProvider = (provider, datefrom, dateto, apikey) =>{
             "x-api-key": apikey
         }
     }, function (err, resp, body) {
-        console.log( JSON.parse(body))
+        console.log( JSON.parse(body).message)
     });
 
 }
