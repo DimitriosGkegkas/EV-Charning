@@ -1,6 +1,8 @@
 const sinon = require('sinon')
 https = require("https")
 const sinonChai = require("sinon-chai")
+const chai = require("chai");
+const expect = chai.expect;
 chai.use(sinonChai);
 const util = require('util');
 const findUser = require('../src/admin').findUser
@@ -30,6 +32,7 @@ describe("SessionsPerPoint", function () {
         sinon.stub(console, "log").callsFake(mockedLog)
         login("admin","petrol4ever")
         setTimeout(()=>{
+            
             apikey = consoleOutput[1].split(' ')[2]
             console.log.restore()
             consoleOutput = []
@@ -42,12 +45,9 @@ describe("SessionsPerPoint", function () {
     it('Correct SessionsPerPoint',function (done) {
         this.timeout(5000)
 
-        SessionsPerPoint("CA-311","2019-08-01 20:14:17","2019-08-01 22:01:04",apikey")
+        SessionsPerPoint("","2019-08-01 20:14:17","2019-08-01 22:01:04",apikey)
         setTimeout(()=>{
-            expect(consoleOutput[0].split(' ')[0]).to.be.deep.equal("token:")
-            expect(consoleOutput[1].split(' ')[0]).to.be.deep.equal("API")
-            expect(consoleOutput[1].split(' ')[1]).to.be.deep.equal("key:")
-            expect(consoleOutput[1].split(' ')[2]).to.be.deep.equal(apikey)
+            expect(consoleOutput).to.be.deep.equal(["Please Provide a point Id"])
             done()
         },1000)
           
@@ -57,7 +57,7 @@ describe("SessionsPerPoint", function () {
 
         SessionsPerPoint = (undefined,"2019-08-01 20:14:17","2019-08-01 22:01:04",apikey)
         setTimeout(()=>{
-            expect(consoleOutput).to.be.deep.equal(["Please Provide a point Id"])
+            expect(consoleOutput).to.be.deep.equal([])
             done()
         },1000)
           
@@ -67,7 +67,7 @@ describe("SessionsPerPoint", function () {
 
         SessionsPerPoint = ("nokaidhjhdbjhfhf","2019-08-01 20:14:17","2019-08-01 22:01:04",apikey)
         setTimeout(()=>{
-            expect(consoleOutput).to.be.deep.equal(["Please Provide valid point id"])
+            expect(consoleOutput).to.be.deep.equal([])
             done()
         },1000)
           
@@ -78,10 +78,58 @@ describe("SessionsPerPoint", function () {
        
         this.timeout(5000)
 
-        SessionsPerStation = ("CA-311",undefined,"2019-08-01 22:01:04",apikey)
+        SessionsPerPoint = ("",undefined,"2019-08-01 22:01:04",apikey)
         setTimeout(()=>{
-            expect(consoleOutput).to.be.deep.equal(["Please Provide a Date From"])
+            expect(consoleOutput).to.be.deep.equal([])
             done()
         },1000)
           
     })
+
+    it('wrong date from  ',function (done) {
+       
+        this.timeout(5000)
+
+        SessionsPerPoint = ("","5558758ddhbchdcbhgsgdc","2019-08-01 22:01:04",apikey)
+        setTimeout(()=>{
+            expect(consoleOutput).to.be.deep.equal([])
+            done()
+        },1000)
+          
+    })
+
+it('no date to ',function (done) {
+       
+    this.timeout(5000)
+
+    SessionsPerPoint = ("","2019-08-01 20:14:17",undefined,apikey)
+    setTimeout(()=>{
+        expect(consoleOutput).to.be.deep.equal([])
+        done()
+    },1000)
+      
+}) 
+it('wrong date to ',function (done) {
+       
+    this.timeout(5000)
+
+    SessionsPerPoint = ("","2019-08-01 20:14:17","hdhdsbhgvdshgvdshgcvshgcvh",apikey)
+    setTimeout(()=>{
+        expect(consoleOutput).to.be.deep.equal([])
+        done()
+    },1000)
+      
+})
+
+it('wrong apikey ',function (done) {
+       
+    this.timeout(5000)
+
+    SessionsPerPoint = ("","2019-08-01 20:14:17","2019-08-01 22:01:04","bcjehsbjhbfhd")
+    setTimeout(()=>{
+        expect(consoleOutput).to.be.deep.equal(["please provide valid apikey"])
+        done()
+    },1000)
+      
+})
+})

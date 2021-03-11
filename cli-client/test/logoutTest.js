@@ -9,7 +9,10 @@ const sinonChai = require("sinon-chai")
 
 chai.use(sinonChai);
 const util = require('util');
-const findUser = require('../src/admin').findUser
+
+
+const login = require('../src/access').login;
+
 
 const logout = require('../src/access').logout;
 
