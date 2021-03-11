@@ -9,6 +9,7 @@ chai.use(require('chai-json'));
 fs = require('fs')
 const isAuth = require('../controller/is-auth')
 
+let apikey
 let token 
 describe("SessionPerEV", function () {
 
@@ -33,8 +34,10 @@ describe("SessionPerEV", function () {
          
         }, function (error, response, body) {
             expect(body.token).to.exist
+            expect(body.apiKey).to.exist
 
-            token= body.token
+            token = body.token
+            apikey = body.apiKey
             request({
                 url: "https://localhost:8765/admin/resetsessions"
                 , method: 'POST'
@@ -51,6 +54,7 @@ describe("SessionPerEV", function () {
                     , headers: {
                         "Authorization": "Beare "+token
                         , "Content-Type": "multipart/form-data"
+                        ,'x-api-key': apikey
                     }
                     , formData: {
                         "file": fs.createReadStream(source)
@@ -63,7 +67,53 @@ describe("SessionPerEV", function () {
             })
         })
     } )
+    it("no api key", function (done) {
+        this.timeout(5000);
 
+        const point = "000003424"
+        const datefrom = ""
+        const dateto = "2019-10-01 00:00:00"
+
+        const auth="Bearer "+token
+
+        request({
+            url: "https://localhost:8765/SessionPerEV/"+point+"/"+datefrom+"/"+dateto
+            , method: 'GET',
+            headers: {
+                "Authorization": auth
+            }
+            ,rejectUnauthorized: false
+        },  function (error, response, body) {
+            expect(error).to.not.exist
+            expect(response).to.have.property("statusCode", 401)
+            expect(JSON.parse(body)).to.property("message","Please Provide API key")
+            done(); 
+        })
+    })
+    it("invalid api key", function (done) {
+        this.timeout(5000);
+
+        const point = "000003424"
+        const datefrom = ""
+        const dateto = "2019-10-01 00:00:00"
+
+        const auth="Bearer "+token
+
+        request({
+            url: "https://localhost:8765/SessionPerEV/"+point+"/"+datefrom+"/"+dateto
+            , method: 'GET',
+            headers: {
+                "Authorization": auth,
+                "x-api-key":"iNvalidaPEYkeydjishcjdxhdxhxdh"
+            }
+            ,rejectUnauthorized: false
+        },  function (error, response, body) {
+            expect(error).to.not.exist
+            expect(response).to.have.property("statusCode", 401)
+            expect(JSON.parse(body)).to.property("message","Not allowed")
+            done(); 
+        })
+    })
 
     it("no date provide 1", function (done) {
         this.timeout(5000);
@@ -79,6 +129,7 @@ describe("SessionPerEV", function () {
             , method: 'GET',
             headers: {
                 "Authorization": auth
+                ,'x-api-key': apikey
             }
             ,rejectUnauthorized: false
         },  function (error, response, body) {
@@ -102,6 +153,7 @@ describe("SessionPerEV", function () {
             , method: 'GET',
             headers: {
                 "Authorization": auth
+                ,'x-api-key': apikey
             }
             ,rejectUnauthorized: false
         },  function (error, response, body) {
@@ -112,7 +164,7 @@ describe("SessionPerEV", function () {
         })
     })
 
-    it("no ID provide ", function (done) {
+    it("no ID provided ", function (done) {
         this.timeout(5000);
 
         const point = ""
@@ -126,6 +178,7 @@ describe("SessionPerEV", function () {
             , method: 'GET',
             headers: {
                 "Authorization": auth
+                ,'x-api-key': apikey
             }
             ,rejectUnauthorized: false
         },  function (error, response, body) {
@@ -151,6 +204,7 @@ describe("SessionPerEV", function () {
             , method: 'GET',
             headers: {
                 "Authorization": auth
+                ,'x-api-key': apikey
             }
             ,rejectUnauthorized: false
         },  function (error, response, body) {
@@ -180,6 +234,7 @@ describe("SessionPerEV", function () {
             , method: 'GET',
             headers: {
                 "Authorization": auth
+                ,'x-api-key': apikey
             }
             ,rejectUnauthorized: false
         },  function (error, response, body) {
@@ -210,6 +265,7 @@ describe("SessionPerEV", function () {
             , method: 'GET',
             headers: {
                 "Authorization": auth
+                ,'x-api-key': apikey
             }
             ,rejectUnauthorized: false
         },  function (error, response, body) {
@@ -239,6 +295,7 @@ describe("SessionPerEV", function () {
             , method: 'GET',
             headers: {
                 "Authorization": auth
+                ,'x-api-key': apikey
             }
             ,rejectUnauthorized: false
         },  function (error, response, body) {
@@ -263,6 +320,7 @@ describe("SessionPerEV", function () {
             , method: 'GET',
             headers: {
                 "Authorization": auth
+                ,'x-api-key': apikey
             }
             ,rejectUnauthorized: false
 
@@ -289,6 +347,7 @@ describe("SessionPerEV", function () {
             , method: 'GET',
             headers: {
                 "Authorization": auth
+                ,'x-api-key': apikey
             }
             ,rejectUnauthorized: false
 
