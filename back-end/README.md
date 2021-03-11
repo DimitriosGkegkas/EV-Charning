@@ -1,47 +1,9 @@
 # Back-end
 
-Ενδεικτικά περιεχόμενα:
-
-- Πηγαίος κώδικας εφαρμογής για εισαγωγή, διαχείριση και
-  πρόσβαση σε δεδομένα (backend).
-- Database dump (sql ή json)
-- Back-end functional tests.
-- Back-end unit tests.
-- RESTful API.
-
-
 Ένας backend server για την διαχείριση RESTful APIs για το σύστημα φόρτισης ηλεκτρικών οχημάτων 
-# Η εγκατάσταση των απαραίτητων εργαλείων
-Ανοίγουμε ενα cmd και κάνουμε τα παρακάτω βήματα ως διαχειριστές
-
-    git clone https://github.com/ntua/TL20-39.git
 
 
 
-### Windows 
-
-
-
-    choco install nodejs
-    choco install redis-64
-    choco install openssl
-
-
-### Linux
-
-
-    sudo apt-get install node.js
-    sudo install redis-64
-    sudo install openssl
-
-   
-### Mac
-
-    brew install node
-    brew install redis-64
-    brew install openssl
-
- Στην συνέχεια ακολουθήστε τα βήματα που υπάρχουν στο [https://flaviocopes.com/express-https-self-signed-certificate/](https://flaviocopes.com/express-https-self-signed-certificate/ "https://flaviocopes.com/express-https-self-signed-certificate/") για την απόκτηση https-self-signed-certificate
 
 ## Για να τρέξει ο server
 
