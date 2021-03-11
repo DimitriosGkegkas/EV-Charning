@@ -107,25 +107,27 @@ exports.findUser = (req, res, next) => {
         }
         , agent: agent
     }, function (err, resp, body) {
-        
-        if (res) {
-            if (resp.statusCode === 429) {
-                res.redirect('https://localhost:3000/maxUsage')
-                return
-            }
-            else if (resp.statusCode === 401) {
-                res.render("errorPage", { message: JSON.parse(body).message })
-            }
+
+        if (err) {
+            res.render("errorPage", { message: err.message })
+            return
         }
-        else {
-            if (err) {
-                res.render("errorPage", { message: err.message })
-            }
-            else {
-                console.log("hello")
-                res.render("successPage", { body: body.message })
-            }
+        if (resp.statusCode === 429) {
+            res.redirect('https://localhost:3000/maxUsage')
+            return
         }
+        if (resp.statusCode === 401) {
+            res.render("errorPage", { message: JSON.parse(body).message })
+            return
+        }
+        if (resp.statusCode === 400) {
+            res.render("findUser", { message: JSON.parse(body).message })
+            return
+        }
+        res.render("findUserResults", { body: JSON.parse(body)})
+        return
+
+
     })
 }
 
