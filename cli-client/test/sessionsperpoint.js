@@ -4,9 +4,8 @@ const sinonChai = require("sinon-chai")
 const chai = require("chai");
 const expect = chai.expect;
 chai.use(sinonChai);
-const util = require('util');
-const findUser = require('../src/admin').findUser
-const { loginPost } = require("../../front-end/controller/loginController");
+
+
 const login = require('../src/access').login;
 
 const SessionsPerPoint = require('../src/dataAccess').perPoint;
@@ -40,28 +39,6 @@ describe("SessionsPerPoint", function () {
 
     })
 
-
-
-    it('Correct SessionsPerPoint',function (done) {
-        this.timeout(5000)
-
-        SessionsPerPoint("","2019-08-01 20:14:17","2019-08-01 22:01:04",apikey)
-        setTimeout(()=>{
-            expect(consoleOutput).to.be.deep.equal(["Please Provide a point Id"])
-            done()
-        },1000)
-          
-    });
-    it('no point id ',function (done) {
-        this.timeout(5000)
-
-        SessionsPerPoint = (undefined,"2019-08-01 20:14:17","2019-08-01 22:01:04",apikey)
-        setTimeout(()=>{
-            expect(consoleOutput).to.be.deep.equal([])
-            done()
-        },1000)
-          
-    });
     it('wrong point id ',function (done) {
         this.timeout(5000)
 
@@ -72,25 +49,28 @@ describe("SessionsPerPoint", function () {
         },1000)
           
     });
-    
 
-    it('no date from  ',function (done) {
-       
+    it('Correct SessionsPerPoint',function (done) {
         this.timeout(5000)
 
-        SessionsPerPoint = ("",undefined,"2019-08-01 22:01:04",apikey)
+        SessionsPerPoint("","2019-08-01 20:14:17","2019-08-01 22:01:04",apikey)
         setTimeout(()=>{
-            expect(consoleOutput).to.be.deep.equal([])
+            expect(consoleOutput).to.be.deep.equal(["Please Provide a Point Id"])
             done()
         },1000)
           
-    })
+    });
+    
+
+    
+
+   
 
     it('wrong date from  ',function (done) {
        
         this.timeout(5000)
 
-        SessionsPerPoint = ("","5558758ddhbchdcbhgsgdc","2019-08-01 22:01:04",apikey)
+        SessionsPerPoint = ("hbhvhv","5558758ddhbchdcbhgsgdc","2019-08-01 22:01:04",apikey)
         setTimeout(()=>{
             expect(consoleOutput).to.be.deep.equal([])
             done()
@@ -98,17 +78,7 @@ describe("SessionsPerPoint", function () {
           
     })
 
-it('no date to ',function (done) {
-       
-    this.timeout(5000)
 
-    SessionsPerPoint = ("","2019-08-01 20:14:17",undefined,apikey)
-    setTimeout(()=>{
-        expect(consoleOutput).to.be.deep.equal([])
-        done()
-    },1000)
-      
-}) 
 it('wrong date to ',function (done) {
        
     this.timeout(5000)
