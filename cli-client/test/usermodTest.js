@@ -37,16 +37,6 @@ describe("usermod", function () {
 
     })
 
-    it('usermod: Not Auth',function (done) {
-        this.timeout(5000)
-
-        usermod("dummyUser","dummyPassw",apikey)
-        setTimeout(()=>{
-            expect(consoleOutput).to.be.deep.equal(["Not Authenticated"])
-            done()
-        },1000)       
-    });
-
     it('usermod: No username',function (done) {
         this.timeout(5000)
 
