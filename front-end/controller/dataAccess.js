@@ -80,11 +80,18 @@ exports.perStation =(req, res, next) => {
             "x-api-key":apiKey
         }
     }, function (err, resp, body) {
-        if(resp.statusCode!=200){
 
+        if(resp.statusCode!=200){
+            if (resp.statusCode===429) {
+                        res.redirect('maxUsage')
+                        return
+                    }
+                    console.log(resp)
+                    console.log(body)
             res.render( "view-data", { message: "Not Valid Input", body:"",per:""})
             return
         }
+
         console.log(body)
         let ret = getListsStation ( JSON.parse(body).SessionsSummaryList );
         let returnListEnergy= ret.returnListEnergy
@@ -131,7 +138,10 @@ exports.perPoint =(req, res, next) =>{
         , agent: agent
     }, function (err, resp, body) {
         if(resp.statusCode!=200){
-
+            if (resp.statusCode===429) {
+                res.redirect('maxUsage')
+                return
+            }
             res.render( "view-data", { message: "Not Valid Input", body:"",per:""})
             return
         }
@@ -184,6 +194,10 @@ exports.perEV =(req, res, next) =>{
         }
     }, function (err, resp, body) {
         if(resp.statusCode!=200){
+            if (resp.statusCode===429) {
+                res.redirect('maxUsage')
+                return
+            }
             res.render( "view-data", { message: "Not Valid Input", body:"",per:""})
             return
         }
@@ -235,10 +249,16 @@ exports.perProvider=(req, res, next) =>{
         }
     }, function (err, resp, body) {
         if(resp.statusCode!=200){
+            if (resp.statusCode===429) {
+                res.redirect('maxUsage')
+                return
+            }
+            console.log(body)
             res.render( "view-data", { message: "Not Valid Input", body:"",per:""})
             return
         }
-        res.render( "sessionsPerProvider", { "per":"provider" ,"body":JSON.parse(body)})
+        console.log(body)
+        res.render( "sessionsPerProvider", { "per":"provider" ,"body":JSON.parse(body).result})
     });
 
 }

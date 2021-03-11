@@ -24,11 +24,11 @@ app.use((req,res,next)=>{
 }
 )
 
-app.use(helpRoute );
+app.use(helpRoute);
 
 app.use(accessRoute);
 
-app.use(userRoute );
+app.use(userRoute);
 
 app.use(fileRoute);
 app.use(sesssionRoute);

@@ -1,8 +1,3 @@
-
-const should = require("should");
-const request = require("request");
-const chai = require("chai");
-const expect = chai.expect;
 const sinon = require('sinon')
 https = require("https")
 const sinonChai = require("sinon-chai")
@@ -10,12 +5,12 @@ chai.use(sinonChai);
 const util = require('util');
 const findUser = require('../src/admin').findUser
 const { loginPost } = require("../../front-end/controller/loginController");
-
-
 const login = require('../src/access').login;
 
+const SessionsPerPoint = require('../src/dataAccess').perPoint;
+
 let apikey 
-describe("login", function () {
+describe("SessionsPerPoint", function () {
     this.timeout(10000)
     const originalLog = console.log
     let consoleOutput = []
@@ -44,59 +39,10 @@ describe("login", function () {
 
 
 
-
-    it('No Auth User ',function (done) {
-        this.timeout(5000)
-        login("dxkjgdkjzxfgijk","sfhikasj")
-        setTimeout(()=>{
-            expect(consoleOutput).to.be.deep.equal(["Please Check your username"])
-            done()
-        },1000)
-          
-    });
-
-    it('admin with wrong password ',function (done) {
-
+    it('Correct SessionsPerPoint',function (done) {
         this.timeout(5000)
 
-        login("admin","sfhikasj")
-        setTimeout(()=>{
-            expect(consoleOutput).to.be.deep.equal(["Please Check your password"])
-            done()
-        },1000)
-          
-    });
-
-    it('admin with no password ',function (done) {
-
-        this.timeout(5000)
-
-        login("admin",undefined)
-        setTimeout(()=>{
-            expect(consoleOutput).to.be.deep.equal(["Please Provide a Password"])
-            done()
-        },1000)
-          
-    });
-
-    it('admin with no username',function (done) {
-
-        this.timeout(5000)
-
-        login(undefined,"admin")
-        setTimeout(()=>{
-            expect(consoleOutput).to.be.deep.equal(["Please Provide a Username"])
-            done()
-        },1000)
-          
-    });
-
-    
-    it('Correct Login',function (done) {
-
-        this.timeout(5000)
-
-        login("admin","petrol4ever")
+        SessionsPerPoint("CA-311","2019-08-01 20:14:17","2019-08-01 22:01:04",apikey")
         setTimeout(()=>{
             expect(consoleOutput[0].split(' ')[0]).to.be.deep.equal("token:")
             expect(consoleOutput[1].split(' ')[0]).to.be.deep.equal("API")
@@ -106,6 +52,36 @@ describe("login", function () {
         },1000)
           
     });
+    it('no point id ',function (done) {
+        this.timeout(5000)
 
+        SessionsPerPoint = (undefined,"2019-08-01 20:14:17","2019-08-01 22:01:04",apikey)
+        setTimeout(()=>{
+            expect(consoleOutput).to.be.deep.equal(["Please Provide a point Id"])
+            done()
+        },1000)
+          
+    });
+    it('wrong point id ',function (done) {
+        this.timeout(5000)
 
-})
+        SessionsPerPoint = ("nokaidhjhdbjhfhf","2019-08-01 20:14:17","2019-08-01 22:01:04",apikey)
+        setTimeout(()=>{
+            expect(consoleOutput).to.be.deep.equal(["Please Provide valid point id"])
+            done()
+        },1000)
+          
+    });
+    
+
+    it('no date from  ',function (done) {
+       
+        this.timeout(5000)
+
+        SessionsPerStation = ("CA-311",undefined,"2019-08-01 22:01:04",apikey)
+        setTimeout(()=>{
+            expect(consoleOutput).to.be.deep.equal(["Please Provide a Date From"])
+            done()
+        },1000)
+          
+    })

@@ -3,5 +3,5 @@ const request =require('request')
 
 
 exports.maxUsage = (req, res, next) => {
-    res.render("maxUsage",{})
+    res.render("maxUsagePage",{message:"fuck off"})
 }

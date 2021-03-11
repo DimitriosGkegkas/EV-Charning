@@ -6,8 +6,9 @@ const secretKey = require('./../database/secretKey');
 const bcrypt = require('bcryptjs');
 const userSchema = require('../model/user');
 
-const MAX = 50
+const MAX = 10
 exports.isAdmin = (req, res, next) => {
+    console.log("Admin")
     let host = "https://localhost:8765/admin"
     let api_key = req.header('x-api-key');
     if (!api_key) {
@@ -29,7 +30,7 @@ exports.isAdmin = (req, res, next) => {
 };
 
 exports.hasUsage = (req, res, next) => {
-
+    console.log("Usahe")
     let api_key = req.header('x-api-key');
     if (!api_key) {
         res.status(401).json({ message: "Please Provide API key" })
@@ -48,21 +49,28 @@ exports.hasUsage = (req, res, next) => {
                         res.status(429).json({
                             message: 'Max API calls exceeded.',
                         });
+                        return
+                    }else{
                          
-                        account.usage[usageIndex].count = account.usage[usageIndex].count + 1
-                        userSchema.findOneAndUpdate({ apiKey: api_key }, { usage: account.usage })
-                            .then(() => next())
-                            .catch(err => { res.status(401).json({ message: "Not Allowed" }) })
+                    account.usage[usageIndex].count = account.usage[usageIndex].count + 1
+                    userSchema.findOneAndUpdate({ apiKey: api_key }, { usage: account.usage })
+                        .then(() => next())
+                        .catch(err => { res.status(401).json({ message: "Not Allowed" }) })
+                    }
 
                     }
-                } else {
+                 else {
                     //not today yet
                     account.usage.push({ date: today, count: 1 });
+                    userSchema.findOneAndUpdate({ apiKey: api_key }, { usage: account.usage })
+                    .then(() => next())
+                    .catch(err => { res.status(401).json({ message: "Not Allowed" }) })
                     //ok to use again
                     next();
                 }
-
             }
+
+            
             else {
                 res.status(401).json({ message: "Not Allowed" })
 

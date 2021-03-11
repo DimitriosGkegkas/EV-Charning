@@ -21,10 +21,10 @@ exports.Admin = (req, res, next) => {
         , rejectUnauthorized: false
     };
     const agent = new https.Agent(agentOptions);
-    
+
     let apiKey
-    try {apiKey = req.cookies.apiKey}
-    catch {console.log("Access Denied");return;}
+    try { apiKey = req.cookies.apiKey }
+    catch { console.log("Access Denied"); return; }
 
     let token
     try {
@@ -35,28 +35,32 @@ exports.Admin = (req, res, next) => {
         return
     }
     const auth = "Bearer " + token;
-    
+
 
     request({
         url: "https://localhost:8765/admin/usermod"
         , method: 'POST'
         , headers: {
             "Authorization": auth,
-            "x-api-key":apiKey
+            "x-api-key": apiKey
         }
         , json: jsonObject
         , agent: agent
     }, function (err, resp, body) {
-        
-        if(err){
-            res.render("reportBack",{message:err.message})
+        if (resp.statusCode===429) {
+            res.redirect('maxUsage')
+            return
         }
-        else{
-            
-            res.render("reportBack",{message:body.message})
+
+        if (err) {
+            res.render("reportBack", { message: err.message })
+        }
+        else {
+
+            res.render("reportBack", { message: body.message })
         }
     });
-    }
+}
 
 exports.findUser = (req, res, next) => {
     const username = req.params.username
@@ -70,9 +74,9 @@ exports.findUser = (req, res, next) => {
     const agent = new https.Agent(agentOptions);
 
     let apiKey
-    try {apiKey = req.cookies.apiKey}
-    catch {console.log("Access Denied");return;}
-    
+    try { apiKey = req.cookies.apiKey }
+    catch { console.log("Access Denied"); return; }
+
     let token
     try {
         token = req.cookies.token
@@ -89,14 +93,21 @@ exports.findUser = (req, res, next) => {
         , method: 'GET'
         , headers: {
             "Authorization": auth,
-            "x-api-key":apiKey
+            "x-api-key": apiKey
         }
         , agent: agent
     }, function (err, resp, body) {
 
 
+        if (resp.statusCode === 429) {
+            res.redirect('maxUsage')
+            return
+        }
+
+
+
         if (err) {
-            res.render("errorPage",{message:err.message})
+            res.render("errorPage", { message: err.message })
         }
         else if (JSON.parse(body).message === "Not authenticated") {
             console.log(JSON.parse(body).message)
@@ -105,7 +116,7 @@ exports.findUser = (req, res, next) => {
             console.log("Please insert a correct username")
         }
         else {
-            res.render("successPage",{body:body})
+            res.render("successPage", { body: body })
         }
 
 
@@ -114,12 +125,12 @@ exports.findUser = (req, res, next) => {
 }
 
 
-exports.sessionsupd =  (req, res, next) => {
+exports.sessionsupd = (req, res, next) => {
 
 
-    
-    if(!req.file){
-        res.render("upload-file",{message:"Please Select a file"})
+
+    if (!req.file) {
+        res.render("upload-file", { message: "Please Select a file" })
         return
     }
 
@@ -133,17 +144,16 @@ exports.sessionsupd =  (req, res, next) => {
     const agent = new https.Agent(agentOptions);
 
     let apiKey
-    try {apiKey = req.cookies.apiKey}
-    catch {console.log("Access Denied");return;}
-    
+    try { apiKey = req.cookies.apiKey }
+    catch { console.log("Access Denied"); return; }
     let token
-    try {
-        token = req.cookies.token
-    }
+    try { token = req.cookies.token }
+
     catch {
         console.log("Access Denied")
         return
     }
+
     const auth = "Bearer " + token;
     if (!fs.existsSync(source)) {
         console.log("Please Check Your File Path")
@@ -156,36 +166,40 @@ exports.sessionsupd =  (req, res, next) => {
         , headers: {
             "Authorization": auth
             , "Content-Type": "multipart/form-data",
-            "x-api-key":apiKey
+            "x-api-key": apiKey
         }
         , formData: {
             "file": fs.createReadStream(source)
         }
     }, function (err, resp, body) {
 
+        if (resp.statusCode === 429) {
+            res.redirect('maxUsage')
+
+        }
 
 
 
-        if (err) { 
-            res.render("upload-file",{message:err.message})
-    }
-        else{
+        else if (err) {
+            res.render("upload-file", { message: err.message })
+        }
+        else {
 
-            res.render("uploadFilesResults",JSON.parse(body))
+            res.render("uploadFilesResults", JSON.parse(body))
         }
         fs.unlink(source, (err) => {
-            if(err){
+            if (err) {
+            }
         }
-    }
         )
 
-            });
+    });
 }
 
-exports.addUserPage= (req, res, next)=>{
-    res.render("add-user",{})
+exports.addUserPage = (req, res, next) => {
+    res.render("add-user", {})
 }
 
-exports.uploadSessions= (req, res, next)=>{
-    res.render("upload-file",{message:""})
+exports.uploadSessions = (req, res, next) => {
+    res.render("upload-file", { message: "" })
 }

@@ -34,6 +34,7 @@ exports.uploadToDB= (req, res) => {
 	fs.createReadStream(filePath).pipe(csv()).on('data', (row) => {
 		InUploadedFile = InUploadedFile + 1;
 		console.log(new Date(row["connectionTime"]))
+
 		const session = new Session({
 			sessionID: row["sessionID"],
 			connectionTime: new Date(row["connectionTime"]),
