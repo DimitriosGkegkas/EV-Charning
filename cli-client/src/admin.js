@@ -97,7 +97,7 @@ exports.findUser = (username,apikey) => {
         if (err) {
             console.log(err.message)
         }
-        else if (JSON.parse(body).message === "Not authenticated") {
+        else if (JSON.parse(body).message ) {
             console.log(JSON.parse(body).message)
         }
         else if (!JSON.parse(body).username) {
@@ -146,12 +146,15 @@ exports.sessionsupd = (source,apikey) => {
             "file": fs.createReadStream(source)
         }
     }, function (err, resp, body) {
-        console.log(body)
 
 
-
-        console.log("The file had " + JSON.parse(body).SessionsInUploadedFile + " sessions \nand " + JSON.parse(body).SessionsImported + " were uploaded in the database. \nThe database now containes " + JSON.parse(body).TotalSessionsInDatabase + " sessions")
-        if (err) { console.log(err.message) }
+        if(JSON.parse(body).message){
+            console.log(JSON.parse(body).message)
+        }
+        else if (err) { console.log(err.message) }
+        else{ 
+            console.log("The file had " + JSON.parse(body).SessionsInUploadedFile + " sessions \nand " + JSON.parse(body).SessionsImported + " were uploaded in the database. \nThe database now contains " + JSON.parse(body).TotalSessionsInDatabase + " sessions")
+        }
 
     });
 }
