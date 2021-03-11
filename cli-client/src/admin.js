@@ -134,14 +134,14 @@ exports.sessionsupd = (source,apikey) => {
         , headers: {
             "Authorization": auth
             , "Content-Type": "multipart/form-data"
-            , headers: {
-                "x-api-key": apikey
-            }
+              ,  "x-api-key": apikey
+            
         }
         , formData: {
             "file": fs.createReadStream(source)
         }
     }, function (err, resp, body) {
+        console.log(body)
 
 
 

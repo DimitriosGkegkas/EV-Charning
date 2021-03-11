@@ -173,20 +173,27 @@ exports.sessionsupd = (req, res, next) => {
         }
     }, function (err, resp, body) {
 
-        if (resp.statusCode === 429) {
+        if(resp){if (resp.statusCode === 429) {
             res.redirect('maxUsage')
 
         }
-
-
-
-        else if (err) {
-            res.render("upload-file", { message: err.message })
-        }
-        else {
-
+        if(resp.statusCode ===200){
             res.render("uploadFilesResults", JSON.parse(body))
+        }}
+        
+        else{
+            if (err) {
+                res.render("upload-file", { message: err.message })
+                return
+            }
+            else{res.render("upload-file", { message: "Access Denied" })}
+
+      
         }
+
+
+
+
         fs.unlink(source, (err) => {
             if (err) {
             }

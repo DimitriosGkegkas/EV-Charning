@@ -8,7 +8,6 @@ const userSchema = require('../model/user');
 
 const MAX = 10
 exports.isAdmin = (req, res, next) => {
-    console.log("Admin")
     let host = "https://localhost:8765/admin"
     let api_key = req.header('x-api-key');
     if (!api_key) {
@@ -30,7 +29,6 @@ exports.isAdmin = (req, res, next) => {
 };
 
 exports.hasUsage = (req, res, next) => {
-    console.log("Usahe")
     let api_key = req.header('x-api-key');
     if (!api_key) {
         res.status(401).json({ message: "Please Provide API key" })

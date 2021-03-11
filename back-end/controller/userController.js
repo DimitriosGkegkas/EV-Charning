@@ -15,9 +15,6 @@ exports.generateKey = (req, res, next) => {
     bcrypt.hash(username, 12)
         .then(hashedUsr => {
             hashedUsr = hashedUsr.slice(0, 12)
-            console.log("hi")
-            console.log(hashedUsr)
-            console.log(hashedUsr.slice(0, 4) + "-" + hashedUsr.slice(4, 8) + "-" + hashedUsr.slice(8, 12))
             return hashedUsr.slice(0, 4) + "-" + hashedUsr.slice(4, 8) + "-" + hashedUsr.slice(8, 12);
         })
         .catch((err) => {

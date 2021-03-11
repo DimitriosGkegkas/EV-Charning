@@ -59,16 +59,14 @@ exports.perStation =(req, res, next) => {
 
     let apiKey
     try {apiKey = req.cookies.apiKey}
-    catch {console.log("Access Denied");return;}
-    
+    catch {res.render( "view-data", { message: "Access Denied! Please Try to login again", body:"",per:""})
+    return}
     let token
     try {
         token = req.cookies.token
     }
-    catch {
-        console.log("Access Denied")
-        return
-    }
+    catch {res.render( "view-data", { message: "Access Denied! Please Try to login again", body:"",per:""})
+    return}
     const auth = "Bearer " + token;
 
     request({
@@ -86,13 +84,12 @@ exports.perStation =(req, res, next) => {
                         res.redirect('maxUsage')
                         return
                     }
-                    console.log(resp)
-                    console.log(body)
+   
             res.render( "view-data", { message: "Not Valid Input", body:"",per:""})
             return
         }
 
-        console.log(body)
+
         let ret = getListsStation ( JSON.parse(body).SessionsSummaryList );
         let returnListEnergy= ret.returnListEnergy
         let returnListCount=ret.returnListCount
@@ -109,16 +106,14 @@ exports.perPoint =(req, res, next) =>{
 
     let apiKey
     try {apiKey = req.cookies.apiKey}
-    catch {console.log("Access Denied");return;}
-
+    catch {res.render( "view-data", { message: "Access Denied! Please Try to login again", body:"",per:""})
+    return}
     let token
     try {
         token = req.cookies.token
     }
-    catch {
-        console.log("Access Denied")
-        return
-    }
+    catch {res.render( "view-data", { message: "Access Denied! Please Try to login again", body:"",per:""})
+    return}
     const auth = "Bearer " + token;
     const agentOptions = {
         host: 'localhost'
@@ -173,16 +168,15 @@ exports.perEV =(req, res, next) =>{
 
     let apiKey
     try {apiKey = req.cookies.apiKey}
-    catch {console.log("Access Denied");return;}
+    catch {res.render( "view-data", { message: "Access Denied! Please Try to login again", body:"",per:""})
+    return}
 
     let token
     try {
         token = req.cookies.token
     }
-    catch {
-        console.log("Access Denied")
-        return
-    }
+    catch {res.render( "view-data", { message: "Access Denied! Please Try to login again", body:"",per:""})
+    return}
     const auth = "Bearer " + token;
     request({
         url: "https://localhost:8765/SessionPerEV/"+evID+"/"+periodFrom +"/"+ periodTo
@@ -227,16 +221,14 @@ exports.perProvider=(req, res, next) =>{
 
     let apiKey
     try {apiKey = req.cookies.apiKey}
-    catch {console.log("Access Denied");return;}
-
+    catch {res.render( "view-data", { message: "Access Denied! Please Try to login again", body:"",per:""})
+    return}
     let token
     try {
         token = req.cookies.token
     }
-    catch {
-        console.log("Access Denied")
-        return
-    }
+    catch {res.render( "view-data", { message: "Access Denied! Please Try to login again", body:"",per:""})
+    return}
     const auth = "Bearer " + token;
     request({
         url: "https://localhost:8765/SessionPerProvider/"+providerID+"/"+periodFrom +"/"+ periodTo
@@ -270,7 +262,6 @@ exports.viewData= (req, res, next)=>{
 
 
 exports.retrieveData= (req, res, next)=>{
-    
     const per = req.query.per
     switch(per){
         case("point"):
