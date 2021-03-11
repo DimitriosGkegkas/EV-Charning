@@ -6,20 +6,19 @@ const sinon = require('sinon')
 https = require("https")
 const sinonChai = require("sinon-chai")
 chai.use(sinonChai);
-const util = require('util');
-const findUser = require('../src/admin').findUser
-const { loginPost } = require("../../front-end/controller/loginController");
 
+const sessionsupd = require('../src/admin').sessionsupd
 const login = require('../src/access').login;
 
+//file source
+let source = "./../back-end/test/12Months.csv"
 
 let apikey 
-describe("findUser", function () {
+describe("sessionsupd", function () {
     this.timeout(10000)
     const originalLog = console.log
     let consoleOutput = []
     const mockedLog = output => consoleOutput.push(output)
-
 
     afterEach((done) => {
         console.log.restore()
@@ -44,66 +43,57 @@ describe("findUser", function () {
 
 
 
-    it('findUser: Not Auth',function (done) {
+    it('sessionsupd: Not Auth',function (done) {
         this.timeout(5000)
 
-        findUser("admin",apikey)
+        sessionsupd(source,apikey)
         setTimeout(()=>{
             expect(consoleOutput).to.be.deep.equal(["Not Authenticated"])
             done()
         },1000)       
     });
-    
-    it('findUser: No apikey',function (done) {
+
+    it('sessionsupd: No source',function (done) {
         this.timeout(5000)
 
-        findUser("admin",undefined)
+        sessionsupd(undefined,apikey)
         setTimeout(()=>{
-            expect(consoleOutput).to.be.deep.equal(["Please provide an API key"])
-            done()
-        },1000)   
-    });
-
-    it('findUser: No username',function (done) {
-        this.timeout(5000)
-
-        findUser(undefined,apikey)
-        setTimeout(()=>{
-            expect(consoleOutput).to.be.deep.equal(["Please provide a username"])
+            expect(consoleOutput).to.be.deep.equal(["Please Check Your File Path"])
             done()
         },1000)     
     });
 
-    it('findUser: Wrong username',function (done) {
+    it('sessionsupd: Invalid source',function (done) {
         this.timeout(5000)
+        let source = "notAValidSource.csv"
 
-        findUser("userDoesNotExistjdhsjsjdskf",apikey)
+        sessionsupd(source,apikey)
         setTimeout(()=>{
-            expect(consoleOutput).to.be.deep.equal(["Please insert a correct username"])
+            expect(consoleOutput).to.be.deep.equal(["Please Check Your File Path"])
             done()
         },1000)       
     });
 
-    it('findUser: Wrong apikey',function (done) {
+    it('sessionsupd: Wrong apikey',function (done) {
         this.timeout(5000)
 
-        findUser("admin","wrongAPIkey")
+        sessionsupd(source,"wrongAPIkey")
         setTimeout(()=>{
             expect(consoleOutput).to.be.deep.equal(["Please check your API key"])
             done()
         },1000)       
     });
 
-    it('findUser: Successful',function (done) {
+    it('sessionsupd: Successful',function (done) {
         this.timeout(5000)
 
-        findUser("admin",apikey)
+        sessionsupd(source,apikey)
         setTimeout(()=>{
-            expect(consoleOutput[0].split(' ')[0]).to.be.deep.equal("username:")
-            expect(consoleOutput[1].split(' ')[0]).to.be.deep.equal("admin")
-            expect(consoleOutput[1].split(' ')[1]).to.be.deep.equal("API")
-            expect(consoleOutput[1].split(' ')[2]).to.be.deep.equal("key:")
-            expect(consoleOutput[2].split(' ')[2]).to.be.deep.equal(apikey)
+            expect(consoleOutput[0].split(' ')[0]).to.be.deep.equal("The:")
+            expect(consoleOutput[1].split(' ')[0]).to.be.deep.equal("file")
+            expect(consoleOutput[1].split(' ')[1]).to.be.deep.equal("had")
+            //expect(consoleOutput[1].split(' ')[2]).to.be.deep.equal("key:")
+           // expect(consoleOutput[2].split(' ')[2]).to.be.deep.equal(apikey)
             done()
         },1000)       
     });
