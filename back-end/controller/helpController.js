@@ -42,7 +42,7 @@ exports.initAdmin = (req, res, next) => {
                             return
                         })
                         .catch(err => {
-                            console.log(err)
+
                             res.status(400).json({
                                 status: "failed"
                             })
@@ -74,7 +74,6 @@ exports.initAdmin = (req, res, next) => {
                                         return
                                     })
                                     .catch(err => {
-                                        console.log(err)
                                         res.status(400).json({
                                             status: "failed"
                                         })
@@ -98,7 +97,6 @@ exports.initAdmin = (req, res, next) => {
                 })
         })
         .catch(err => {
-            console.log(err)
             res.status(402).json({
                 status: "failed"
             })
@@ -128,7 +126,7 @@ exports.resetsessions = (req, res, next) => {
             }
         })
         .catch(err => {
-            console.log(err)
+
             res.status(402).json({
                 status: "failed"
             })

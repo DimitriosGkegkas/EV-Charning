@@ -28,12 +28,11 @@ exports.uploadToDB= (req, res) => {
 			
 	}
 	const filePath = req.file.path;
-
+	
 	let InUploadedFile = 0;
 	let Imported = 0
 	fs.createReadStream(filePath).pipe(csv()).on('data', (row) => {
 		InUploadedFile = InUploadedFile + 1;
-		console.log(new Date(row["connectionTime"]))
 
 		const session = new Session({
 			sessionID: row["sessionID"],
@@ -53,23 +52,20 @@ exports.uploadToDB= (req, res) => {
 			CostPerKWh: row["costPerKWh"]  ? row["costPerKWh"] : null,
 			totalCost: row["totalCost"]  ? row["totalCost"] : null,
 		})
-		console.log(session)
+		
+
 
 		session.save().then(() => { Imported = Imported + 1; })
 			.catch(err => {
-				if (err.code === 11000) {
 
-				}
-				else {
-					console.log(err)
-				}
 			})
 
 	})
 		.on('end', () => {
+
 			Session.count({}, function( err, count){
 				if(err){
-					console.log(err)
+
 				}
 				else{
 				res.status(200).json({
