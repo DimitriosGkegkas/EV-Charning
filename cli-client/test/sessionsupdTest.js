@@ -86,11 +86,10 @@ describe("sessionsupd", function () {
         this.timeout(5000)
         sessionsupd(source,"wrongAPIkey")
         let p =consoleOutput[0]
-        while(!p){
-            p =consoleOutput[0]
-        }
+       setTimeout( ()=>{
             expect(consoleOutput).to.be.deep.equal(["Not Allowed"])
             done()
+       },3000)
    
     });
 

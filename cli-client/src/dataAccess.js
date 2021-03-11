@@ -56,7 +56,7 @@ exports.SessionsPerStation = (stationID, datefrom, dateto, apikey) => {
 }
 
 exports.perPoint = (point, datefrom, dateto, apikey) =>{
-    console.log( datefrom)
+
     if(!point){
         console.log("Please Provide a Point Id")
         return

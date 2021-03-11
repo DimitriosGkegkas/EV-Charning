@@ -11,8 +11,7 @@ const findUser = require('../src/admin').findUser
 const { loginPost } = require("../../front-end/controller/loginController");
 
 const login = require('../src/access').login;
-
-
+const reset = require('../src/utils').resetSessions;
 const sessionsPerEV = require('../src/dataAccess').perEV;
 
 
@@ -34,85 +33,67 @@ describe("SessionsPerEV", function () {
         done()
     })
     before((done) => {
-       
-        sinon.stub(console, "log").callsFake(mockedLog)
-        login("admin","petrol4ever")
-        setTimeout(()=>{
-            apikey = consoleOutput[1].split(' ')[2]
-            console.log.restore()
-            consoleOutput = []
-            done() },1000)
+        this.timeout(5000)
+
+        reset()
+        setTimeout(() => {
+            sinon.stub(console, "log").callsFake(mockedLog)
+            login("admin","petrol4ever")
+                setTimeout(() => {
+
+                apikey = consoleOutput[1].split(' ')[2]
+                console.log.restore()
+                consoleOutput = []
+                done()
+            },2000)
+        }, 1000);
+
 
     })
 
-    it('right format ',function (done) {
-       
-        this.timeout(5000)
-    
-        SessionsPerEV = ("","2019-08-01 20:14:17","2019-08-01 22:01:04",apikey)
+    it('Valid',function (done) {
+        this.timeout(2500)
+        sessionsPerEV("000000743","2019-08-01 20:14:17","2019-08-01 22:01:04",apikey)
+
         setTimeout(()=>{
-            expect(consoleOutput).to.be.deep.equal({evid:"dhsxz"})
-            
+            expect(Object.keys(consoleOutput[0])).to.be.deep.equal(["VehicleID","RequestTimestamp","PeriodFrom","PeriodTo", "TotalEnergyConsumed","NumberOfVehicleChargingSessions","NumberOfVisitedPoints", "VehicleChargingSessionList"])
             done()
-            
-            
-        },1000)
-          
+        },2000)   
     })
 
-    it('wrong EV id ',function (done) {
-        this.timeout(5000)
 
-        SessionsPerEV = ("nokaidhjhdbjhfhf","2019-08-01 20:14:17","2019-08-01 22:01:04",apikey)
+    it("No ID",function (done) {
+        this.timeout(2500)
+        sessionsPerEV(undefined,"2019-08-01 20:14:17","2019-08-01 22:01:04",apikey)
+
         setTimeout(()=>{
-            expect(consoleOutput).to.be.deep.equal(["dhshsjjs"])
+            expect(consoleOutput[0]).to.be.deep.equal("Please Provide a EV Id")
             done()
-        },1000)
-          
-    });
+        },2000)   
+    })
+
+    it("No Date From",function (done) {
+        this.timeout(2500)
+        sessionsPerEV("000000743",undefined,"2019-08-01 22:01:04",apikey)
+
+        setTimeout(()=>{
+            expect(consoleOutput[0]).to.be.deep.equal("Please Provide a Date From")
+            done()
+        },2000)   
+    })
+
+    it("No Date To",function (done) {
+        this.timeout(2500)
+        sessionsPerEV("000000743","2019-08-01 22:01:04",undefined,apikey)
+
+        setTimeout(()=>{
+            expect(consoleOutput[0]).to.be.deep.equal("Please Provide a Date To")
+            done()
+        },2000)   
+    })
+
+
+      
+})
+
   
-   
-    
-
-
-
-    it('wrong date from  ',function (done) {
-       
-        this.timeout(5000)
-
-        SessionsPerEV = ("","5558758ddhbchdcbhgsgdc","2019-08-01 22:01:04",apikey)
-        setTimeout(()=>{
-            expect(consoleOutput[0].split(' ')[0]).to.be.deep.equal("Please")
-            done()
-        },1000)
-          
-    })
-
-
-      
-
-it('wrong date to ',function (done) {
-       
-    this.timeout(5000)
-
-    SessionsPerEV = ("","2019-08-01 20:14:17","hdhdsbhgvdshgvdshgcvshgcvh",apikey)
-    setTimeout(()=>{
-        expect(consoleOutput).to.be.deep.equal([])
-        done()
-    },1000)
-      
-})
-
-it('wrong apikey ',function (done) {
-       
-    this.timeout(5000)
-
-    SessionsPerEV = ("","2019-08-01 20:14:17","2019-08-01 22:01:04","bcjehsbjhbfhd",apikey)
-    setTimeout(()=>{
-        expect(consoleOutput).to.be.deep.equal([])
-        done() 
-    },1000)
-      
-})
-
-})   
