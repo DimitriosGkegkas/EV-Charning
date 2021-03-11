@@ -51,7 +51,7 @@ describe("SessionsPerEV", function () {
     
         SessionsPerEV = ("","2019-08-01 20:14:17","2019-08-01 22:01:04",apikey)
         setTimeout(()=>{
-            expect(consoleOutput).to.be.deep.equal(["hghgfg"])
+            expect(consoleOutput).to.be.deep.equal({evid:"dhsxz"})
             
             done()
             

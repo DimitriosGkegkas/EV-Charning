@@ -41,7 +41,17 @@ exports.SessionsPerStation = (stationID, datefrom, dateto, apikey) => {
             "x-api-key": apikey
         }
     }, function (err, resp, body) {
-        console.log( JSON.parse(body).message)
+        if(JSON.parse(body).message){
+            if(resp.statusCode===404){
+                console.log("Please Check the API")
+            }
+            else{console.log( JSON.parse(body).message)
+            }
+        }
+        else{
+            console.log( JSON.parse(body))
+            
+        }  
     });
 }
 
@@ -140,7 +150,17 @@ exports.perEV = (ev, datefrom, dateto, apikey) =>{
             "x-api-key": apikey
         }
     }, function (err, resp, body) {
-        console.log( JSON.parse(body).message)
+      if(JSON.parse(body).message){
+            if(resp.statusCode===404){
+                console.log("Please Check the API")
+            }
+            else{console.log( JSON.parse(body).message)
+            }
+        }
+        else{
+            console.log( JSON.parse(body))
+            
+        }  
     });
 }
 
@@ -187,7 +207,17 @@ exports.perProvider = (provider, datefrom, dateto, apikey) =>{
             "x-api-key": apikey
         }
     }, function (err, resp, body) {
-        console.log( JSON.parse(body).message)
+        if(JSON.parse(body).message){
+            if(resp.statusCode===404){
+                console.log("Please Check the API")
+            }
+            else{console.log( JSON.parse(body).message)
+            }
+        }
+        else{
+            console.log( JSON.parse(body))
+            
+        }  
     });
 
 }
