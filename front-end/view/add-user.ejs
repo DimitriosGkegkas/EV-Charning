@@ -322,7 +322,14 @@
         <input type="text" id="username" class="fadeIn second" name="username" placeholder="username">
         <input type="password" id="password" class="fadeIn third" name="password" placeholder="password">
         <input type="email" id="email" class="fadeIn third" name="email" placeholder="email">
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" value="admin" name="admin" id="flexCheckDefault">
+          <label class="form-check-label" for="flexCheckDefault">
+            Grand Admin Rigths
+          </label>
+        </div>
         <input type="submit" class="fadeIn fourth" value="Create User">
+        
         <p class=text-danger>
           <% try { %>
             <%= message %>
