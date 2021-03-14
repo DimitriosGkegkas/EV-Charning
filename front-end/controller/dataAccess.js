@@ -230,7 +230,7 @@ exports.perProvider=(req, res, next) =>{
     
     catch {res.render( "view-data", { message: "Access Denied! Please Try to login again", body:"",per:""})
     return}
-    console.log(providerID )
+
     const auth = "Bearer " + token;
     request({
         url: "https://localhost:8765/SessionPerProvider/"+providerID+"/"+periodFrom +"/"+ periodTo
@@ -247,11 +247,10 @@ exports.perProvider=(req, res, next) =>{
                 res.redirect('maxUsage')
                 return
             }
-            console.log(body)
+
             res.render( "view-data", { message: "Not Valid Input", body:"",per:""})
             return
         }
-        console.log(body)
         res.render( "sessionsPerProvider", { "per":"provider" ,"body":JSON.parse(body).result})
     });
 

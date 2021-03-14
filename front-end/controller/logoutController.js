@@ -10,13 +10,13 @@ exports.logout = (req, res, next) => {
     };
     let apiKey
     try {apiKey = req.cookies.apiKey}
-    catch {console.log("Access Denied");return;}
+    catch {res.redirect("basePage"); return;}
 
     const agent = new https.Agent(agentOptions);
     
     let token
     try {token = req.cookies.token}
-    catch {console.log("Access Denied");return}
+    catch {res.redirect("basePage"); return}
     const auth = "Bearer " + token;
     
     request({

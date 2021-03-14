@@ -214,28 +214,6 @@ describe("healthcheck", function () {
     )
 
 
-    it("No Database Connection", function (done) {
-        sinon.stub(mongoose, "connect")
-
-
-        const res = {
-            statusCode: 500,
-            userStatus: null,
-            status: function (code) {
-                this.statusCode = code;
-                return this;
-            },
-            json: function (data) {
-                this.userStatus = data.status;
-            }
-        };
-        help.healthcheck({}, res, () => { })
-            .then(result => { result.to.have.property('statusCode', 200); done() })
-
-    }
-    )
-
-
 
 
 

@@ -4,7 +4,6 @@ const fs = require('fs');
 
 
 exports.csvFilter = (req, file, cb) => {
-  console.log(file.mimetype)
   if (file.mimetype.includes("csv")) {
     cb(null, true);
   } else {
