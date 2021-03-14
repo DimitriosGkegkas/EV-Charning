@@ -1,11 +1,12 @@
 # Documentation
 
-
-- Διαγράμματα UML Activity (in ONE vpp file).
-- Διαγράμματα UML Class (in ONE vpp file).
-- Διαγράμματα UML Component (in ONE vpp file).
-- Διαγράμματα UML Deployment (in ONE vpp file).
-- Διαγράμματα UML Sequence (in ONE vpp file).
+## In team39.vpp:
+- Διαγράμματα UML Activity.
+- Διαγράμματα UML Class.
+- Διαγράμματα UML Component.
+- Διαγράμματα UML Deployment.
+- Διαγράμματα UML Sequence.
 - Διαγράμματα ER.
-- Εγγραφο SRS - Software Requirements Specification.
-- Εγγραφο StRS - Stakeholders Requirements Specification.
+
+## Εγγραφο SRS - Software Requirements Specification.
+## Εγγραφο StRS - Stakeholders Requirements Specification.
