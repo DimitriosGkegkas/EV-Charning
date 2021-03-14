@@ -15,7 +15,7 @@ describe("SessionPerStation", function () {
 
 
     before(function (done) {
-        this.timeout(5000);
+        this.timeout(10000);
         
         request.post({
             url: "https://localhost:8765/admin/resetsessions",
@@ -48,12 +48,14 @@ describe("SessionPerStation", function () {
                     , headers: {
                         "Authorization": "Beare "+token
                         , "Content-Type": "multipart/form-data"
+                        , 'x-api-key': apikey
                     }
                     , formData: {
                         "file": fs.createReadStream(source)
                     }
                 }, function (err, resp, body) {
                     if(!err){ done()}
+                    else throw err
             
 
             

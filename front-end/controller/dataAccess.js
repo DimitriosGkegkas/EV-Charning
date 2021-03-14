@@ -227,8 +227,10 @@ exports.perProvider=(req, res, next) =>{
     try {
         token = req.cookies.token
     }
+    
     catch {res.render( "view-data", { message: "Access Denied! Please Try to login again", body:"",per:""})
     return}
+    console.log(providerID )
     const auth = "Bearer " + token;
     request({
         url: "https://localhost:8765/SessionPerProvider/"+providerID+"/"+periodFrom +"/"+ periodTo

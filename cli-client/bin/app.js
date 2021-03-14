@@ -53,7 +53,7 @@ if (argvLogin._.includes('login')) {
 
 let apikey
 let foundIt= false
-for (let arg of args) {
+for (let arg of process.argv) {
     if(foundIt){
         apikey =  arg
     }

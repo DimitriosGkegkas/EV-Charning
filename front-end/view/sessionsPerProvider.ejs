@@ -12,7 +12,6 @@
         <table class="table table-striped table-hover table-dark">
             <thead >
               <tr>
-                <th scope="col">#</th>
                 <th scope="col">Provider Name</th>
                 <th scope="col">Station ID</th>
                 <th scope="col">Session ID</th>
@@ -28,12 +27,13 @@
             <tbody>
             <% for ( i of list ) { %>
                 <tr>
-                <th scope="row"><%= i.ProviderName %></th>
+                <th scope="row"><%= i.ProviderID %></th>
                 <td><%= i.StationID %></td>
                 <td><%= i.SessionID %></td>
                 <td><%= i.VehicleID %></td>
                 <td><%= i.StartedOn %></td>
                 <td><%= i.FinishedOn %></td>
+                <td><%= i.EnergyDelivered %></td>
                 <td><%= i.PricePolicyRef %></td>
                 <td><%= i.CostPerKWh %></td>
                 <td><%= i.TotalCost %></td>

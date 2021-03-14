@@ -193,7 +193,7 @@ exports.SessionPerProvider = (req, res, next) => {
         res.status(400).json( {message: "Please check API endpoint \n SessionPerProvider/:ProviderID/:datefrom/:dateto \n with date at YYYY-MM-DD h:mm:ss format"})
         return
     }
-    Session.find({ 'providerID': ProviderID })
+    Session.find({ 'provider': ProviderID })
         .where("connectionTime").gt(new Date(PeriodFrom)).lt(new Date(PeriodTo))
         .sort("connectionTime")
         .then((result) => {
@@ -208,12 +208,10 @@ exports.SessionPerProvider = (req, res, next) => {
                 valueFormated["StartedOn"] = value["connectionTime"]?value["connectionTime"] :null ;
                 valueFormated["diconnectedOn"] = value["disconnectTime"]?value["disconnectTime"] :null ;
                 valueFormated["FinishedOn"] = value["doneChargingTime"]?value["doneChargingTime"] :null ;
-
                 valueFormated["EnergyDelivered"] = value["kWhDelivered"]?value["kWhDelivered"] :null ;
-
                 valueFormated["PricePolicyRef"] = value["pricePolicyRef"]?value["pricePolicyRef"] :null ;
                 valueFormated["CostPerKWh"] = value["CostPerKWh"]?value["CostPerKWh"] :null ;
-                valueFormated["TotalCost"] = value["sessionCost"] ?value["sessionCost"] :null ;
+                valueFormated["TotalCost"] = value["totalCost"] ?value["totalCost"] :null ;
 
                 resultFormated.push(valueFormated )
             });

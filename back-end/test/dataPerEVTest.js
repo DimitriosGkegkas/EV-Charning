@@ -47,6 +47,7 @@ describe("SessionPerEV", function () {
                     , headers: {
                         "Authorization": "Beare "+token
                         , "Content-Type": "multipart/form-data"
+                        , 'x-api-key': apikey
                     }
                     , formData: {
                         "file": fs.createReadStream(source)
