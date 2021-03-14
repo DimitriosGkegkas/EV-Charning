@@ -151,18 +151,18 @@ exports.sessionsupd = (req, res, next) => {
 
     let apiKey
     try { apiKey = req.cookies.apiKey }
-    catch { console.log("Access Denied"); return; }
+    catch { res.redirect("basePage"); return; }
     let token
     try { token = req.cookies.token }
 
     catch {
-        console.log("Access Denied")
+        res.redirect("basePage")
         return
     }
 
     const auth = "Bearer " + token;
     if (!fs.existsSync(source)) {
-        console.log("Please Check Your File Path")
+        res.render("upload-file", { message: "Please Check Your File Path" })
         return
     }
     request({

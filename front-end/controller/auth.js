@@ -15,7 +15,7 @@ exports.check = (req, res, next) => {
         token = req.cookies.token
     }
     catch {
-        console.log("Access Denied")
+        res.redirect("basePage")
         return
     }
     const auth = "Bearer " + token;

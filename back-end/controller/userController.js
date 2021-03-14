@@ -70,7 +70,6 @@ exports.signup = (req, res, next) => {
                                 'host': host ,
                                 'usage':[{ date: today, count: 0 }]
                             });
-                            console.log(user.apiKey)
                             return user.save()
                         }
                         catch {
