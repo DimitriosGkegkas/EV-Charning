@@ -33,7 +33,9 @@ describe("SessionsPerStation", function () {
         done()
     })
     before((done) => {
+
         this.timeout(5000)
+
 
         reset()
 
@@ -73,11 +75,13 @@ describe("SessionsPerStation", function () {
         this.timeout(2500)
         sessionsPerEV(undefined,"2019-08-01 20:14:17","2019-08-01 22:01:04",apikey)
 
+
         setTimeout(()=>{
             expect(consoleOutput[0]).to.be.deep.equal("Please Provide a station Id")
             done()
         },1000)   
     })
+
 
     it("No Date From",function (done) {
         this.timeout(2500)
@@ -89,6 +93,7 @@ describe("SessionsPerStation", function () {
         },1000)   
     })
 
+
     it("No Date To",function (done) {
         this.timeout(2500)
         sessionsPerEV("2-39-139-28","2019-08-01 22:01:04",undefined,apikey)
@@ -98,6 +103,7 @@ describe("SessionsPerStation", function () {
             done()
         },1000)   
     })
+
 
 
       

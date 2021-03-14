@@ -6,12 +6,14 @@ exports.Admin = (req, res, next) => {
     const username = req.body.username
     const password = req.body.password
     const email = req.body.email
+    const access = (req.body.admin==="admin") ? "1": "0"
 
     const jsonObject =
     {
         "username": username,
         "password": password,
         "email": email,
+        "access":access
     }
     const agentOptions = {
         host: 'localhost'

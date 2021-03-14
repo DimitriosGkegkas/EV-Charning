@@ -6,7 +6,9 @@ const secretKey = require('./../database/secretKey');
 const bcrypt = require('bcryptjs');
 const userSchema = require('../model/user');
 
-const MAX = 30
+
+const MAX = 50
+
 exports.isAdmin = (req, res, next) => {
     let host = "https://localhost:8765/admin"
     let api_key = req.header('x-api-key');
